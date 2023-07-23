@@ -1,5 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+
+import 'boxicons/css/boxicons.min.css'
+
 import App from './App.tsx'
 import './index.css'
 
