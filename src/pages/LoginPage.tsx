@@ -16,7 +16,7 @@ export const LoginPage = () => {
                             Correo
                         </label>
                         <div className="flex">
-                            <span className="inline-block px-3 py-2 border border-r-0 rounded-tl-md rounded-bl-md">
+                            <span className="flex justify-center items-center px-3 py-2 border border-r-0 rounded-tl-md rounded-bl-md">
                                 <i className='bx bxs-envelope text-slate-700'></i>
                             </span>
                             <input
@@ -35,7 +35,7 @@ export const LoginPage = () => {
                             Contraseña
                         </label>
                         <div className="flex">
-                            <span className="inline-block px-3 py-2 border border-r-0 rounded-tl-md rounded-bl-md">
+                            <span className="flex justify-center items-center px-3 py-2 border border-r-0 rounded-tl-md rounded-bl-md">
                                 <i className='bx bxs-lock text-slate-700'></i>
                             </span>
                             <input
