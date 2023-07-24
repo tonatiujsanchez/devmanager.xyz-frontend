@@ -3,8 +3,6 @@ import { AuthLayout } from "./layouts"
 import { LoginPage, RegisterPage, ForgotPasswordPage, NewPasswordPage, ConfirmAccountPage } from "./pages"
 
 
-
-
 function App() {
 
 

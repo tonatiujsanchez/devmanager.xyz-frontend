@@ -22,7 +22,7 @@ export const LoginPage = () => {
                             <input
                                 type="text"
                                 id="email"
-                                placeholder="correo@email.com"
+                                placeholder="correo@mail.com"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
                             />
                         </div>
