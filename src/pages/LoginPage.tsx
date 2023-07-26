@@ -1,13 +1,51 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { useForm } from 'react-hook-form'
 
+import { validators } from '../helpers'
+
+
+interface FormData {
+    email    : string
+    password : string
+}
 
 export const LoginPage = () => {
+
+    const [loading, setLoading] = useState(false)
+    const [remindMe, setRemindMe] = useState(false)
+
+
+    const { register, handleSubmit } = useForm<FormData>({
+        defaultValues: {
+            email: '',
+            password: ''
+        }
+    })
+    
+    
+    const onLoginSubmit = ( data: FormData ) => {
+        
+        setLoading(true)
+        console.log(data)
+        console.log({ remindMe })
+        
+        setLoading(false)
+        
+    }
+    
+    
+
     return (
         <section className="px-4">
-            <div className="bg-white px-9 pt-10 pb-8 rounded-lg shadow">
+            <div className="bg-white px-5 sm:px-9 pt-10 pb-8 rounded-lg shadow">
                 <h1 className="text-3xl mb-10 font-extrabold text-center uppercase">Iniciar Sesión</h1>
-                <form className="flex flex-col gap-4">
+                <form 
+                    onSubmit={ handleSubmit(onLoginSubmit) }
+                    autoComplete="off"
+                    className="flex flex-col gap-4"
+                >
                     <div>
                         <label
                             htmlFor="email"
@@ -24,12 +62,17 @@ export const LoginPage = () => {
                                 id="email"
                                 placeholder="correo@mail.com"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
+                                { ...register('email', {
+                                        required: 'Ingrese su correo',
+                                        validate: ( value ) => validators.isValidEmail(value) ? undefined : 'Correo no válido'
+                                    }) 
+                                }
                             />
                         </div>
                     </div>
                     <div>
                         <label
-                            htmlFor="email"
+                            htmlFor="password"
                             className="block mb-1 font-semibold"
                         >
                             Contraseña
@@ -39,10 +82,15 @@ export const LoginPage = () => {
                                 <i className='bx bxs-lock text-slate-700'></i>
                             </span>
                             <input
-                                type="text"
-                                id="email"
+                                type="password"
+                                id="password"
                                 placeholder="Contraseña"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
+                                { ...register('password', {
+                                        required: 'Ingrese su Contraseña',
+                                        minLength: { value: 6, message: 'Se requiere minimo 6 caracteres' }
+                                    }) 
+                                }
                             />
                         </div>
                     </div>
@@ -51,23 +99,23 @@ export const LoginPage = () => {
                             <input
                                 type="checkbox"
                                 id="myCheckbox"
-                                // disabled={loading}
-                                // checked={getValues('receivePromotions')}
-                                // onChange={handleCheckboxChange}
+                                disabled={loading}
+                                checked={remindMe}
+                                onChange={ ()=> setRemindMe( !remindMe) }
                                 className="hidden"
                             />
                             <label
                                 htmlFor="myCheckbox"
-                                className={`flex items-center select-none ${'true'.trim() === '' ? '' : 'cursor-pointer'}`}
+                                className={`flex items-center select-none ${ remindMe ? '' : 'cursor-pointer'}`}
                             >
-                                <div className={`w-5 h-5 border border-gray-300 rounded-md mr-2 flex justify-center items-center ${ 'true'.trim() === '' ? 'bg-slate-800' : 'border-gray-300 bg-white'}`}>
+                                <div className={`w-5 h-5 border border-gray-300 rounded-md mr-2 flex justify-center items-center ${ remindMe ? 'bg-slate-800' : 'border-gray-300 bg-white'}`}>
                                     <svg 
                                         xmlns="http://www.w3.org/2000/svg" 
                                         width="24" 
                                         height="24" 
                                         viewBox="0 0 24 24"
                                         style={{ fill: '#fff' }}
-                                        className={'block'}
+                                        className={ remindMe ? 'block' : 'hidden'}
                                     >
                                             <path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path>
                                     </svg>

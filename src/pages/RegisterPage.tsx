@@ -1,12 +1,58 @@
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { useForm } from 'react-hook-form'
+
+import { validators } from '../helpers';
+
+
+
+interface FormData {
+    name     : string
+    email    : string
+    password : string
+    passwordConfirm: string
+}
 
 export const RegisterPage = () => {
+
+    const [loading, setLoading] = useState(false)
+    const [remindMe, setRemindMe] = useState(false)
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
+        defaultValues: {
+            name    : '',
+            email   : '',
+            password: '',
+            passwordConfirm:'',
+        }
+    })
+
+    const password = useRef({})
+    password.current = watch('password', '')
+
+    const handleCheckboxChange = () => {       
+        setRemindMe(!remindMe) 
+    }
+
+    const onRegisterSubmit = ( data: FormData ) => {
+
+        setLoading(true)
+        console.log(data)
+        console.log({ remindMe })
+        setLoading(false)
+    }
+
+
     return (
         <section className="px-4">
-            <div className="bg-white px-9 pt-10 pb-8 rounded-lg shadow">
+            <div className="bg-white px-5 sm:px-9 pt-10 pb-8 rounded-lg shadow">
                 <h1 className="text-3xl mb-8 font-extrabold text-center uppercase">Crear Cuenta</h1>
-                <form className="flex flex-col gap-4">
+                <form 
+                    onSubmit={ handleSubmit( onRegisterSubmit ) }
+                    autoComplete="off"
+                    className="flex flex-col gap-4"
+                >
                     <div>
                         <label
                             htmlFor="name"
@@ -23,8 +69,16 @@ export const RegisterPage = () => {
                                 id="name"
                                 placeholder="John Doe"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
+                                { ...register('name', {
+                                        validate: ( value ) => value.trim() === '' ? 'Ingrese su nombre' : undefined
+                                    })
+                                }
                             />
                         </div>
+                        {
+                            !!errors.name &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.name.message}</span>
+                        }
                     </div>
                     <div>
                         <label
@@ -42,8 +96,16 @@ export const RegisterPage = () => {
                                 id="email"
                                 placeholder="correo@mail.com"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
+                                { ...register('email', {
+                                        required: 'Ingrese su correo',
+                                        validate: ( value ) => validators.isValidEmail(value) ? undefined : 'Correo no válido'
+                                }) }
                             />
                         </div>
+                        {
+                            !!errors.email &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.email.message}</span>
+                        }
                     </div>
                     <div>
                         <label
@@ -61,8 +123,17 @@ export const RegisterPage = () => {
                                 id="password"
                                 placeholder="Contraseña"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
+                                { ...register('password', {
+                                        required: 'Ingrese una Contraseña',
+                                        minLength: { value: 6, message: 'Se requiere minimo 6 caracteres' }
+                                    })
+                                }
                             />
                         </div>
+                        {
+                            !!errors.password &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.password.message}</span>
+                        }
                     </div>
                     <div>
                         <label
@@ -80,31 +151,40 @@ export const RegisterPage = () => {
                                 id="passwordConfirm"
                                 placeholder="Confirmar Contraseña"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
+                                { ...register('passwordConfirm', {
+                                        required: 'Repita su contraseña',
+                                        validate: value => value !== password.current ? 'Las contraseñas no son iguales' : undefined 
+                                    })                                
+                                }
                             />
                         </div>
+                        {
+                            !!errors.passwordConfirm &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.passwordConfirm.message}</span>
+                        }
                     </div>
                     <div className="flex justify-between gap-5 mt-2 mb-3">
                         <div>
                             <input
                                 type="checkbox"
-                                id="myCheckbox"
-                                // disabled={loading}
-                                // checked={getValues('receivePromotions')}
-                                // onChange={handleCheckboxChange}
+                                id="checkbox-remindme"
+                                disabled={loading}
+                                checked={remindMe}
+                                onChange={handleCheckboxChange}
                                 className="hidden"
                             />
                             <label
-                                htmlFor="myCheckbox"
-                                className={`flex items-center select-none ${'true'.trim() === '' ? '' : 'cursor-pointer'}`}
+                                htmlFor="checkbox-remindme"
+                                className={`flex items-center select-none ${ loading ? '' : 'cursor-pointer'}`}
                             >
-                                <div className={`w-5 h-5 border border-gray-300 rounded-md mr-2 flex justify-center items-center ${'true'.trim() === '' ? 'bg-slate-800' : 'border-gray-300 bg-white'}`}>
+                                <div className={`w-5 h-5 border border-gray-300 rounded-md mr-2 flex justify-center items-center ${ remindMe ? 'bg-slate-800' : 'bg-white'}`}>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="24"
                                         height="24"
                                         viewBox="0 0 24 24"
                                         style={{ fill: '#fff' }}
-                                        className={'block'}
+                                        className={ remindMe ? 'block' : 'hidden'}
                                     >
                                         <path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path>
                                     </svg>
