@@ -11,7 +11,7 @@ export const NewPasswordPage = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const { register, handleSubmit, watch } = useForm<FormData>({
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
         defaultValues: {
             password: '',
             passwordConfirm:'',
@@ -61,6 +61,10 @@ export const NewPasswordPage = () => {
                                 }
                             />
                         </div>
+                        {
+                            !!errors.password &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.password.message}</span>
+                        }
                     </div>
                     <div>
                         <label
@@ -80,12 +84,15 @@ export const NewPasswordPage = () => {
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
                                 { ...register('passwordConfirm', {
                                         required: 'Repita su contraseña',
-                                        minLength: { value: 6, message: 'Se requieren minimo 6 caracteres' },
                                         validate: value => value !== password.current ? 'Las contraseñas no son iguales' : undefined 
                                     })                                
                                 }
                             />
                         </div>
+                        {
+                            !!errors.passwordConfirm &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.passwordConfirm.message}</span>
+                        }
                     </div>
                     <button
                         type="submit"

@@ -15,7 +15,7 @@ export const ForgotPasswordPage = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const { register, handleSubmit } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         defaultValues: {
             email: ''
         }
@@ -59,6 +59,10 @@ export const ForgotPasswordPage = () => {
                                 }
                             />
                         </div>
+                        {
+                            !!errors.email &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.email.message}</span>
+                        }
                     </div>
 
                     <button

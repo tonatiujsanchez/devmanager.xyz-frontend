@@ -17,7 +17,7 @@ export const LoginPage = () => {
     const [remindMe, setRemindMe] = useState(false)
 
 
-    const { register, handleSubmit } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         defaultValues: {
             email: '',
             password: ''
@@ -69,6 +69,10 @@ export const LoginPage = () => {
                                 }
                             />
                         </div>
+                        {
+                            !!errors.email &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.email.message}</span>
+                        }
                     </div>
                     <div>
                         <label
@@ -87,12 +91,15 @@ export const LoginPage = () => {
                                 placeholder="Contraseña"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
                                 { ...register('password', {
-                                        required: 'Ingrese su Contraseña',
-                                        minLength: { value: 6, message: 'Se requiere minimo 6 caracteres' }
+                                        required: 'Ingrese su Contraseña'
                                     }) 
                                 }
                             />
                         </div>
+                        {
+                            !!errors.password &&
+                            <span className="block text-sm text-red-600 mt-1">{errors.password.message}</span>
+                        }
                     </div>
                     <div className="flex justify-between gap-5 mt-2 mb-3">
                         <div>
