@@ -7,6 +7,11 @@ import { validators } from '../helpers';
 import axios from 'axios';
 
 
+interface IUser {
+    _id: string
+    name: string
+    email: string}
+
 interface Alert {
     title: string
     type: 'error' | 'success'
@@ -24,6 +29,7 @@ export const RegisterPage = () => {
     const [loading, setLoading] = useState(false)
     const [remindMe, setRemindMe] = useState(false)
     const [alert, setAlert] = useState<Alert>()
+    const [user, setUser] = useState<IUser>()
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
         defaultValues: {
@@ -47,7 +53,8 @@ export const RegisterPage = () => {
             const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/users`, {
                 name, email, password
             })
-            console.log({ data, remindMe })
+            setUser(data)
+            console.log({remindMe});
              
         } catch (error) {
 
@@ -71,9 +78,22 @@ export const RegisterPage = () => {
         setLoading(false)
     }
 
+    if(user){
+        return(
+            <section className="px-4 animate-jump animate-duration-500 animate-ease-linear">
+                <div className="bg-white px-9 pt-10 pb-8 rounded-lg shadow">
+                    <h1 className="text-3xl font-extrabold text-center uppercase mb-5">Cuenta Creada</h1>
+                    <p className="max-w-[500px] mb-7 text-center">Revisa tu correo para confirmar tu cuenta y comienza a administrar tus proyectos</p>
+                    <div className="flex justify-center gap-1 mt-10">
+                        <Link to="/" className="font-medium text-slate-700 hover:text-slate-950">Iniciar Sesion</Link>
+                    </div>
+                </div>
+            </section>
+        )
+    }
 
     return (
-        <section className="px-4">
+        <section className="px-4 animate-fade">
             <div className="relative bg-white px-5 sm:px-9 pt-10 pb-8 rounded-lg shadow">
                 <h1 className="text-3xl mb-8 font-extrabold text-center uppercase">Crear Cuenta</h1>
                 <form 
@@ -114,7 +134,7 @@ export const RegisterPage = () => {
                         </div>
                         {
                             !!errors.name &&
-                            <span className="block text-sm text-red-600 mt-1">{errors.name.message}</span>
+                            <span className="block text-sm text-red-600 mt-1 animate-fade-down animate-duration-100">{errors.name.message}</span>
                         }
                     </div>
                     <div>
@@ -141,7 +161,7 @@ export const RegisterPage = () => {
                         </div>
                         {
                             !!errors.email &&
-                            <span className="block text-sm text-red-600 mt-1">{errors.email.message}</span>
+                            <span className="block text-sm text-red-600 mt-1 animate-fade-down animate-duration-100">{errors.email.message}</span>
                         }
                     </div>
                     <div>
@@ -169,7 +189,7 @@ export const RegisterPage = () => {
                         </div>
                         {
                             !!errors.password &&
-                            <span className="block text-sm text-red-600 mt-1">{errors.password.message}</span>
+                            <span className="block text-sm text-red-600 mt-1 animate-fade-down animate-duration-100">{errors.password.message}</span>
                         }
                     </div>
                     <div>
@@ -197,7 +217,7 @@ export const RegisterPage = () => {
                         </div>
                         {
                             !!errors.passwordConfirm &&
-                            <span className="block text-sm text-red-600 mt-1">{errors.passwordConfirm.message}</span>
+                            <span className="block text-sm text-red-600 mt-1 animate-fade-down animate-duration-150">{errors.passwordConfirm.message}</span>
                         }
                     </div>
                     <div className="flex justify-between gap-5 mt-2 mb-3">
@@ -233,9 +253,14 @@ export const RegisterPage = () => {
                     </div>
                     <button
                         type="submit"
-                        className="uppercase bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-md py-2"
+                        disabled={ loading }
+                        className="uppercase bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-md py-2 flex justify-center"
                     >
-                        Crear Cuenta
+                        {
+                            loading
+                            ?<div className="custom-loader-white"></div>
+                            :'Crear Cuenta'
+                        }
                     </button>
                 </form>
                 <div className="text-center pt-8 pb-8 flex justify-center overflow-hidden">

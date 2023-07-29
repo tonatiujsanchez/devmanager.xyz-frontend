@@ -30,8 +30,8 @@ export const NewPasswordPage = () => {
 
 
     return (
-        <section className="px-4">
-            <div className="bg-white px-5 sm:px-12 pt-10 pb-8 rounded-lg shadow">
+        <section className="px-4 animate-fade">
+            <div className="bg-white px-5 sm:px-12 pt-10 pb-10 rounded-lg shadow">
                 <h1 className="text-3xl font-extrabold text-center uppercase mb-2">Nueva Contraseña</h1>
                 <p className="max-w-[500px] mb-7 text-center">Ingrese su nueva contraseña y presione en guardar</p>
                 <form 

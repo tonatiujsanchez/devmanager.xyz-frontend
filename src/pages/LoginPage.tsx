@@ -39,7 +39,7 @@ export const LoginPage = () => {
     
 
     return (
-        <section className="px-4">
+        <section className="px-4 animate-fade">
             <div className="bg-white px-5 sm:px-9 pt-10 pb-8 rounded-lg shadow">
                 <h1 className="text-3xl mb-10 font-extrabold text-center uppercase">Iniciar Sesión</h1>
                 <form 

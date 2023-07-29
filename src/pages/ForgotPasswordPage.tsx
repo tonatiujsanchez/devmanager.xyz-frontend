@@ -28,7 +28,7 @@ export const ForgotPasswordPage = () => {
     }
 
     return (
-        <section className="px-4">
+        <section className="px-4 animate-fade">
             <div className="bg-white px-9 pt-10 pb-8 rounded-lg shadow">
                 <h1 className="text-3xl font-extrabold text-center uppercase mb-2">Recuperar Contraseña</h1>
                 <p className="max-w-[500px] mb-7 text-center">Ingrese su correo y enviaremos las instrucciones para restablecer su contraseña</p>
@@ -80,7 +80,7 @@ export const ForgotPasswordPage = () => {
                         to="/" 
                         className="font-medium text-slate-700 hover:text-slate-950"
                     >
-                        Iniciar Sesion
+                        Iniciar Sesión
                     </Link>
                     <Link 
                         to="/registrar" 
