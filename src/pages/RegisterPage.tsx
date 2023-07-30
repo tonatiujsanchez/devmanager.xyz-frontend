@@ -80,7 +80,7 @@ export const RegisterPage = () => {
 
     if(user){
         return(
-            <section className="px-4 animate-jump animate-duration-500 animate-ease-linear">
+            <section className="px-4 animate-jump animate-duration-200 animate-ease-linear">
                 <div className="bg-white px-9 pt-10 pb-8 rounded-lg shadow">
                     <h1 className="text-3xl font-extrabold text-center uppercase mb-5">Cuenta Creada</h1>
                     <p className="max-w-[500px] mb-7 text-center">Revisa tu correo para confirmar tu cuenta y comienza a administrar tus proyectos</p>
@@ -103,7 +103,7 @@ export const RegisterPage = () => {
                 >
                     {
                         alert &&
-                        <div className="absolute -top-5 left-0 right-0 w-full shadow-lg flex justify-center p-4 mb-4 text-sm border border-red-400 text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                        <div className="absolute -top-5 left-0 right-0 w-full shadow-lg flex justify-center p-4 mb-4 text-sm border border-red-400 text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 animate-jump animate-duration-200 animate-ease-linear" role="alert">
                             <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
                             <span>
                                 { alert.title }

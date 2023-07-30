@@ -24,14 +24,13 @@ export const LoginPage = () => {
         }
     })
     
-
     
     const onLoginSubmit = ( data: FormData ) => {
         
         setLoading(true)
         console.log(data)
         console.log({ remindMe })
-        
+    
         setLoading(false)
         
     }
@@ -72,7 +71,7 @@ export const LoginPage = () => {
                         </div>
                         {
                             !!errors.email &&
-                            <span className="block text-sm text-red-600 mt-1">{errors.email.message}</span>
+                            <span className="block text-sm text-red-600 mt-1 animate-fade-down animate-duration-100">{errors.email.message}</span>
                         }
                     </div>
                     <div>
@@ -92,14 +91,14 @@ export const LoginPage = () => {
                                 placeholder="Contraseña"
                                 className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
                                 { ...register('password', {
-                                        required: 'Ingrese su Contraseña'
+                                        required: 'Ingrese su contraseña'
                                     }) 
                                 }
                             />
                         </div>
                         {
                             !!errors.password &&
-                            <span className="block text-sm text-red-600 mt-1">{errors.password.message}</span>
+                            <span className="block text-sm text-red-600 mt-1 animate-fade-down animate-duration-100">{errors.password.message}</span>
                         }
                     </div>
                     <div className="flex justify-between gap-5 mt-2 mb-3">

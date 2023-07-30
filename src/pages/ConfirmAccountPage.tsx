@@ -37,7 +37,7 @@ export const ConfirmAccountPage = () => {
 
 
     return (
-        <section className="px-4">
+        <section className="px-4 animate-jump animate-duration-200 animate-ease-linear">
             <div className="bg-white px-9 pt-10 pb-8 rounded-lg shadow">
                 <h1 className="text-3xl font-extrabold text-center uppercase mb-5">Cuenta Confirmada</h1>
                 <p className="max-w-[500px] mb-7 text-center">Su cuenta ha sido confirmada correctamente, inicie sesión y comience a administar sus proyectos</p>
