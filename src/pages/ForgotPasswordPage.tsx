@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 
 import { useForm } from 'react-hook-form'
 
+import { isAxiosError } from 'axios'
+
+import { clientAxios } from '../config'
 import { validators } from '../helpers'
-import axios from 'axios'
 
 
 
@@ -31,13 +33,13 @@ export const ForgotPasswordPage = () => {
 
     const sendEmail = async({ email }: FormData ) => {
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/change-password`, {
+            const { data } = await clientAxios.post(`/users/change-password`, {
                 email
             })
             setMsg(data.msg)
 
         } catch (error) {
-            if(axios.isAxiosError(error)){
+            if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
                 setAlert({
                     title: msg,

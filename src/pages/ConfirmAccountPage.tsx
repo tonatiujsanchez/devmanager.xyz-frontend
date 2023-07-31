@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import axios from 'axios'
-
+import { clientAxios } from '../config'
 import { LoadingMain } from '../components'
 
 
@@ -15,7 +14,7 @@ export const ConfirmAccountPage = () => {
 
     const checkToken = async() => {
         try {
-            await axios.get(`${import.meta.env.VITE_API_URL}/api/users/confirm/${token}`)
+            await clientAxios.get(`/users/confirm/${token}`)
             setLoading(false)
         } catch (error) {
             navigate('/', { replace: true })

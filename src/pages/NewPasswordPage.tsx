@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
+import { isAxiosError } from 'axios'
 
+import { clientAxios } from '../config'
 import { LoadingMain } from '../components'
 
 
@@ -42,9 +43,7 @@ export const NewPasswordPage = () => {
 
     const checkToken = async() => {
         try {
-            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/change-password/${token}`)
-            console.log(data)
-            
+            await clientAxios.get(`/users/change-password/${token}`)
             setLoading(false)
         } catch (error) {
             navigate('/', { replace: true })
@@ -59,13 +58,13 @@ export const NewPasswordPage = () => {
 
     const onSaveNewPassword = async( password:string ) => {
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/change-password/${token}`,{
+            const { data } = await clientAxios.post(`/users/change-password/${token}`,{
                 password
             })
             setMsg(data.msg)
 
         } catch (error) {
-            if(axios.isAxiosError(error)){
+            if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
                 setAlert({
                     title: msg,
