@@ -39,7 +39,7 @@ export const LoginPage = () => {
             const { data } = await clientAxios.post('/users/login',{
                 email, password
             })
-
+            console.log({data})
             localStorage.setItem('uptask_session', data.token)
             localStorage.setItem('uptask_remindme', String(remindMe))
             
