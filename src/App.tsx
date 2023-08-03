@@ -1,40 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-
-import { store } from './store/store'
+import { BrowserRouter } from "react-router-dom"
 import { Provider } from 'react-redux'
 
-
-import { AuthLayout, ProjectsLayout } from "./layouts"
-import { 
-    LoginPage, 
-    RegisterPage, 
-    ForgotPasswordPage, 
-    NewPasswordPage, 
-    ConfirmAccountPage, 
-    ProjectsPage 
-} from "./pages"
+import { store } from './store/store'
+import { AppRouter } from "./routes"
 
 
 function App() {
 
-
     return (
         <Provider store={store} >
             <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<AuthLayout />} >
-                        <Route index element={ <LoginPage /> } />
-                        <Route path="registrar" element={ <RegisterPage /> } />
-                        <Route path="olvide-password" element={ <ForgotPasswordPage /> } />
-                        <Route path="olvide-password/:token" element={ <NewPasswordPage /> } />
-                        <Route path="confirmar-cuenta/:token" element={ <ConfirmAccountPage /> } />
-                    </Route>
-                    <Route>
-                        <Route path="/proyectos" element={ <ProjectsLayout /> }>
-                            <Route index element={ <ProjectsPage /> } />
-                        </Route>
-                    </Route>
-                </Routes>
+                <AppRouter/>
             </BrowserRouter>
         </Provider>
     )

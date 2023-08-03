@@ -9,3 +9,5 @@ export const store = configureStore({
     },
 })
 
+export type IRootState = ReturnType<typeof store.getState>
+export type IAppDispatch = typeof store.dispatch

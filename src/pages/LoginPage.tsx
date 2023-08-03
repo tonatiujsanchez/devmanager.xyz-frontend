@@ -1,16 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { isAxiosError } from 'axios'
 
-import { clientAxios } from '../config'
+import { IRootState, IAppDispatch  } from '../store/store'
+import { IAuthState, startUserWithEmailAndPassword } from '../store/auth'
+
 import { validators } from '../helpers'
 
-interface IAlert {
-    title: string
-    type: 'error' | 'success'
-}
 
 interface FormData {
     email    : string
@@ -21,8 +19,9 @@ export const LoginPage = () => {
 
     const [loading, setLoading] = useState(false)
     const [remindMe, setRemindMe] = useState(false)
-    const [alert, setAlert] = useState<IAlert>()
 
+    const dispatch:IAppDispatch = useDispatch()
+    const { errorMsg }: IAuthState = useSelector(( state: IRootState ) => state.auth)
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         defaultValues: {
@@ -31,36 +30,10 @@ export const LoginPage = () => {
         }
     })
 
-
-
-    const onLogin = async( email:string, password:string ) => {
-        try {
-
-            const { data } = await clientAxios.post('/users/login',{
-                email, password
-            })
-            console.log({data})
-            localStorage.setItem('uptask_session', data.token)
-            localStorage.setItem('uptask_remindme', String(remindMe))
-            
-        } catch (error) {
-            if(isAxiosError(error)){
-                const { msg } = error.response?.data as { msg: string }
-                setAlert({
-                    title: msg,
-                    type: 'error'
-                })
-
-                setTimeout(() => {
-                    setAlert(undefined)
-                }, 3000);
-            }
-        }
-    }
     
     const onLoginSubmit = async( { email, password }: FormData ) => {
         setLoading(true)
-        await onLogin( email, password )
+        await dispatch( startUserWithEmailAndPassword({ email, password, remindMe }) )
         setLoading(false)
     }
     
@@ -70,11 +43,11 @@ export const LoginPage = () => {
         <section className="px-4 animate-fade">
             <div className="relative bg-white px-5 sm:px-9 pt-10 pb-8 rounded-lg shadow">
                 {
-                    alert &&
+                    errorMsg &&
                     <div className="absolute -top-5 left-0 right-0 w-full shadow-lg flex justify-center p-4 mb-4 text-sm border border-red-400 text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 animate-jump animate-duration-200 animate-ease-linear" role="alert">
                         <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
                         <span>
-                            { alert.title }
+                            { errorMsg }
                         </span>
                     </div>
                 }
