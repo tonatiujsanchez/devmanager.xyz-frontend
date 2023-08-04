@@ -1,9 +1,11 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { IAuthState, login, logout } from "../store/auth"
+import { IAuthState, login, startLogout } from "../store/auth"
 import { IAppDispatch, IRootState } from "../store/store"
+
 import { clientAxios } from "../config"
+import { getSessionToken, setSessionToken } from "../helpers"
 
 
 
@@ -17,13 +19,21 @@ export const useCheckAuth = () => {
 
     const onCheckAuth = async() => {
 
+        const { token, remindme } = getSessionToken()
+
+        if( !token ){
+            return dispatch( startLogout() )
+        }
+
         try {
             const { data } = await clientAxios.get('/users/perfil')
+
+            setSessionToken(data.token, remindme)
+
             dispatch( login( data.user ) )
-            console.log({data})
             
         } catch (error) {
-            dispatch( logout({}) )
+            dispatch( startLogout() )
         }
     }
 

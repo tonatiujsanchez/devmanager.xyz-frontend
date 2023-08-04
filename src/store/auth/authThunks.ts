@@ -3,6 +3,7 @@ import { isAxiosError } from "axios"
 
 import { clientAxios } from "../../config"
 import { login, logout, clearMsgError } from "./authSlice"
+import { setSessionToken } from "../../helpers"
 
 
 interface StartUserWithEmailAndPasswordParams {
@@ -12,18 +13,15 @@ interface StartUserWithEmailAndPasswordParams {
 }
 
 export const startUserWithEmailAndPassword = ({ email, password, remindMe }:StartUserWithEmailAndPasswordParams) => {
-    
     return async( dispatch:Dispatch ) => {
 
         try {
-
             const { data } = await clientAxios.post('/users/login',{
                 email, password
             })
-
-            localStorage.setItem('uptask_session', data.token)
-            localStorage.setItem('uptask_remindme', String(remindMe))
             
+            setSessionToken( data.token, remindMe )
+
             dispatch( login( data.user ) )
 
         } catch (error) {
@@ -41,3 +39,14 @@ export const startUserWithEmailAndPassword = ({ email, password, remindMe }:Star
     }
 }
 
+
+
+export const startLogout = () => {
+    return async( dispatch:Dispatch ) => {
+        
+        dispatch( logout({}) )  
+        localStorage.removeItem('uptask_remindme')
+        localStorage.removeItem('uptask_session')
+        sessionStorage.removeItem('uptask_session')
+    }
+}
