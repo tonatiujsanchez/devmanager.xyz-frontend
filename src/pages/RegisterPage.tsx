@@ -28,7 +28,6 @@ interface FormData {
 export const RegisterPage = () => {
 
     const [loading, setLoading] = useState(false)
-    const [remindMe, setRemindMe] = useState(false)
     const [alert, setAlert] = useState<IAlert>()
     const [user, setUser] = useState<IUser>()
 
@@ -44,18 +43,13 @@ export const RegisterPage = () => {
     const password = useRef({})
     password.current = watch('password', '')
 
-    const handleCheckboxChange = () => {       
-        setRemindMe(!remindMe) 
-    }
 
-
-    const onRegister = async( name:string, email:string, password:string, remindMe:boolean ) => {
+    const onRegister = async( name:string, email:string, password:string ) => {
         try {
             const { data } = await clientAxios.post(`/users`, {
                 name, email, password
             })
             setUser(data)
-            console.log({remindMe});
              
         } catch (error) {
 
@@ -75,7 +69,7 @@ export const RegisterPage = () => {
 
     const onRegisterSubmit = async({ name, email, password }: FormData ) => {
         setLoading(true)
-        await onRegister( name, email, password, remindMe )
+        await onRegister( name, email, password )
         setLoading(false)
     }
 
@@ -221,35 +215,7 @@ export const RegisterPage = () => {
                             <span className="block text-sm text-red-600 mt-1 animate-fade-down animate-duration-150">{errors.passwordConfirm.message}</span>
                         }
                     </div>
-                    <div className="flex justify-between gap-5 mt-2 mb-3">
-                        <div>
-                            <input
-                                type="checkbox"
-                                id="checkbox-remindme"
-                                disabled={loading}
-                                checked={remindMe}
-                                onChange={handleCheckboxChange}
-                                className="hidden"
-                            />
-                            <label
-                                htmlFor="checkbox-remindme"
-                                className={`flex items-center select-none ${ loading ? '' : 'cursor-pointer'}`}
-                            >
-                                <div className={`w-5 h-5 border border-gray-300 rounded-md mr-2 flex justify-center items-center ${ remindMe ? 'bg-slate-800' : 'bg-white'}`}>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        style={{ fill: '#fff' }}
-                                        className={ remindMe ? 'block' : 'hidden'}
-                                    >
-                                        <path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path>
-                                    </svg>
-                                </div>
-                                <span className="text-gray-800 hover:text-gray-950 font-medium leading-5">Recordarme</span>
-                            </label>
-                        </div>
+                    <div className="flex justify-end gap-5 mt-2 mb-3">
                         <Link to="/olvide-password" className="text-gray-800 hover:text-gray-950 font-medium leading-5">Olvide mi contraseña</Link>
                     </div>
                     <button
