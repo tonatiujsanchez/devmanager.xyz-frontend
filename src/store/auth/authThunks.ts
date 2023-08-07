@@ -42,8 +42,9 @@ export const startUserWithEmailAndPassword = ({ email, password, remindMe }:Star
 
 
 export const startLogout = () => {
-    return async( dispatch:Dispatch ) => {
         
+    return async( dispatch:Dispatch ) => {
+
         dispatch( logout({}) )  
         localStorage.removeItem('uptask_remindme')
         localStorage.removeItem('uptask_session')
