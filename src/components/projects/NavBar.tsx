@@ -12,8 +12,6 @@ export const NavBar = () => {
     const  dispatch:Dispatch = useDispatch()
     const { name }: IAuthState = useSelector(( state: IRootState ) => state.auth)
 
-        
-
     return (
         <header className="flex justify-between items-center bg-white py-3 px-5 shadow">
             <button

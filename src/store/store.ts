@@ -9,6 +9,7 @@ export const store = configureStore({
         auth: authSlice.reducer,
         ui  : uiSlice.reducer,
     },
+    // devTools: false
 })
 
 export type IRootState = ReturnType<typeof store.getState>
