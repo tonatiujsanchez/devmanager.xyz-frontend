@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form"
+import { TextEditor } from ".."
 
 
 
@@ -12,10 +13,10 @@ interface IFormData {
 
 export const ProjectForm = () => {
 
-
     const [loading, setLoading] = useState(false)
+    const [description, setDescription] = useState('')
 
-    const { register, handleSubmit, formState:{ errors } } = useForm<IFormData>({
+    const { register, handleSubmit, formState:{ errors, isSubmitted }, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
         defaultValues: {
             name: '',
             description: '',
@@ -24,8 +25,29 @@ export const ProjectForm = () => {
         }
     })
 
+    useEffect(() => {
+        setValue('description', description, { shouldValidate: true })
+    }, [description])
+    
+    useEffect(() => {
+        if(isSubmitted) {
+            if( description.trim() === '' ){
+                setError("description", {
+                    message: "Ingrese la descripción del proyecto",
+                })
+            }else {
+                clearErrors('description')
+            }
+        }
+    }, [setError, description, isSubmitted])
 
-    const onProjectSubmit = ( data:IFormData ) => {
+    const onDescriptionChange = ( content:string ) => {
+        setDescription(content)
+    } 
+
+    const onProjectSubmit = async( data:IFormData ) => {       
+        if( description.trim() === '' ){ return }
+
         setLoading(true)
         console.log(data)        
         setLoading(false)
@@ -34,7 +56,7 @@ export const ProjectForm = () => {
     return (
         <form
             onSubmit={ handleSubmit( onProjectSubmit ) } 
-            className="flex flex-col gap-5 w-full sm:max-w-[500px] bg-white px-5 sm:px-8 pt-10 pb-10 rounded-lg shadow animate-fade"
+            className="flex flex-col gap-5 w-full sm:max-w-[550px] bg-white px-5 sm:px-8 pt-10 pb-10 rounded-lg shadow animate-fade"
         >
             <div>
                 <label
@@ -70,21 +92,11 @@ export const ProjectForm = () => {
                 >
                     Descripción
                 </label>
-                <div className="flex">
-                    <span className="flex justify-center items-center px-3 py-2 border border-r-0 rounded-tl-md rounded-bl-md">
-                        <i className='bx bx-text text-slate-700'></i>
-                    </span>
-                    <input
-                        type="text"
-                        id="description"
-                        placeholder="Tienda virtual para una tienda de ropa"
-                        className="border px-3 py-2 rounded-tr-md rounded-br-md flex-1"
-                        { ...register('description', {
-                                validate: ( value ) => value.trim() === '' ? 'Ingrese la descripción del proyecto' : undefined
-                            })
-                        }
-                    />
-                </div>
+                <TextEditor
+                    placeholder="Tienda virtual para una tienda de ropa"
+                    content={ getValues('description') }
+                    onChangeContent={ onDescriptionChange }
+                />
                 {
                     !!errors.description &&
                     <span className="block text-sm text-red-600 mt-1 animate-fade-down animate-duration-100">{errors.description.message}</span>

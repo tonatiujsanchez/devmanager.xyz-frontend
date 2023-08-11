@@ -4,14 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+    --border-light: rgb(229, 231, 235);
+}
 
 body {
     font-family: 'Poppins', sans-serif;
 }
 
 
-
-/* ===== ===== Loading Main ===== ===== */
+/* ==== ==== ==== Loading Main ==== ==== ==== */
 .custom-loader {
     width:50px;
     height:50px;
@@ -29,3 +31,62 @@ body {
     animation:s3 0.6s infinite linear;
 }
 @keyframes s3 {to{transform: rotate(1turn)}}
+
+
+/* ==== ==== ==== Custom Scroll ==== ==== ==== */
+.custom-scroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+  
+.custom-scroll::-webkit-scrollbar:vertical {
+    width:8px;
+}
+
+.custom-scroll::-webkit-scrollbar-button:increment,.custom-scroll::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.custom-scroll::-webkit-scrollbar:horizontal {
+    height: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background-color: #b4b4b4;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    border-radius: 8px;  
+}
+  
+
+/* ==== ==== ==== Quill Editor ==== ==== ==== */
+.editor-container {
+    border: var(--border-light) 1px solid;
+}
+
+.ql-container.ql-snow {
+    border: none;
+    font-family: 'Poppins', sans-serif;
+}
+.ql-container.ql-snow .ql-editor {
+    @apply custom-scroll;
+}
+
+.ql-toolbar.ql-snow {
+    border: none;
+    border-bottom: var(--border-light) 1px solid;
+}
+
+.ql-toolbar button svg {
+    opacity: 0.8;
+}
+
+.ql-toolbar button.ql-clean {
+    opacity: 0.8;
+}
+
+.ql-toolbar button.ql-clean svg {
+    display: none;
+}
