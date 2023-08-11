@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { startLogout } from "../../store/auth"
 import { IAppDispatch, IRootState } from "../../store/store"
-import { IUiState } from "../../store/ui"
+import { IUiState, startToggleSideMenu } from "../../store/ui"
 
 export const SideBar = () => {
 
@@ -11,60 +11,68 @@ export const SideBar = () => {
     const { toggleSideMenu }: IUiState = useSelector(( state: IRootState ) => state.ui)
 
     return (
-        <div className={`h-screen py-4 px-1 bg-slate-800 transition-all duration-500 overflow-hidden ${toggleSideMenu ? 'w-[300px]':'w-[60px]'}`}>
+        <div className={`absolute left-0 top-0 bottom-0 sm:static z-10 h-screen py-4 bg-slate-800 transition-all duration-500 overflow-hidden ${toggleSideMenu ? 'w-[260px] translate-x-0 sm:w-[300px]':'w-[270px] -translate-x-full sm:translate-x-0 sm:w-[60px] sm:hover:w-[300px]'} animate-fade`}>
             
-            <nav className={`absolute top-0 bottom-0 h-full group flex flex-col bg-slate-800 py-4 px-1 shadow-lg transition-all duration-500 overflow-hidden ${toggleSideMenu ? 'w-[240px]':'w-[60px] hover:w-[250px]'}`}>
-                <Link 
-                    to={"/projects"} 
-                    className="flex gap-5 text-white text-lg p-2 rounded-md"
-                >
-                    ⚡ <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'opacity-0 group-hover:opacity-100'}`}>UpTask</span>
-                </Link>
+            <nav className={`absolute top-0 bottom-0 h-full group flex flex-col bg-slate-800 py-4 px-1 transition-all duration-500 overflow-hidden z-20 ${toggleSideMenu ? 'sm:w-[240px]':'w-[252px] sm:w-[60px] sm:hover:w-[240px]'}`}>
+                <div className="flex items-center gap-2">
+                    <Link 
+                        to={"/proyectos"} 
+                        className="flex gap-5 text-white text-lg p-2 rounded-md"
+                    >
+                        ⚡ <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>UpTask</span>
+                    </Link>
+                    <button
+                        onClick={ ()=> dispatch( startToggleSideMenu() ) } 
+                        className="flex sm:hidden justify-center items-center bg-slate-700 hover:bg-slate-600 rounded-md px-1 active:scale-95"
+                    >
+                        <i className='bx bx-x text-2xl'></i>
+                    </button>
+                </div>
                 <ul className="flex-1 mt-16 flex flex-col gap-1">
                     <li>
                         <Link 
-                            to={"/projects"} 
+                            to={"/proyectos/nuevo-proyecto"} 
                             className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
                         >
                             <i className="bx bxs-plus-square text-lg text-slate-400"></i> 
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'opacity-0 group-hover:opacity-100'}`}>Nuevo proyecto</span>
+                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Nuevo proyecto</span>
                         </Link>
                     </li>
                     <li>
                         <Link 
-                            to={"/projects"} 
+                            to={"/proyectos"} 
                             className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
                         >
                             <i className="bx bxs-food-menu text-lg text-slate-400"></i>
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'opacity-0 group-hover:opacity-100'}`}>Proyectos</span>
+                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Proyectos</span>
                         </Link>
                     </li>
                     <li>
                         <Link 
-                            to={"/projects"} 
+                            to={"/proyectos"} 
                             className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
                         >
                             <i className='bx bxs-user text-lg text-slate-400'></i>
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'opacity-0 group-hover:opacity-100'}`}>Colaboradores</span>
+                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Colaboradores</span>
                         </Link>
                     </li>
                     <li>
                         <Link 
-                            to={"/projects"} 
+                            to={"/proyectos"} 
                             className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
                         >
                             <i className='bx bxs-search text-lg text-slate-400'></i>
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'opacity-0 group-hover:opacity-100'}`}>Buscar proyecto</span>
+                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Buscar proyecto</span>
                         </Link>
                     </li>
                 </ul>
                 <div className="border-t border-t-slate-700 py-2">
                     <button
                         onClick={ ()=> dispatch( startLogout() ) } 
-                        className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 mb-5"
+                        className="flex items-center w-full gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 mb-5"
                     >
                         <i className='bx bx-log-out text-lg'></i>
-                        <span className={`text-left min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'opacity-0 group-hover:opacity-100'}`}>
+                        <span className={`text-left min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>
                             Cerrar Sesión
                         </span>
                     </button>

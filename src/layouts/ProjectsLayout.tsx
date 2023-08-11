@@ -9,7 +9,7 @@ export const ProjectsLayout = () => {
             <SideBar />
             <div className="w-full flex flex-col ">
                 <NavBar />
-                <main className="px-5 py-6" >
+                <main className="w-full h-full px-5 py-6" >
                     <Outlet />
                 </main>
             </div>

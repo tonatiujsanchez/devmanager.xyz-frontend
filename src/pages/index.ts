@@ -5,3 +5,4 @@ export * from './NewPasswordPage'
 export * from './ConfirmAccountPage'
 
 export * from './ProjectsPage'
+export * from './NewProject'
