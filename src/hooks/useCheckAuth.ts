@@ -1,8 +1,8 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { IAuthState, login, startLogout } from "../store/auth"
 import { IAppDispatch, IRootState } from "../store/store"
+import { IAuthState, login, startLogout } from "../store/auth"
 
 import { clientAxios } from "../config"
 import { getSessionToken, setSessionToken } from "../helpers"
@@ -30,7 +30,7 @@ export const useCheckAuth = () => {
 
             setSessionToken(data.token, remindme)
 
-            dispatch( login( data.user ) )
+            dispatch( login(data.user) )
             
         } catch (error) {
             dispatch( startLogout() )

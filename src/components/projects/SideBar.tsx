@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
 import { startLogout } from "../../store/auth"
@@ -10,8 +10,10 @@ export const SideBar = () => {
     const dispatch:IAppDispatch = useDispatch()
     const { toggleSideMenu }: IUiState = useSelector(( state: IRootState ) => state.ui)
 
+    const { pathname } = useLocation()
+    
     return (
-        <div className={`absolute left-0 top-0 bottom-0 sm:static z-10 h-screen py-4 bg-slate-800 transition-all duration-500 overflow-hidden ${toggleSideMenu ? 'w-[260px] translate-x-0 sm:w-[300px]':'w-[270px] -translate-x-full sm:translate-x-0 sm:w-[60px] sm:hover:w-[300px]'} animate-fade`}>
+        <div className={`absolute left-0 top-0 bottom-0 sm:relative z-10 h-screen py-4 bg-slate-800 transition-all duration-500 ${toggleSideMenu ? 'w-[260px] translate-x-0 sm:w-[300px]':'w-[270px] -translate-x-full sm:translate-x-0 sm:w-[60px]'} animate-fade`}>
             
             <nav className={`absolute top-0 bottom-0 h-full group flex flex-col bg-slate-800 py-4 px-1 transition-all duration-500 overflow-hidden z-20 ${toggleSideMenu ? 'sm:w-[240px]':'w-[252px] sm:w-[60px] sm:hover:w-[240px]'}`}>
                 <div className="flex items-center gap-2">
@@ -32,7 +34,7 @@ export const SideBar = () => {
                     <li>
                         <Link 
                             to={"/proyectos/nuevo-proyecto"} 
-                            className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
+                            className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/nuevo-proyecto' ? 'bg-slate-700':'' }`}
                         >
                             <i className="bx bxs-plus-square text-lg text-slate-400"></i> 
                             <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Nuevo proyecto</span>
@@ -41,7 +43,7 @@ export const SideBar = () => {
                     <li>
                         <Link 
                             to={"/proyectos"} 
-                            className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
+                            className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos' ? 'bg-slate-700':'' }`}
                         >
                             <i className="bx bxs-food-menu text-lg text-slate-400"></i>
                             <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Proyectos</span>
@@ -50,10 +52,19 @@ export const SideBar = () => {
                     <li>
                         <Link 
                             to={"/proyectos"} 
-                            className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
+                            className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/colaboradores' ? 'bg-slate-700':'' }`}
                         >
                             <i className='bx bxs-user text-lg text-slate-400'></i>
                             <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Colaboradores</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            to={"/proyectos"} 
+                            className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/clientes' ? 'bg-slate-700':'' }`}
+                        >
+                            <i className='bx bxs-user-account text-lg text-slate-400'></i>
+                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Clientes</span>
                         </Link>
                     </li>
                     <li>
@@ -69,7 +80,7 @@ export const SideBar = () => {
                 <div className="border-t border-t-slate-700 py-2">
                     <button
                         onClick={ ()=> dispatch( startLogout() ) } 
-                        className="flex items-center w-full gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 mb-5"
+                        className="flex items-center w-full gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 mb-2"
                     >
                         <i className='bx bx-log-out text-lg'></i>
                         <span className={`text-left min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>
