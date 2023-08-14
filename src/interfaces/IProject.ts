@@ -18,7 +18,7 @@ export interface IProject {
 }
 
 
-export interface IProjectState {
+export interface IProjectsState {
     page : number
     count: number
     total: number

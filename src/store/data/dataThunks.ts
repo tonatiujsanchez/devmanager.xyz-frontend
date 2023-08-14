@@ -3,8 +3,7 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { isAxiosError } from "axios"
 import { clientAxios } from "../../config"
 
-import { refreshProjects } from "./"
-
+import { addNewProject, refreshProjects } from "./"
 
 
 
@@ -12,14 +11,13 @@ interface StartRefreshNotesParams {
     page: number
     count: number
 }
-
-export const startRefreshNotes = ({ page=1, count=10 }:StartRefreshNotesParams ) => {
+export const startRefreshNotes = ({ page, count }:StartRefreshNotesParams ) => {
 
     return async( dispatch:Dispatch ) => {
 
         try {
             const { data } = await clientAxios.get(`/projects?page=${page}&count=${count}`)
-            console.log({data});
+            console.log({data})
             dispatch( refreshProjects( data ) )
             
         } catch (error) {
@@ -27,6 +25,32 @@ export const startRefreshNotes = ({ page=1, count=10 }:StartRefreshNotesParams )
                 const { msg } = error.response?.data as { msg: string }
                 console.log({msg});
                 
+            }   
+        }
+    }
+}
+
+
+interface StartAddNewProjectParams {
+    name        : string
+    description : string
+    deliveryDate:string
+    client      : string
+}
+export const startAddNewProject = ({ name, description, deliveryDate, client }:StartAddNewProjectParams) => {
+    return async( dispatch:Dispatch ) => {
+
+        try {
+            const { data } = await clientAxios.post(`/projects`,{
+                name, description, deliveryDate, client
+            })
+            console.log(data)
+            
+            dispatch( addNewProject(data) )
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                console.log({msg});
             }   
         }
 

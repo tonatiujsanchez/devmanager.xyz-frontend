@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form"
-import { TextEditor } from ".."
+import { useDispatch } from 'react-redux'
+
+import { IAppDispatch } from '../../store/store'
+import { startAddNewProject } from '../../store/data'
+import { TextEditor } from "../"
 
 
 
@@ -15,6 +19,8 @@ export const ProjectForm = () => {
 
     const [loading, setLoading] = useState(false)
     const [description, setDescription] = useState('')
+
+    const dispatch:IAppDispatch = useDispatch()
 
     const { register, handleSubmit, formState:{ errors, isSubmitted }, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
         defaultValues: {
@@ -49,7 +55,7 @@ export const ProjectForm = () => {
         if( description.trim() === '' ){ return }
 
         setLoading(true)
-        console.log(data)        
+        await dispatch( startAddNewProject( data ) )   
         setLoading(false)
     }
 

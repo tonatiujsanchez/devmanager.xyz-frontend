@@ -13,7 +13,7 @@ export const SideBar = () => {
     const { pathname } = useLocation()
     
     return (
-        <div className={`absolute left-0 top-0 bottom-0 sm:relative z-10 h-screen py-4 bg-slate-800 transition-all duration-500 ${toggleSideMenu ? 'w-[260px] translate-x-0 sm:w-[300px]':'w-[270px] -translate-x-full sm:translate-x-0 sm:w-[60px]'} animate-fade`}>
+        <div className={`absolute left-0 top-0 bottom-0 sm:relative z-10 min-h-screen py-4 bg-slate-800 transition-all duration-500 ${toggleSideMenu ? 'w-[260px] translate-x-0 sm:w-[300px]':'w-[270px] -translate-x-full sm:translate-x-0 sm:w-[60px]'} animate-fade`}>
             
             <nav className={`absolute top-0 bottom-0 h-full group flex flex-col bg-slate-800 py-4 px-1 transition-all duration-500 overflow-hidden z-20 ${toggleSideMenu ? 'sm:w-[240px]':'w-[252px] sm:w-[60px] sm:hover:w-[240px]'}`}>
                 <div className="flex items-center gap-2">

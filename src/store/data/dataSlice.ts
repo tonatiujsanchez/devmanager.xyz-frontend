@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IProject, IProjectState } from "../../interfaces";
+import { IProject, IProjectsState } from "../../interfaces";
 
 
 
@@ -16,16 +16,28 @@ export interface IDataState {
 export const dataSlice = createSlice({
     name: 'data',
     initialState: {
-        projects: {}
+        projects: {
+            page: 0,
+            count: 0,
+            total: 0,
+            totalPages: 0,
+            projects: []
+        }
     } as IDataState,
     reducers: {
-        refreshProjects: ( state, { payload }:PayloadAction<IProjectState> ) => {
+        refreshProjects: ( state, { payload }:PayloadAction<IProjectsState> ) => {
             state.projects = { ...payload }
+        },
+        addNewProject: ( state, { payload }:PayloadAction<IProject> ) => {   
+            state.projects.projects.unshift(payload)
+            state.projects.count++
+            state.projects.total++
         }
     }
 })
 
 
 export const {
-    refreshProjects
+    refreshProjects,
+    addNewProject
 } = dataSlice.actions
