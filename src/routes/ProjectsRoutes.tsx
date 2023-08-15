@@ -10,6 +10,7 @@ export const ProjectsRoutes = () => {
             <Route path="/" element={<ProjectsLayout />}>
                 <Route index element={<ProjectsPage />} />
                 <Route path="nuevo-proyecto" element={<NewProject />} />
+                <Route path="/:id" element={<NewProject />} />
                 <Route path="/*" element={<Navigate to="/proyectos" />} />
             </Route>
         </Routes>

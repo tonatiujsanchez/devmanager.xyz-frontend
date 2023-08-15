@@ -17,7 +17,6 @@ export const startRefreshNotes = ({ page, count }:StartRefreshNotesParams ) => {
 
         try {
             const { data } = await clientAxios.get(`/projects?page=${page}&count=${count}`)
-            console.log({data})
             dispatch( refreshProjects( data ) )
             
         } catch (error) {
