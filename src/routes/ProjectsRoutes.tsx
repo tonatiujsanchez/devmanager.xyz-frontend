@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 
 import { ProjectsLayout } from "../layouts"
-import { NewProject, ProjectsPage } from "../pages"
+import { NewProjectPage, ProjectPage, ProjectsPage } from "../pages"
 
 
 export const ProjectsRoutes = () => {
@@ -9,8 +9,8 @@ export const ProjectsRoutes = () => {
         <Routes>
             <Route path="/" element={<ProjectsLayout />}>
                 <Route index element={<ProjectsPage />} />
-                <Route path="nuevo-proyecto" element={<NewProject />} />
-                <Route path="/:id" element={<NewProject />} />
+                <Route path="nuevo-proyecto" element={<NewProjectPage />} />
+                <Route path=":id" element={<ProjectPage />} />
                 <Route path="/*" element={<Navigate to="/proyectos" />} />
             </Route>
         </Routes>
