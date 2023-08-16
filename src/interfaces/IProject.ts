@@ -1,3 +1,4 @@
+import { ITask } from "./ITask"
 import { IUser } from "./IUser"
 
 
@@ -10,6 +11,8 @@ export interface IProject {
     client       : string
     creator      : IUser | string
     collaborators: IUser[] | string[]
+    
+    tasks        : ITaskState
 
     status       : boolean
 
@@ -24,4 +27,12 @@ export interface IProjectsState {
     total: number
     totalPages: number
     projects  : IProject[]
+}
+
+export interface ITaskState {
+    page: 0
+    count: 0
+    total: 0
+    totalPages: 0
+    tasks: ITask[]
 }

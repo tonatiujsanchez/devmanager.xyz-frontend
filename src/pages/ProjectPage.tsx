@@ -9,7 +9,6 @@ export const ProjectPage = () => {
     const { id } = useParams() as { id: string }    
     const { project, loading } = useGetProject(id)
 
-
     
     if(loading){
         return (

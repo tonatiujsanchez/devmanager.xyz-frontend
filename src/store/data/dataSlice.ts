@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IProject, IProjectsState } from "../../interfaces";
+import { IProject, IProjectsState, ITaskState } from "../../interfaces";
 
 
 
@@ -10,7 +10,7 @@ export interface IDataState {
         total: number
         totalPages: number
         projects  : IProject[]
-    }
+    },
 }
 
 export const dataSlice = createSlice({
@@ -22,7 +22,7 @@ export const dataSlice = createSlice({
             total: 0,
             totalPages: 0,
             projects: []
-        }
+        },
     } as IDataState,
     reducers: {
         refreshProjects: ( state, { payload }:PayloadAction<IProjectsState> ) => {
@@ -32,6 +32,13 @@ export const dataSlice = createSlice({
             state.projects.projects.unshift(payload)
             state.projects.count++
             state.projects.total++
+        },
+        addTasksOfProject: ( state, { payload }:PayloadAction<{ id:string, tasks: ITaskState }> ) => {
+            state.projects.projects.forEach( project => {
+                if( project._id === payload.id ) {
+                    project.tasks = payload.tasks
+                }
+            })
         }
     }
 })
@@ -39,5 +46,6 @@ export const dataSlice = createSlice({
 
 export const {
     refreshProjects,
-    addNewProject
+    addNewProject,
+    addTasksOfProject
 } = dataSlice.actions

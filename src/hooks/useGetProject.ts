@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { isAxiosError } from 'axios'
 import { clientAxios } from '../config'
 
-import { IRootState } from '../store/store'
-import { IDataState } from '../store/data'
+import { IAppDispatch, IRootState } from '../store/store'
+import { IDataState, startGetTasks} from '../store/data'
 
 import { IProject } from '../interfaces'
 
@@ -16,22 +16,29 @@ export const useGetProject = ( id:string ) => {
     const [project, setProject] = useState<IProject>()
     
     const { projects:{ projects } }:IDataState = useSelector((state:IRootState)=> state.data)
+    const dispatch:IAppDispatch = useDispatch()
 
     
     const getProject = async() => {
         
         const projectFind = projects.find( project => project._id === id ) 
     
+        if( projectFind && !projectFind.tasks ){
+            dispatch( startGetTasks({ id, page:1, count: 15 }) )
+        }
+
         if( projectFind ){
             setProject( projectFind )
             return setLoading(false)
         }
     
         try {
-            const { data } = await clientAxios.get(`/projects/${id}`)
-            console.log(data)
-            
-            setProject(data)
+            const [{ data }, {data: tasks}] = await Promise.all([
+                clientAxios.get(`/projects/${id}`),
+                clientAxios.get(`/projects/tasks/${id}?page=1&count=15`)
+            ])
+
+            setProject({...data, tasks})
             setLoading(false)
         } catch (error) {
             if(isAxiosError(error)){
