@@ -28,7 +28,7 @@ export const TextEditor: FC<Props> = ({ placeholder, content, onChangeContent })
     useEffect(()=>{
         if(content){
             if (quill) {
-                quill.clipboard.dangerouslyPasteHTML(content);
+                quill.clipboard.dangerouslyPasteHTML(content)
             }
         }
     },[quill])

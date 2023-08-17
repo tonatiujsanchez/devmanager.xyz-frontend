@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from "react"
 import { useForm } from "react-hook-form"
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux"
 
-import { IAppDispatch } from '../../store/store'
-import { startAddNewProject } from '../../store/data'
+import { IAppDispatch } from "../../store/store"
+import { startAddNewProject, startEditProject } from "../../store/data"
+
 import { TextEditor } from "../"
+
+import { IProject } from "../../interfaces"
 
 
 
@@ -15,14 +18,18 @@ interface IFormData {
     client      : string
 }
 
-export const ProjectForm = () => {
+interface Props {
+    project?: IProject
+}
+
+export const ProjectForm:FC<Props> = ({ project }) => {
 
     const [loading, setLoading] = useState(false)
     const [description, setDescription] = useState('')
 
     const dispatch:IAppDispatch = useDispatch()
 
-    const { register, handleSubmit, formState:{ errors, isSubmitted }, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
+    const { register, handleSubmit, reset, formState:{ errors, isSubmitted }, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
         defaultValues: {
             name: '',
             description: '',
@@ -30,6 +37,17 @@ export const ProjectForm = () => {
             client: ''
         }
     })
+
+    useEffect(()=>{
+        if(project){            
+            reset({
+                name        : project.name,
+                deliveryDate: String(project.deliveryDate).split('T')[0],
+                client      : project.client,
+            })
+            setDescription(project.description)
+        }
+    },[project])
 
     useEffect(() => {
         setValue('description', description, { shouldValidate: true })
@@ -55,7 +73,15 @@ export const ProjectForm = () => {
         if( description.trim() === '' ){ return }
 
         setLoading(true)
-        await dispatch( startAddNewProject( data ) )   
+        if (project?._id) {
+            await dispatch( startEditProject({
+                _id: project._id,
+                ...data
+            }))   
+            
+        }else {
+            await dispatch( startAddNewProject(data) )   
+        }
         setLoading(false)
     }
 
@@ -170,7 +196,7 @@ export const ProjectForm = () => {
                 {
                     loading
                     ?<div className="custom-loader-white"></div>
-                    :'Crear Proyecto'
+                    : project ? 'Guardar' : 'Crear Proyecto'
                 }
             </button>
         </form>

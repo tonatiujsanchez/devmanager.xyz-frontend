@@ -33,6 +33,14 @@ export const dataSlice = createSlice({
             state.projects.count++
             state.projects.total++
         },
+        editProject: ( state, { payload }:PayloadAction<IProject> ) => {   
+            state.projects.projects = state.projects.projects.map( project => {
+                if( project._id === payload._id ){
+                    return payload
+                }
+                return project
+            })
+        },
         addTasksOfProject: ( state, { payload }:PayloadAction<{ id:string, tasks: ITaskState }> ) => {
             state.projects.projects.forEach( project => {
                 if( project._id === payload.id ) {
@@ -47,5 +55,6 @@ export const dataSlice = createSlice({
 export const {
     refreshProjects,
     addNewProject,
+    editProject,
     addTasksOfProject
 } = dataSlice.actions
