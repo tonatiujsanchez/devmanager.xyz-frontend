@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { useDispatch } from "react-redux"
 
 import { useGetProject } from "../hooks"
@@ -14,6 +14,7 @@ export const EditProjectPage = () => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [loadingDelete, setLoadingDelete] = useState(false)
 
+    const navigate = useNavigate()
     const { id } = useParams() as { id: string }    
     const { project, loading } = useGetProject(id)
 
@@ -25,20 +26,18 @@ export const EditProjectPage = () => {
 
     const onDeleteProject = async( onResult: () => Promise<{ confirm: boolean }> ) => {
         
+        if(!project?._id) { return }
+
         const { confirm } = await onResult()
 
         if(!confirm){
             return onCloseModal()
         }
                
-        if(!project?._id) {
-            return onCloseModal()
-        }
-
-        // TODO: Add an alert for delete the project
         setLoadingDelete(true)
         await dispatch( startDeleteProject({ _id:project._id }) )
-        setLoadingDelete(false)
+
+        navigate('/proyectos',{ replace: true })
     }
 
 
@@ -74,7 +73,7 @@ export const EditProjectPage = () => {
             >
                 <ModalDelete
                     title={`Eliminar proyecto`}
-                    subtitle={`Desea eliminar el proyecto "${ project.name }"`}
+                    subtitle={`Deseas eliminar el proyecto "${ project.name }"`}
                     processing={loadingDelete}
                     onResult={onDeleteProject}
                 />

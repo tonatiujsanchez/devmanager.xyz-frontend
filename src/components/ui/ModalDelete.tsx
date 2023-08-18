@@ -20,14 +20,14 @@ export const ModalDelete:FC<Props> = ({ processing = false, title, subtitle, onR
 
     return (
         <>
-            <div className="bg-white px-4 pt-8 pb-6 sm:py-10 sm:px-8 sm:w-[600px]">
-                <div className="sm:flex sm:items-start sm:gap-2">
-                    <div className="mx-auto flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0">
-                        <i className='bx bx-trash text-red-600 text-3xl'></i>
+            <div className="w-full px-4 pt-7 sm:pt-8 sm:px-8">
+                <div className="sm:flex sm:items-start sm:gap-3">
+                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0">
+                        <i className='bx bx-trash text-red-600 text-lg'></i>
                     </div>
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <h3 className="font-medium leading-6 text-gray-900" id="modal-title">{ title }</h3>
-                        <div className="mt-4">
+                    <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                        <h3 className="font-semibold leading-6 text-slate-800 text-lg" id="modal-title">{ title }</h3>
+                        <div className="mt-1 text-slate-600">
                             { subtitle }
                         </div>
                     </div>
@@ -38,11 +38,11 @@ export const ModalDelete:FC<Props> = ({ processing = false, title, subtitle, onR
                     type="button" 
                     disabled={processing}
                     onClick={ ()=> onResult( resultConfirm ) }
-                    className="flex w-full justify-center items-center rounded-md border border-transparent bg-red-600 font-semibold py-3 px-10 text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-44 disabled:bg-red-400 disabled:cursor-not-allowed">
+                    className="flex w-full justify-center items-center text-sm rounded-md border border-transparent bg-red-600 font-semibold py-2 px-4 text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-36 disabled:bg-red-400 disabled:cursor-not-allowed">
                     {
                         processing
                         ? (
-                                <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle 
                                         className="opacity-25" 
                                         cx="12" 
@@ -65,7 +65,7 @@ export const ModalDelete:FC<Props> = ({ processing = false, title, subtitle, onR
                     type="button"
                     disabled={processing} 
                     onClick={ ()=> onResult( resultCancel ) } 
-                    className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-3 px-8 text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed">
+                    className="text-sm mt-3 inline-flex w-full sm:w-32 justify-center rounded-md border border-slate-200 bg-white py-2 px-4 text-slate-700 shadow-sm hover:bg-slate-100 focus:outline-none sm:mt-0 sm:ml-3 disabled:opacity-70 disabled:cursor-not-allowed">
                     Cancelar
                 </button>
             </div>
