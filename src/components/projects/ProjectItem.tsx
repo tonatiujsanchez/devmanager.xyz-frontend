@@ -8,7 +8,7 @@ interface Props {
 
 export const ProjectItem: FC<Props> = ({ project }) => {
     return (
-        <li className="flex justify-between items-center gap-3 flex-wrap bg-white rounded-md px-4 py-3 animate-fade">
+        <li className="flex justify-between items-center gap-3 flex-wrap bg-white rounded-md px-4 py-3 animate-fade shadow">
             <div className="flex-1">
                 <Link 
                     to={`/proyectos/${ project._id }`} 

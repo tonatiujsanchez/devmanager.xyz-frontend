@@ -3,9 +3,8 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { isAxiosError } from "axios"
 import { clientAxios } from "../../config"
 
-import { addNewProject, addTasksOfProject, editProject, refreshProjects } from "./"
+import { addNewProject, addTasksOfProject, deleteProject, editProject, refreshProjects } from "./"
 import { IRootState } from "../store"
-
 
 
 interface StartRefreshNotesParams {
@@ -38,9 +37,9 @@ interface StartAddNewProjectParams {
     client      : string
 }
 export const startAddNewProject = ({ name, description, deliveryDate, client }:StartAddNewProjectParams) => {
-
+    
     return async( dispatch:Dispatch, getState:()=> IRootState ) => {
-
+        
         const { projects } = getState().data
 
         try {
@@ -51,7 +50,7 @@ export const startAddNewProject = ({ name, description, deliveryDate, client }:S
             if( projects.page >= 1 ){
                 dispatch( addNewProject(data) )
             }
-            
+
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
@@ -86,6 +85,25 @@ export const startEditProject = ({ _id, name, description, deliveryDate, client 
             }
         }
     }
+}
+
+
+interface StartRemoveProjectParams {
+    _id: string
+}
+export const startDeleteProject = ({ _id }:StartRemoveProjectParams) => {
+    return async( dispatch:Dispatch ) => {
+        try {
+            const { data } = await clientAxios.delete(`/projects/${_id}`)
+            dispatch( deleteProject(data) )
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                console.log({msg});
+            }
+        }
+    }
+    
 }
 
 

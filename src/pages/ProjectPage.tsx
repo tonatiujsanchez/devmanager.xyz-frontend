@@ -31,12 +31,12 @@ export const ProjectPage = () => {
                         to={`/proyectos/editar/${id}`} 
                         className="flex items-center gap-1 text-slate-400 hover:text-slate-800 font-medium"
                     >
-                        <i className='bx bxs-edit' ></i> Editar
+                        <i className='bx bxs-edit' ></i> <span className="hidden sm:inline-flex">Editar</span>
                     </Link>
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: project.description }}></div>
             </div>
-            <section>
+            <section className="animate-fade">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="font-semibold text-slate-800 text-lg">Tareas del Proyecto</h2>
                     <button
@@ -49,7 +49,7 @@ export const ProjectPage = () => {
                     Tareas
                 </div>
             </section>
-            <section>
+            <section className="animate-fade">
                 <div className="flex justify-between items-center mb-3 mt-5">
                     <h2 className="font-semibold text-slate-800 text-lg">Colaboradores</h2>
                     <button

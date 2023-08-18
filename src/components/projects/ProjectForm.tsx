@@ -1,6 +1,7 @@
 import { useState, useEffect, FC } from "react"
-import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
+import { useForm } from "react-hook-form"
 
 import { IAppDispatch } from "../../store/store"
 import { startAddNewProject, startEditProject } from "../../store/data"
@@ -28,6 +29,7 @@ export const ProjectForm:FC<Props> = ({ project }) => {
     const [description, setDescription] = useState('')
 
     const dispatch:IAppDispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { register, handleSubmit, reset, formState:{ errors, isSubmitted }, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
         defaultValues: {
@@ -82,7 +84,7 @@ export const ProjectForm:FC<Props> = ({ project }) => {
         }else {
             await dispatch( startAddNewProject(data) )   
         }
-        setLoading(false)
+        navigate('/proyectos')
     }
 
     return (

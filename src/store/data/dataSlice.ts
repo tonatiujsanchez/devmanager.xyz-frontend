@@ -41,6 +41,11 @@ export const dataSlice = createSlice({
                 return project
             })
         },
+        deleteProject: ( state, { payload }:PayloadAction<IProject> ) => {   
+            state.projects.projects = state.projects.projects.filter( project => project._id !== payload._id )
+            state.projects.count--
+            state.projects.total--
+        },
         addTasksOfProject: ( state, { payload }:PayloadAction<{ id:string, tasks: ITaskState }> ) => {
             state.projects.projects.forEach( project => {
                 if( project._id === payload.id ) {
@@ -56,5 +61,6 @@ export const {
     refreshProjects,
     addNewProject,
     editProject,
+    deleteProject,
     addTasksOfProject
 } = dataSlice.actions
