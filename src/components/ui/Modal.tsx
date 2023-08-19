@@ -22,7 +22,7 @@ export const Modal:FC<Props> = ({ children, isOpen, closeModal }) => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-black/40" />
+                    <div className="fixed inset-0 bg-black/40 z-20" />
                 </Transition.Child>
                 <Transition.Child
                     as={Fragment}
@@ -33,7 +33,7 @@ export const Modal:FC<Props> = ({ children, isOpen, closeModal }) => {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                 >
-                    <div className="fixed inset-0 flex items-center justify-center p-4">
+                    <div className="fixed inset-0 flex items-center justify-center p-4 z-20">
                         <Dialog.Panel className="bg-white max-w-[500px] rounded-md">
                             { children }
                         </Dialog.Panel>

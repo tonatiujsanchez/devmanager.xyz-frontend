@@ -9,3 +9,7 @@ export * from './projects/ProjectForm'
 export * from './projects/TextEditor'
 export * from './projects/ProjectList'
 export * from './projects/ProjectItem'
+export * from './projects/CollaboratorsSection'
+
+export * from './tasks/TaskForm'
+export * from './tasks/TasksSection'
