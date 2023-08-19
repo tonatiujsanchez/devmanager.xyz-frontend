@@ -13,7 +13,7 @@ export const NavBar = () => {
     const { name }: IAuthState = useSelector(( state: IRootState ) => state.auth)
 
     return (
-        <header className="flex justify-between items-center bg-white py-3 px-5 shadow">
+        <header className="sticky top-0 z-10 flex justify-between items-center bg-white py-3 px-5 shadow">
             <button
                 onClick={ ()=> dispatch( toggleSideMenu() ) } 
                 className="flex justify-center items-center bg-slate-100 hover:bg-slate-200 rounded-md px-1 active:scale-95"

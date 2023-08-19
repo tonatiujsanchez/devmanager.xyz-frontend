@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+
 import queryString from 'query-string'
+import { Pagination } from "@nextui-org/pagination"
 
 import { IDataState, startRefreshNotes } from '../store/data'
 import { IAppDispatch, IRootState } from '../store/store'
@@ -17,22 +19,19 @@ export const ProjectsPage = () => {
     const { projects }: IDataState = useSelector(( state: IRootState ) => state.data)
 
     const location = useLocation()
-    const { page, count } = queryString.parse(location.search)
+    const navigate = useNavigate()
+    const { page } = queryString.parse(location.search)
     
     const getProjects = async() => {
         
         let pageNum = 1
-        let countNum = 10
 
         if( page || Number(page) > 1 ){
             pageNum = Number(page)
         }
 
-        if( count && Number(count) >= 1 ){
-            countNum = Number(count)
-        }
         setLoading(true)
-        await dispatch( startRefreshNotes({ page:pageNum, count: countNum }) )
+        await dispatch( startRefreshNotes({ page:pageNum }) )
         setLoading(false)
     }
 
@@ -41,8 +40,19 @@ export const ProjectsPage = () => {
         if(projects.projects.length === 0){
             getProjects()
         }
-    },[])
+    },[projects.page])
 
+    useEffect(()=>{
+        if( projects.page > 0 ){
+            navigate(`/proyectos?page=${projects.page}`)
+        }
+    },[projects])
+
+    const onPageChange = async(newPage:number) => {
+        setLoading(true)
+        await dispatch( startRefreshNotes({ page:newPage }) )
+        setLoading(false)
+    }
 
 
     return (
@@ -69,8 +79,15 @@ export const ProjectsPage = () => {
                         <LoadingMain />
                     </div>  
                 ):(
-                    <section>
+                    <section className="z-0">
                         <ProjectList projects={ projects.projects } />
+                        <div className="mb-5 sm:mb-10 mt-5 sm:px-5">
+                            <Pagination
+                                total={projects.totalPages}
+                                page={projects.page}
+                                onChange={onPageChange}
+                            />
+                        </div>
                     </section>
                 )
             }

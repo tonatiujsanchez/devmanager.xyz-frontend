@@ -13,82 +13,87 @@ export const SideBar = () => {
     const { pathname } = useLocation()
     
     return (
-        <div className={`absolute left-0 top-0 bottom-0 sm:relative z-10 min-h-screen py-4 bg-slate-800 transition-all duration-500 ${toggleSideMenu ? 'w-[260px] translate-x-0 sm:w-[300px]':'w-[270px] -translate-x-full sm:translate-x-0 sm:w-[60px]'} animate-fade`}>
-            
-            <nav className={`absolute top-0 bottom-0 h-full group flex flex-col bg-slate-800 py-4 px-1 transition-all duration-500 overflow-hidden z-20 ${toggleSideMenu ? 'sm:w-[240px]':'w-[252px] sm:w-[60px] sm:hover:w-[240px]'}`}>
-                <div className="flex items-center gap-2">
-                    <Link 
-                        to={"/proyectos"} 
-                        className="flex gap-5 text-white text-lg p-2 rounded-md"
-                    >
-                        ⚡ <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>UpTask</span>
-                    </Link>
-                    <button
-                        onClick={ ()=> dispatch( startToggleSideMenu() ) } 
-                        className="flex sm:hidden justify-center items-center bg-slate-700 hover:bg-slate-600 rounded-md px-1 active:scale-95"
-                    >
-                        <i className='bx bx-x text-2xl'></i>
-                    </button>
-                </div>
-                <ul className="flex-1 mt-16 flex flex-col gap-1">
-                    <li>
-                        <Link 
-                            to={"/proyectos/nuevo-proyecto"} 
-                            className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/nuevo-proyecto' ? 'bg-slate-700':'' }`}
-                        >
-                            <i className="bx bxs-plus-square text-lg text-slate-400"></i> 
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Nuevo proyecto</span>
-                        </Link>
-                    </li>
-                    <li>
+        <>
+            <div className={`relative z-30 min-h-screen ${toggleSideMenu ? 'translate-x-0 sm:w-[290px]':' -translate-x-full sm:translate-x-0 sm:w-[60px]'}`}></div>
+
+            <div className={`fixed left-0 top-0 bottom-0 z-30 min-h-screen py-4 bg-slate-800 transition-all duration-500 ${toggleSideMenu ? 'w-[260px] translate-x-0 sm:w-[240px]':'w-[270px] -translate-x-full sm:translate-x-0 sm:w-[60px]'} animate-fade`}>
+                
+                <nav className={`fixed top-0 bottom-0 h-full group flex flex-col bg-slate-800 py-4 px-1 transition-all duration-500 overflow-hidden z-40 ${toggleSideMenu ? 'sm:w-[240px]':'w-[252px] sm:w-[60px] sm:hover:w-[240px]'}`}>
+                    <div className="flex items-center gap-2">
                         <Link 
                             to={"/proyectos"} 
-                            className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos' ? 'bg-slate-700':'' }`}
+                            className="flex gap-5 text-white text-lg p-2 rounded-md"
                         >
-                            <i className="bx bxs-food-menu text-lg text-slate-400"></i>
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Proyectos</span>
+                            ⚡ <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>UpTask</span>
                         </Link>
-                    </li>
-                    <li>
-                        <Link 
-                            to={"/proyectos"} 
-                            className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/colaboradores' ? 'bg-slate-700':'' }`}
+                        <button
+                            onClick={ ()=> dispatch( startToggleSideMenu() ) } 
+                            className="flex sm:hidden justify-center items-center bg-slate-700 hover:bg-slate-600 rounded-md px-1 active:scale-95"
                         >
-                            <i className='bx bxs-user text-lg text-slate-400'></i>
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Colaboradores</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link 
-                            to={"/proyectos"} 
-                            className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/clientes' ? 'bg-slate-700':'' }`}
+                            <i className='bx bx-x text-2xl'></i>
+                        </button>
+                    </div>
+                    <ul className="flex-1 mt-16 flex flex-col gap-1">
+                        <li>
+                            <Link 
+                                to={"/proyectos/nuevo-proyecto"} 
+                                className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/nuevo-proyecto' ? 'bg-slate-700':'' }`}
+                            >
+                                <i className="bx bxs-plus-square text-lg text-slate-400"></i> 
+                                <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Nuevo proyecto</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link 
+                                to={"/proyectos"} 
+                                className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos' ? 'bg-slate-700':'' }`}
+                            >
+                                <i className="bx bxs-food-menu text-lg text-slate-400"></i>
+                                <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Proyectos</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link 
+                                to={"/proyectos"} 
+                                className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/colaboradores' ? 'bg-slate-700':'' }`}
+                            >
+                                <i className='bx bxs-user text-lg text-slate-400'></i>
+                                <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Colaboradores</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link 
+                                to={"/proyectos"} 
+                                className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/clientes' ? 'bg-slate-700':'' }`}
+                            >
+                                <i className='bx bxs-user-account text-lg text-slate-400'></i>
+                                <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Clientes</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link 
+                                to={"/proyectos"} 
+                                className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
+                            >
+                                <i className='bx bxs-search text-lg text-slate-400'></i>
+                                <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Buscar proyecto</span>
+                            </Link>
+                        </li>
+                    </ul>
+                    <div className="border-t border-t-slate-700 py-2">
+                        <button
+                            onClick={ ()=> dispatch( startLogout() ) } 
+                            className="flex items-center w-full gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 mb-2"
                         >
-                            <i className='bx bxs-user-account text-lg text-slate-400'></i>
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Clientes</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link 
-                            to={"/proyectos"} 
-                            className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
-                        >
-                            <i className='bx bxs-search text-lg text-slate-400'></i>
-                            <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Buscar proyecto</span>
-                        </Link>
-                    </li>
-                </ul>
-                <div className="border-t border-t-slate-700 py-2">
-                    <button
-                        onClick={ ()=> dispatch( startLogout() ) } 
-                        className="flex items-center w-full gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 mb-2"
-                    >
-                        <i className='bx bx-log-out text-lg'></i>
-                        <span className={`text-left min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>
-                            Cerrar Sesión
-                        </span>
-                    </button>
-                </div>
-            </nav>
-        </div>
+                            <i className='bx bx-log-out text-lg'></i>
+                            <span className={`text-left min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>
+                                Cerrar Sesión
+                            </span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+
+        </>
     )
 }

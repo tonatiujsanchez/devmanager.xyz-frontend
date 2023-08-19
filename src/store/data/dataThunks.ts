@@ -8,10 +8,10 @@ import { IRootState } from "../store"
 
 
 interface StartRefreshNotesParams {
-    page: number
-    count: number
+    page  : number
+    count?: number
 }
-export const startRefreshNotes = ({ page, count }:StartRefreshNotesParams ) => {
+export const startRefreshNotes = ({ page, count=6 }:StartRefreshNotesParams ) => {
 
     return async( dispatch:Dispatch ) => {
 

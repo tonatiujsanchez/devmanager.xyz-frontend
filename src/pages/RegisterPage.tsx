@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { isAxiosError } from 'axios';
 
-import { clientAxios } from '../config';
-import { validators } from '../helpers';
+import { clientAxios } from '../config'
+import { validators } from '../helpers'
 
 
 interface IUser {
