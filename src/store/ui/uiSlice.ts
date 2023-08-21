@@ -8,7 +8,7 @@ export interface IUiState {
 export const uiSlice = createSlice({
     name: 'ui',
     initialState: {
-        toggleSideMenu: false
+        toggleSideMenu: true
     } as IUiState,
     reducers: {
         toggleSideMenu: ( state )=>{

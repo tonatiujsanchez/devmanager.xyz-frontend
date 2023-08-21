@@ -4,8 +4,7 @@ import { toggleSideMenu } from './uiSlice';
 
 
 export const startToggleSideMenu = ()=> {
-    return async( dispatch:Dispatch ) => {
-
+    return ( dispatch:Dispatch ) => {
         dispatch( toggleSideMenu() )
     }
 }

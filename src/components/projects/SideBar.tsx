@@ -14,7 +14,7 @@ export const SideBar = () => {
     
     return (
         <>
-            <div className={`relative z-30 min-h-screen ${toggleSideMenu ? 'translate-x-0 sm:w-[290px]':' -translate-x-full sm:translate-x-0 sm:w-[60px]'}`}></div>
+            <div className={`relative z-30 min-h-screen ${toggleSideMenu ? 'translate-x-0 sm:min-w-[240px]':' -translate-x-full sm:translate-x-0 sm:w-[60px]'}`}></div>
 
             <div className={`fixed left-0 top-0 bottom-0 z-30 min-h-screen py-4 bg-slate-800 transition-all duration-500 ${toggleSideMenu ? 'w-[260px] translate-x-0 sm:w-[240px]':'w-[270px] -translate-x-full sm:translate-x-0 sm:w-[60px]'} animate-fade`}>
                 
