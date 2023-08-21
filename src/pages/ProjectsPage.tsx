@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import queryString from 'query-string'
 import { Pagination } from "@nextui-org/pagination"
 
-import { IDataState, startRefreshNotes } from '../store/data'
+import { IDataState, startRefreshProjects } from '../store/data'
 import { IAppDispatch, IRootState } from '../store/store'
 
 import { LoadingMain, ProjectList } from '../components'
+import { IAuthState } from '../store/auth'
 
 
 export const ProjectsPage = () => {
@@ -17,6 +18,7 @@ export const ProjectsPage = () => {
 
     const dispatch:IAppDispatch = useDispatch()
     const { projects }: IDataState = useSelector(( state: IRootState ) => state.data)
+    const { _id:idUser }: IAuthState = useSelector(( state: IRootState ) => state.auth)
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -24,6 +26,10 @@ export const ProjectsPage = () => {
     
     const getProjects = async() => {
         
+        if( !idUser ){
+            return
+        }
+
         let pageNum = 1
 
         if( page || Number(page) > 1 ){
@@ -31,7 +37,7 @@ export const ProjectsPage = () => {
         }
 
         setLoading(true)
-        await dispatch( startRefreshNotes({ page:pageNum }) )
+        await dispatch( startRefreshProjects({ page:pageNum }) )
         setLoading(false)
     }
 
@@ -40,17 +46,17 @@ export const ProjectsPage = () => {
         if(projects.projects.length === 0){
             getProjects()
         }
-    },[projects.page])
+    },[projects.page, idUser])
 
     useEffect(()=>{
         if( projects.page > 0 ){
-            navigate(`/proyectos?page=${projects.page}`)
+            navigate(`?page=${projects.page}`)
         }
     },[projects])
 
     const onPageChange = async(newPage:number) => {
         setLoading(true)
-        await dispatch( startRefreshNotes({ page:newPage }) )
+        await dispatch( startRefreshProjects({ page:newPage }) )
         setLoading(false)
     }
 

@@ -3,12 +3,22 @@ import axios from "axios"
 import { getSessionToken } from "../helpers"
 
 
-const { token } = getSessionToken()
 
-export const clientAxios = axios.create({
+const clientAxios = axios.create({
     baseURL: `${import.meta.env.VITE_API_URL}/api`,
-    headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-    },
 })
+
+
+clientAxios.interceptors.request.use( ( config )=> {
+
+    const { token } = getSessionToken()
+
+    config.headers['Authorization'] = `Bearer ${token}`
+    config.headers['Content-Type'] = 'application/json'
+
+    return config
+})
+
+export {
+    clientAxios
+}

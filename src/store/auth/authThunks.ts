@@ -20,7 +20,7 @@ export const startUserWithEmailAndPassword = ({ email, password, remindMe }:Star
                 email, password
             })
             
-            setSessionToken( data.token, remindMe )
+            await setSessionToken( data.token, remindMe )
 
             dispatch( login( data.user ) )
 

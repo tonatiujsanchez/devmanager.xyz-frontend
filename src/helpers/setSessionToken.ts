@@ -2,7 +2,7 @@
 
 
 
-export const setSessionToken = (token:string, remindme:boolean) => {
+export const setSessionToken = async(token:string, remindme:boolean) => {
     
     if( remindme ){
         localStorage.setItem('uptask_session', token)

@@ -6,15 +6,13 @@ import { clientAxios } from "../../config"
 import { addNewProject, addTasksOfProject, deleteProject, editProject, refreshProjects } from "./"
 import { IRootState } from "../store"
 
-
 interface StartRefreshNotesParams {
     page  : number
     count?: number
 }
-export const startRefreshNotes = ({ page, count=6 }:StartRefreshNotesParams ) => {
+export const startRefreshProjects = ({ page, count=6 }:StartRefreshNotesParams ) => {
 
     return async( dispatch:Dispatch ) => {
-
         try {
             const { data } = await clientAxios.get(`/projects?page=${page}&count=${count}`)
             dispatch( refreshProjects( data ) )

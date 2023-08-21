@@ -34,7 +34,7 @@ export const LoginPage = () => {
     const onLoginSubmit = async( { email, password }: FormData ) => {
         setLoading(true)
         await dispatch( startUserWithEmailAndPassword({ email, password, remindMe }) )
-        setLoading(false)
+        setLoading(false)        
     }
     
     
