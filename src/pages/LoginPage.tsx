@@ -18,7 +18,7 @@ interface FormData {
 export const LoginPage = () => {
 
     const [loading, setLoading] = useState(false)
-    const [remindMe, setRemindMe] = useState(false)
+    const [remindMe, setRemindMe] = useState(true)
 
     const dispatch:IAppDispatch = useDispatch()
     const { errorMsg }: IAuthState = useSelector(( state: IRootState ) => state.auth)

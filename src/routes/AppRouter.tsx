@@ -27,7 +27,7 @@ export const AppRouter = () => {
                 ?<Route path="/proyectos/*" element={<ProjectsRoutes />} />
                 :<Route path="/*" element={<AuthRoutes />} />
             }
-            <Route path="/*" element={ <Navigate to="/proyectos/*"/> } />           
+            <Route path="*" element={ <Navigate to="/proyectos/*"/> } />           
         </Routes>
     )
 }
