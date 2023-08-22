@@ -5,17 +5,14 @@ import { isAxiosError } from 'axios'
 import { clientAxios } from '../config'
 
 import { IAppDispatch, IRootState } from '../store/store'
-import { IDataState, startGetTasks} from '../store/data'
-
-import { IProject } from '../interfaces'
-
+import { IDataState, startSetProjectActive, startGetTasks, startCleanProjectActive} from '../store/data'
 
 export const useGetProject = ( id:string ) => {
     
     const [loading, setLoading] = useState(true)
-    const [project, setProject] = useState<IProject>()
+
     
-    const { projects:{ projects } }:IDataState = useSelector((state:IRootState)=> state.data)
+    const { projects:{ projects }, projectActive }:IDataState = useSelector((state:IRootState)=> state.data)
     const dispatch:IAppDispatch = useDispatch()
 
     
@@ -24,11 +21,13 @@ export const useGetProject = ( id:string ) => {
         const projectFind = projects.find( project => project._id === id ) 
     
         if( projectFind && !projectFind.tasks ){
+            dispatch(startSetProjectActive({ project: projectFind}))
             dispatch( startGetTasks({ id, page:1, count: 15 }) )
+            return setLoading(false)
         }
 
         if( projectFind ){
-            setProject( projectFind )
+            dispatch(startSetProjectActive({ project: projectFind}))
             return setLoading(false)
         }
     
@@ -38,8 +37,11 @@ export const useGetProject = ( id:string ) => {
                 clientAxios.get(`/projects/tasks/${id}?page=1&count=15`)
             ])
 
-            setProject({...data, tasks})
+            const project = { ...data, tasks }
+            
+            dispatch( startSetProjectActive({ project }) )
             setLoading(false)
+
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
@@ -51,11 +53,15 @@ export const useGetProject = ( id:string ) => {
     
     useEffect(()=>{
         getProject()
+
+        return () => {
+            dispatch(startCleanProjectActive())
+        }
     },[id])
 
 
     return {
-        project,
+        project: projectActive,
         loading
     }
 }

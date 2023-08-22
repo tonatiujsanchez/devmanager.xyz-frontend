@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IProject, IProjectsState, ITaskState } from "../../interfaces";
+import { IProject, IProjectsState, ITask, ITaskState } from "../../interfaces";
 
 
 
@@ -11,6 +11,7 @@ export interface IDataState {
         totalPages: number
         projects  : IProject[]
     },
+    projectActive: IProject | null
 }
 
 export const dataSlice = createSlice({
@@ -23,6 +24,7 @@ export const dataSlice = createSlice({
             totalPages: 0,
             projects: []
         },
+        projectActive: null
     } as IDataState,
     reducers: {
         refreshProjects: ( state, { payload }:PayloadAction<IProjectsState> ) => {
@@ -46,13 +48,39 @@ export const dataSlice = createSlice({
             state.projects.count--
             state.projects.total--
         },
+
+        setProjectActive: ( state, { payload }:PayloadAction<IProject | null> ) => {
+            state.projectActive = payload
+        },
+
         addTasksOfProject: ( state, { payload }:PayloadAction<{ id:string, tasks: ITaskState }> ) => {
             state.projects.projects.forEach( project => {
                 if( project._id === payload.id ) {
                     project.tasks = payload.tasks
                 }
             })
-        }
+        },
+        addTasksOfProjectActive: ( state, { payload }:PayloadAction<{ tasks:ITaskState }> ) => {
+            if(state.projectActive){
+                state.projectActive.tasks = payload.tasks
+            }    
+        },
+        addNewTask: ( state, { payload }:PayloadAction<{ idProject: string, task: ITask }> ) => {   
+            state.projects.projects.forEach(project => {
+                if(project._id === payload.idProject){
+                    project.tasks.tasks.unshift(payload.task)
+                    project.tasks.count++
+                    project.tasks.total++
+                }
+            })
+        },
+        addNewTaskOfProjectActive: ( state, { payload }:PayloadAction<{ task: ITask }> ) => {
+            if(state.projectActive){
+                state.projectActive.tasks.tasks.unshift(payload.task)
+                state.projectActive.tasks.count++
+                state.projectActive.tasks.total++
+            }
+        },
     }
 })
 
@@ -62,5 +90,9 @@ export const {
     addNewProject,
     editProject,
     deleteProject,
-    addTasksOfProject
+    setProjectActive,
+    addTasksOfProject,
+    addTasksOfProjectActive,
+    addNewTask,
+    addNewTaskOfProjectActive
 } = dataSlice.actions

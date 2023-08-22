@@ -3,12 +3,12 @@ import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 
 interface Option {
-    key: string,
+    key  : string,
     value: string
 }
 
 interface Props {
-    optionKey : string
+    optionKey: string
     options  : Option[]
     setOption: ( value:string ) => void
 }

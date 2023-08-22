@@ -55,8 +55,6 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
     }
 
     const onChangePriority = ( value:string ) => {
-
-        console.log(value)
         setValue('priority', value, { shouldValidate: true })
     }
 
@@ -176,7 +174,7 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
                 <button
                     type="submit"
                     disabled={ loading }
-                    className="flex justify-center py-2 mt-1 bg-slate-800 hover:bg-slate-900 disabled:bg-slate-600 text-white font-medium uppercase rounded-md"
+                    className="flex justify-center py-2 mt-1 bg-slate-800 hover:bg-slate-900 disabled:bg-slate-600 text-white font-medium uppercase rounded-md active:scale-[0.98]"
                 >
                     {
                         loading
