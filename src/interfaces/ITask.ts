@@ -19,3 +19,9 @@ export interface ITask {
 
 
 export type PriorityTask = 'low' | 'medium' | 'high'
+
+
+export interface OptionPriorityTask {
+    key: PriorityTask,
+    value: string
+}

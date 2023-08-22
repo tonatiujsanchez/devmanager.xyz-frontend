@@ -1,21 +1,24 @@
 import { FC, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form"
 
-import { ITask, PriorityTask } from "../../interfaces"
-import { TextEditor } from ".."
+import { tasksOptions } from '../../constants'
+import { Select, TextEditor } from ".."
+
+import { ITask } from "../../interfaces"
 
 
 interface IFormData {
-    name: string
-    description: string
+    name        : string
+    description : string
     deliveryDate: string
-    priority: PriorityTask
+    priority    : string
 }
 
 interface Props {
     task?: ITask
     onCloseModal: () => void
 }
+
 export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
 
     const [loading, setLoading] = useState(false)
@@ -49,15 +52,22 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
     
     const onDescriptionChange = ( content:string ) => {
         setDescription(content)
-    } 
+    }
+
+    const onChangePriority = ( value:string ) => {
+
+        console.log(value)
+        setValue('priority', value, { shouldValidate: true })
+    }
 
 
 
-    const onSubmitProject = async () => {
+    const onSubmitProject = async ( data:IFormData ) => {
         if( description.trim() === '' ){ return }
 
         setLoading(true)
         // TODO: 
+        console.log(data)
         setLoading(false)
 
 
@@ -116,6 +126,7 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
                         placeholder="Hacer el diseño del proyecto en Figma"
                         content={ getValues('description') }
                         onChangeContent={ onDescriptionChange }
+                        height="h-40"
                     />
                     {
                         !!errors.description &&
@@ -156,7 +167,11 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
                     >
                         Prioridad
                     </label>
-
+                    <Select
+                        optionKey={ getValues('priority') }
+                        options={ tasksOptions }
+                        setOption={ onChangePriority }
+                    />
                 </div>
                 <button
                     type="submit"

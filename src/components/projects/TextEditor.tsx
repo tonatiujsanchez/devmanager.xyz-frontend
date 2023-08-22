@@ -17,11 +17,12 @@ const formats = [
 
 interface Props {
     placeholder: string
-    content?: string
+    content?   : string
     onChangeContent: (content: string) => void
+    height?    :string
 }
 
-export const TextEditor: FC<Props> = ({ placeholder, content, onChangeContent }) => {
+export const TextEditor: FC<Props> = ({ placeholder, content, onChangeContent, height }) => {
     
     const { quill, quillRef } = useQuill({ modules, formats, placeholder })
     
@@ -46,7 +47,7 @@ export const TextEditor: FC<Props> = ({ placeholder, content, onChangeContent })
     },[quill])
 
     return (
-        <div className="editor-container rounded-md h-52 pb-12 hover:outline hover:outline-2 hover:outline-slate-950">
+        <div className={`editor-container rounded-md ${ height ? height :'h-52' } pb-12 hover:outline hover:outline-2 hover:outline-slate-950`}>
             <div id="toolbar">
                 <button className="ql-bold" />
                 <button className="ql-italic" />
