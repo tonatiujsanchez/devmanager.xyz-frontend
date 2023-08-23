@@ -158,23 +158,24 @@ interface StartAddNewTaskParams {
     description : string
     deliveryDate: string 
     priority    : string
-    idProject   : string
 }
-export const startAddNewTask = ({ name, description, deliveryDate, priority, idProject }:StartAddNewTaskParams) => {
+export const startAddNewTask = ({ name, description, deliveryDate, priority }:StartAddNewTaskParams) => {
     return async( dispatch:Dispatch, getState:()=> IRootState ) => {
         
-        const { projects } = getState().data
+        const { projects, projectActive } = getState().data
+
+        if(!projectActive?._id){ return }
 
         try {
             const { data } = await clientAxios.post(`/tasks`,{
-                name, description, deliveryDate, priority, project:idProject
+                name, description, deliveryDate, priority, project:projectActive._id
             })
             
-            if( projects.page >= 1 ){
-                dispatch( addNewTask({ task:data, idProject }) )
+            if( projects.projects.length > 0 ){
+                dispatch( addNewTask({ task:data, idProject:projectActive._id }) )
             }
 
-            dispatch(addNewTaskOfProjectActive({ task:data }))
+            dispatch(addNewTaskOfProjectActive({ task:data }))            
 
         } catch (error) {
             if(isAxiosError(error)){

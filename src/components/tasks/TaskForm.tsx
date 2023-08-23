@@ -1,10 +1,13 @@
 import { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux'
 import { useForm } from "react-hook-form"
 
+import { IAppDispatch } from '../../store/store'
 import { tasksOptions } from '../../constants'
 import { Select, TextEditor } from ".."
 
 import { ITask } from "../../interfaces"
+import { startAddNewTask } from '../../store/data';
 
 
 interface IFormData {
@@ -23,6 +26,8 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
 
     const [loading, setLoading] = useState(false)
     const [description, setDescription] = useState('')
+
+    const dispatch:IAppDispatch = useDispatch()
 
 
     const { register, handleSubmit, formState:{ errors, isSubmitted }, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
@@ -64,8 +69,7 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
         if( description.trim() === '' ){ return }
 
         setLoading(true)
-        // TODO: 
-        console.log(data)
+        dispatch( startAddNewTask(data) )
         setLoading(false)
 
 
