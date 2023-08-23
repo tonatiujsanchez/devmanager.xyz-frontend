@@ -1,7 +1,7 @@
 import { FC } from "react"
 
 import { tasksOptions } from "../../constants"
-import { getSelectValueOption } from "../../helpers"
+import { dateFormat, getSelectValueOption } from "../../helpers"
 
 import { ITask } from "../../interfaces"
 
@@ -24,9 +24,14 @@ export const TaskItem:FC<Props> = ({ task }) => {
                 className="text-slate-600 text-[0.9rem]"
             >
             </div>
-            <p className="text-slate-600 text-[0.9rem]"><span className="underline">Entrega:</span> { JSON.stringify(task.deliveryDate) }</p>
-            <p className="text-slate-600 text-[0.9rem] flex items-center gap-2">
-                Prioridad: 
+            <p className="text-slate-600 text-[0.9rem] flex items-center gap-1">
+                <span className="underline font-semibold text-slate-700">Entrega:</span> 
+                { dateFormat(task.deliveryDate) }
+            </p>
+            <p className="flex items-center gap-2">
+                <span className="text-slate-700 text-[0.9rem] font-semibold">
+                    Prioridad:
+                </span>
                 <span 
                     className={`${ classBgPriority[task.priority] } text-[0.8rem] font-medium text-white px-2 rounded-lg`}
                 >
