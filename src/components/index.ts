@@ -14,3 +14,5 @@ export * from './projects/CollaboratorsSection'
 
 export * from './tasks/TaskForm'
 export * from './tasks/TasksSection'
+export * from './tasks/TaskList'
+export * from './tasks/TaskItem'

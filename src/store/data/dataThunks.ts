@@ -126,11 +126,11 @@ export const startCleanProjectActive = () => {
 // ===== ===== ===== ===== TASKS ===== ===== ===== =====
 
 interface StartGetTasksParams {
-    id   : string
-    page : number
-    count: number
+    id    : string
+    page  : number
+    count?: number
 }
-export const startGetTasks = ({ id, page, count }:StartGetTasksParams) => {
+export const startGetTasks = ({ id, page, count=15 }:StartGetTasksParams) => {
     return async( dispatch:Dispatch, getState:()=> IRootState ) => {
         
         const { projectActive } = getState().data
@@ -171,12 +171,11 @@ export const startAddNewTask = ({ name, description, deliveryDate, priority }:St
                 name, description, deliveryDate, priority, project:projectActive._id
             })
             
+            dispatch(addNewTaskOfProjectActive({ task:data }))            
+
             if( projects.projects.length > 0 ){
                 dispatch( addNewTask({ task:data, idProject:projectActive._id }) )
             }
-
-            dispatch(addNewTaskOfProjectActive({ task:data }))            
-
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }

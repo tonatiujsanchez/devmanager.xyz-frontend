@@ -9,8 +9,8 @@ import { IDataState, startSetProjectActive, startGetTasks, startCleanProjectActi
 
 export const useGetProject = ( id:string ) => {
     
-    const [loading, setLoading] = useState(true)
-
+    const [loading, setLoading] = useState<boolean>(true)
+    const [loadingTasks, setLoadingTasks] = useState<boolean>(true)
     
     const { projects:{ projects }, projectActive }:IDataState = useSelector((state:IRootState)=> state.data)
     const dispatch:IAppDispatch = useDispatch()
@@ -21,14 +21,18 @@ export const useGetProject = ( id:string ) => {
         const projectFind = projects.find( project => project._id === id ) 
     
         if( projectFind && !projectFind.tasks ){
+            
             dispatch(startSetProjectActive({ project: projectFind}))
-            dispatch( startGetTasks({ id, page:1, count: 15 }) )
-            return setLoading(false)
+            setLoading(false)
+
+            await dispatch( startGetTasks({ id, page:1 }) )
+            return setLoadingTasks(false)
         }
 
         if( projectFind ){
             dispatch(startSetProjectActive({ project: projectFind}))
-            return setLoading(false)
+            setLoading(false)
+            return setLoadingTasks(false)
         }
     
         try {
@@ -41,12 +45,14 @@ export const useGetProject = ( id:string ) => {
             
             dispatch( startSetProjectActive({ project }) )
             setLoading(false)
+            setLoadingTasks(false)
 
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
                 console.log({msg});
             } 
+            setLoadingTasks(false)
             setLoading(false)
         }
     }
@@ -62,6 +68,7 @@ export const useGetProject = ( id:string ) => {
 
     return {
         project: projectActive,
-        loading
+        loading,
+        loadingTasks
     }
 }

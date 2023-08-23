@@ -1,20 +1,22 @@
 import { FC, useState } from 'react'
-import { IProject } from "../../interfaces"
-import { Modal, TaskForm } from '..'
+import { ITaskState } from "../../interfaces"
+import { Modal, TaskForm, TaskList } from '..'
 
 
 interface Props {
-    project?: IProject
+    projectTasks: ITaskState
+    loadingTasks: boolean
 }
-export const TasksSection: FC<Props> = () => {
+export const TasksSection: FC<Props> = ({ projectTasks, loadingTasks }) => {
 
+    
     const [openFormTask, setOpenFormTask] = useState(false)
 
     const onCloseModal = () => {
         setOpenFormTask(false)
     }
 
-
+    
     return (
         <>
             <section className="animate-fade">
@@ -28,7 +30,16 @@ export const TasksSection: FC<Props> = () => {
                     </button>
                 </div>
                 <div className="bg-white rounded-md p-4">
-                    Tareas
+                    {
+                        loadingTasks
+                        ?(
+                            <p className="text-center">Cargando...</p>
+                        ):(
+                            <TaskList
+                                projectTasks={ projectTasks }
+                            />
+                        )
+                    }
                 </div>
             </section>
             <Modal

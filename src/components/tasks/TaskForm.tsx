@@ -69,7 +69,7 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
         if( description.trim() === '' ){ return }
 
         setLoading(true)
-        dispatch( startAddNewTask(data) )
+        await dispatch( startAddNewTask(data) )
         setLoading(false)
 
 

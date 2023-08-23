@@ -7,7 +7,7 @@ import { CollaboratorsSection, LoadingMain, TasksSection } from "../components"
 export const ProjectPage = () => {
 
     const { id } = useParams() as { id: string }    
-    const { project, loading } = useGetProject(id)
+    const { project, loading, loadingTasks } = useGetProject(id)
 
     
     if(loading){
@@ -36,7 +36,10 @@ export const ProjectPage = () => {
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: project.description }}></div>
             </div>
-            <TasksSection />
+            <TasksSection
+                projectTasks={ project.tasks }
+                loadingTasks={ loadingTasks }
+            />
             <CollaboratorsSection />
         </div>
     )

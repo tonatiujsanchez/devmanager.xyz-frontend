@@ -1,31 +1,24 @@
-import { FC } from "react"
-import { Fragment, useState } from 'react'
+import { Fragment, useState, FC } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 
-interface Option {
-    key  : string,
-    value: string
-}
+import { getSelectValueOption } from '../../helpers'
+import { IOptionSelect } from "../../interfaces"
+
 
 interface Props {
     optionKey: string
-    options  : Option[]
+    options  : IOptionSelect[]
     setOption: ( value:string ) => void
-}
-
-
-const getValue = (options:Option[], optionKey:string):string => {
-    return options.find( option => option.key === optionKey )?.value || options[0].value
 }
 
 export const Select: FC<Props> = ({ optionKey, options, setOption }) => {
 
     const [selected, setSelected] = useState<string>( optionKey )
-    const [selectedValue, setSelectedValue] = useState(getValue( options, optionKey ))
+    const [selectedValue, setSelectedValue] = useState(getSelectValueOption( options, optionKey ))
     
     const onChangeOption = ( value:string ) => {
         setSelected(value)
-        setSelectedValue(getValue( options, value ))        
+        setSelectedValue(getSelectValueOption( options, value ))        
         setOption(value)
     }
 
