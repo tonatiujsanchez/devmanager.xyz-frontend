@@ -73,7 +73,7 @@ export const EditProjectPage = () => {
             >
                 <ModalDelete
                     title={`Eliminar proyecto`}
-                    subtitle={`Deseas eliminar el proyecto "${ project.name }"`}
+                    subtitle={`¿Deseas eliminar el proyecto "${ project.name }"?`}
                     processing={loadingDelete}
                     onResult={onDeleteProject}
                 />

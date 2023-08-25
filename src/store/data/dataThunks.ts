@@ -3,7 +3,21 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { isAxiosError } from "axios"
 import { clientAxios } from "../../config"
 
-import { addNewProject, addNewTask, addNewTaskOfProjectActive, addTasksOfProject, addTasksOfProjectActive, deleteProject, editProject, editTask, refreshProjects, setProjectActive, setTaskEdit } from "./"
+import { 
+    addNewProject,
+    addNewTask,
+    addNewTaskOfProjectActive,
+    addTasksOfProject,
+    addTasksOfProjectActive,
+    deleteProject,
+    deleteTask,
+    editProject,
+    editTask,
+    refreshProjects,
+    setProjectActive,
+    setTaskEdit 
+} from "./"
+
 import { IRootState } from "../store"
 
 import { IProject, ITask } from "../../interfaces"
@@ -239,3 +253,23 @@ export const startEditTask = ({ _id, name, description, deliveryDate, priority }
     }
 }
 
+
+interface StartDeleteTaskParams {
+    _id: string
+}
+export const startDeleteTask = ({ _id }:StartDeleteTaskParams) => {
+    return async( dispatch:Dispatch ) => {
+
+        try {
+            const { data } = await clientAxios.delete(`/tasks/${_id}`)
+
+            dispatch( deleteTask(data) )
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                console.log({msg});
+            }
+        }
+    }
+    
+}

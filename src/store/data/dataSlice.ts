@@ -99,6 +99,23 @@ export const dataSlice = createSlice({
                 }
             }
         },
+        deleteTask: ( state, { payload }:PayloadAction<ITask> ) => {   
+            state.projectActive!.tasks.tasks  = state.projectActive!.tasks.tasks.filter( task => task._id !== payload._id )
+            state.projectActive!.tasks.count--
+            state.projectActive!.tasks.total--
+
+            if( state.projects.projects.length > 0 ){
+                state.projects = {
+                    ...state.projects,
+                    projects: state.projects.projects.map( project => {
+                        if( state.projectActive?._id === project._id ){
+                            return state.projectActive!
+                        }
+                        return project
+                    })                    
+                }
+            }
+        },
         addNewTaskOfProjectActive: ( state, { payload }:PayloadAction<{ task: ITask }> ) => {
             if(state.projectActive){
                 state.projectActive.tasks.tasks.push(payload.task)
@@ -125,6 +142,7 @@ export const {
     addTasksOfProjectActive,
     addNewTask,
     editTask,
+    deleteTask,
 
     addNewTaskOfProjectActive,
     setTaskEdit
