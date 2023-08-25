@@ -7,7 +7,7 @@ import { tasksOptions } from '../../constants'
 import { Select, TextEditor } from ".."
 
 import { ITask } from "../../interfaces"
-import { startAddNewTask } from '../../store/data';
+import { startAddNewTask, startCleanTaskEdit, startEditTask } from '../../store/data';
 
 
 interface IFormData {
@@ -18,7 +18,7 @@ interface IFormData {
 }
 
 interface Props {
-    task?: ITask
+    task: ITask | null
     onCloseModal: () => void
 }
 
@@ -30,7 +30,7 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
     const dispatch:IAppDispatch = useDispatch()
 
 
-    const { register, handleSubmit, formState:{ errors, isSubmitted }, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
+    const { register, handleSubmit, formState:{ errors, isSubmitted }, reset, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
         defaultValues: {
             name: '',
             description: '',
@@ -38,6 +38,24 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
             priority: 'medium'
         }
     })
+
+    useEffect(() => {
+        if( task ){
+            reset({
+                name        : task.name,
+                deliveryDate: String(task.deliveryDate).split('T')[0],
+                priority    : task.priority
+            })
+            setDescription(task.description)            
+        }
+    
+        return () => {
+            if(task){
+                dispatch( startCleanTaskEdit() )
+            }
+        }
+    }, [task])
+    
 
     useEffect(() => {
         if(isSubmitted) {
@@ -63,13 +81,18 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
         setValue('priority', value, { shouldValidate: true })
     }
 
-
-
     const onSubmitProject = async ( data:IFormData ) => {
         if( description.trim() === '' ){ return }
 
         setLoading(true)
-        await dispatch( startAddNewTask(data) )
+        if(task?._id){
+            await dispatch( startEditTask({
+                _id:task._id,
+                ...data
+            }))
+        }else {
+            await dispatch( startAddNewTask(data) )
+        }
         setLoading(false)
 
 
@@ -78,7 +101,7 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
     return (
         <article className="w-full sm:w-[30rem] px-5 py-2">
             <header className="flex justify-between items-center gap-5 py-2 border-b">
-                <h3 className="font-semibold leading-6 text-slate-800 text-lg">Nueva Tarea</h3>
+                <h3 className="font-semibold leading-6 text-slate-800 text-lg">{task ? 'Editar Tarea' : 'Nueva Tarea'}</h3>
                 <button
                     onClick={onCloseModal}
                     className="flex justify-center items-center bg-slate-100 hover:bg-slate-200 rounded-md h-7 w-7 active:scale-95"
@@ -170,7 +193,7 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
                         Prioridad
                     </label>
                     <Select
-                        optionKey={ getValues('priority') }
+                        optionKey={ task ? task.priority : getValues('priority') }
                         options={ tasksOptions }
                         setOption={ onChangePriority }
                     />

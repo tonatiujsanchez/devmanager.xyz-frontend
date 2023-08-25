@@ -3,10 +3,10 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { isAxiosError } from "axios"
 import { clientAxios } from "../../config"
 
-import { addNewProject, addNewTask, addNewTaskOfProjectActive, addTasksOfProject, addTasksOfProjectActive, deleteProject, editProject, refreshProjects, setProjectActive } from "./"
+import { addNewProject, addNewTask, addNewTaskOfProjectActive, addTasksOfProject, addTasksOfProjectActive, deleteProject, editProject, editTask, refreshProjects, setProjectActive, setTaskEdit } from "./"
 import { IRootState } from "../store"
 
-import { IProject } from "../../interfaces"
+import { IProject, ITask } from "../../interfaces"
 
 
 
@@ -88,6 +88,7 @@ export const startEditProject = ({ _id, name, description, deliveryDate, client 
 }
 
 
+
 interface StartRemoveProjectParams {
     _id: string
 }
@@ -108,6 +109,7 @@ export const startDeleteProject = ({ _id }:StartRemoveProjectParams) => {
 }
 
 
+
 interface StartSetProjectActive {
     project: IProject
 }
@@ -122,6 +124,8 @@ export const startCleanProjectActive = () => {
         dispatch( setProjectActive( null ) )
     }
 }
+
+
 
 // ===== ===== ===== ===== TASKS ===== ===== ===== =====
 
@@ -188,5 +192,50 @@ export const startAddNewTask = ({ name, description, deliveryDate, priority }:St
 
 
 
+interface StartSetTaskEdit {
+    task: ITask
+}
+export const startSetTaskEdit = ({ task }:StartSetTaskEdit) => {   
+    return async( dispatch:Dispatch ) => {
+        dispatch( setTaskEdit( task ) )
+    }
+}
 
+export const startCleanTaskEdit = () => {
+    return async( dispatch:Dispatch ) => {
+        dispatch( setTaskEdit( null ) )
+    }
+}
+
+
+
+interface StartEditTaskParams {
+    _id         : string
+    name        : string
+    description : string
+    deliveryDate: string 
+    priority    : string
+}
+export const startEditTask = ({ _id, name, description, deliveryDate, priority }:StartEditTaskParams) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+
+        const { projectActive } = getState().data
+
+        if(!projectActive?._id){ return }
+
+        try {
+            const { data } = await clientAxios.put(`/tasks/${_id}`,{
+                name, description, deliveryDate, priority
+            })
+            
+            dispatch( editTask({ task:data, idProject:projectActive._id }) )
+        
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                console.log({msg});
+            }
+        }
+    }
+}
 

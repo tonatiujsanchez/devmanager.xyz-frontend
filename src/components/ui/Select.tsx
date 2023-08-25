@@ -1,4 +1,4 @@
-import { Fragment, useState, FC } from 'react'
+import { Fragment, useState, FC } from 'react';
 import { Listbox, Transition } from '@headlessui/react'
 
 import { getSelectValueOption } from '../../helpers'

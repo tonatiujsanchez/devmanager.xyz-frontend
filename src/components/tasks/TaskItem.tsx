@@ -1,5 +1,9 @@
 import { FC, Fragment } from "react"
+import { useDispatch } from "react-redux"
 import { Popover, Transition } from '@headlessui/react'
+
+import { startSetTaskEdit } from "../../store/data"
+import { IAppDispatch } from "../../store/store"
 
 import { tasksOptions } from "../../constants"
 import { dateFormat, getSelectValueOption } from "../../helpers"
@@ -17,6 +21,14 @@ interface Props {
     task: ITask
 }
 export const TaskItem:FC<Props> = ({ task }) => {
+
+    const dispatch:IAppDispatch = useDispatch()
+
+
+    const onEditTask = () => {
+        dispatch( startSetTaskEdit({ task }) )
+    }
+
     return (
             <div className="flex flex-col sm:flex-row justify-between gap-4 border-b last-of-type:border-b-0 -z-20 py-3">
                 <div className="flex flex-col gap-1 animate-fade-down animate-duration-500">
@@ -63,7 +75,10 @@ export const TaskItem:FC<Props> = ({ task }) => {
                         >
                             <Popover.Panel className="absolute bottom-8 sm:bottom-auto right-0 sm:mt-2 z-10 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
                                 <div className="flex flex-col items-start py-2 px-2">
-                                    <button className="w-full flex items-center gap-2 px-3 py-1 transition duration-150 hover:bg-gray-100 rounded-md">
+                                    <button 
+                                        onClick={ onEditTask }
+                                        className="w-full flex items-center gap-2 px-3 py-1 transition duration-150 hover:bg-gray-100 rounded-md"
+                                    >
                                         <i className='bx bxs-edit text-blue-800' ></i>
                                         Editar
                                     </button>

@@ -1,6 +1,11 @@
-import { FC, useState } from 'react'
-import { ITaskState } from "../../interfaces"
+import { FC, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'
+
+import { IRootState } from '../../store/store'
+import { IDataState } from '../../store/data'
+
 import { Modal, TaskForm, TaskList } from '..'
+import { ITaskState } from "../../interfaces"
 
 
 interface Props {
@@ -11,10 +16,19 @@ export const TasksSection: FC<Props> = ({ projectTasks, loadingTasks }) => {
 
     
     const [openFormTask, setOpenFormTask] = useState(false)
+    const { taskEdit }:IDataState = useSelector((state:IRootState)=> state.data)
+
 
     const onCloseModal = () => {
         setOpenFormTask(false)
     }
+
+    useEffect(() => {
+        if(taskEdit) {
+            setOpenFormTask(true)
+        }
+    }, [taskEdit])
+    
 
     
     return (
@@ -48,6 +62,7 @@ export const TasksSection: FC<Props> = ({ projectTasks, loadingTasks }) => {
             >
                 <TaskForm
                     onCloseModal={onCloseModal}
+                    task={taskEdit}
                 />
             </Modal>
         </>
