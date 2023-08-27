@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { IProject } from "../../interfaces"
-import { Modal } from '..'
+import { CollaboratorAdd, Modal } from '..'
 
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 
 export const CollaboratorsSection:FC<Props> = () => {
 
-    const [openAddCollaborator, setOpenAddCollaborator] = useState(false)
+    const [openAddCollaborator, setOpenAddCollaborator] = useState(true)
     
     const onCloseModal = () => {
         setOpenAddCollaborator(false)
@@ -34,10 +34,12 @@ export const CollaboratorsSection:FC<Props> = () => {
                 </div>
             </section>
             <Modal
-                isOpen={openAddCollaborator}
-                closeModal={onCloseModal}
+                isOpen={ openAddCollaborator }
+                closeModal={ onCloseModal }
             >
-                <p>Colaboladores</p>
+                <CollaboratorAdd
+                    onCloseModal={ onCloseModal }
+                />
             </Modal>
         </>
     )
