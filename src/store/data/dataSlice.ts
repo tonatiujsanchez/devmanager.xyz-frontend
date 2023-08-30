@@ -126,6 +126,18 @@ export const dataSlice = createSlice({
         setTaskEdit: ( state, { payload }:PayloadAction<ITask | null> ) => {
             state.taskEdit = payload
         },
+
+        clearProjectsLogout: ( state ) => {
+            state.projectActive = null
+            state.taskEdit = null
+            state.projects = {
+                page: 0,
+                count: 0,
+                total: 0,
+                totalPages: 0,
+                projects: []
+            }
+        }
     }
 })
 
@@ -145,5 +157,7 @@ export const {
     deleteTask,
 
     addNewTaskOfProjectActive,
-    setTaskEdit
+    setTaskEdit,
+
+    clearProjectsLogout
 } = dataSlice.actions

@@ -3,6 +3,8 @@ import { isAxiosError } from "axios"
 
 import { clientAxios } from "../../config"
 import { login, logout, clearMsgError } from "./authSlice"
+import { clearProjectsLogout } from "../data"
+
 import { setSessionToken } from "../../helpers"
 
 
@@ -39,13 +41,12 @@ export const startUserWithEmailAndPassword = ({ email, password, remindMe }:Star
     }
 }
 
-
-
 export const startLogout = () => {
         
     return async( dispatch:Dispatch ) => {
 
         dispatch( logout({}) )  
+        dispatch( clearProjectsLogout() )
         localStorage.removeItem('uptask_remindme')
         localStorage.removeItem('uptask_session')
         sessionStorage.removeItem('uptask_session')
