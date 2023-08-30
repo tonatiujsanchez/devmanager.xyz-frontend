@@ -9,7 +9,7 @@ interface Props {
 
 export const CollaboratorsSection:FC<Props> = () => {
 
-    const [openAddCollaborator, setOpenAddCollaborator] = useState(true)
+    const [openAddCollaborator, setOpenAddCollaborator] = useState(false)
     
     const onCloseModal = () => {
         setOpenAddCollaborator(false)
