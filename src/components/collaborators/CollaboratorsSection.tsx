@@ -1,20 +1,22 @@
 import { FC, useState } from 'react'
-import { IProject } from "../../interfaces"
-import { CollaboratorAdd, Modal } from '..'
+
+
+import { CollaboratorAdd, CollaboratorList, Modal } from '..'
+import { IUser } from "../../interfaces"
 
 
 interface Props {
-    project?: IProject
+    collaborators: IUser[]
 }
 
-export const CollaboratorsSection:FC<Props> = () => {
+export const CollaboratorsSection:FC<Props> = ({ collaborators }) => {
 
     const [openAddCollaborator, setOpenAddCollaborator] = useState(false)
-    
+
+
     const onCloseModal = () => {
         setOpenAddCollaborator(false)
     }
-
 
 
     return (
@@ -30,7 +32,7 @@ export const CollaboratorsSection:FC<Props> = () => {
                     </button>
                 </div>
                 <div className="bg-white rounded-md p-4">
-                    Colaboradores
+                    <CollaboratorList collaborators={ collaborators} />
                 </div>
             </section>
             <Modal

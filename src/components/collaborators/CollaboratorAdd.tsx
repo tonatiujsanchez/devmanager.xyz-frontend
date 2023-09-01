@@ -1,8 +1,12 @@
 import { FC, useState } from 'react';
 
 import { useForm } from 'react-hook-form'
-import { clientAxios } from '../../config';
-import { isAxiosError } from 'axios';
+import { useDispatch } from 'react-redux'
+import { isAxiosError } from 'axios'
+
+import { clientAxios } from '../../config'
+import { IAppDispatch } from '../../store/store'
+import { startAddCollaboratorToProject } from '../../store/data'
 
 
 interface ICollaborator {
@@ -24,8 +28,11 @@ interface Props {
 export const CollaboratorAdd:FC<Props> = ({ onCloseModal }) => {
 
     const [loading, setLoading] = useState(false)
+    const [loadingAddCollaborator, setLoadingAddCollaborator] = useState(false)
     const [collaborator, setCollaborator] = useState<ICollaborator>()
     const [errorMsg, setErrorMsg] = useState<string>()
+
+    const dispatch:IAppDispatch = useDispatch()
 
     const { register, handleSubmit, formState:{ errors } } = useForm<IFormData>({
         defaultValues: {
@@ -71,6 +78,12 @@ export const CollaboratorAdd:FC<Props> = ({ onCloseModal }) => {
 
         setErrorMsg( undefined )
         setCollaborator( collaborator )
+    }
+
+    const onAddCollaboratorToProject = async() => {
+        setLoadingAddCollaborator(true)
+        await dispatch( startAddCollaboratorToProject({ idCollaborator: collaborator!._id }) )
+        setLoadingAddCollaborator(false)
     }
 
 
@@ -146,8 +159,21 @@ export const CollaboratorAdd:FC<Props> = ({ onCloseModal }) => {
                                 <p className="font-bold -mb-1 text-slate-800">{collaborator.name}</p>
                                 <p className="text-slate-500 w-auto text-sm">{collaborator.email}</p>
                             </div>
-                            <button className="flex-1 sm:flex-initial flex justify-center items-center text-sm gap-1 text-emerald-600 hover:text-white bg-emerald-100 hover:bg-emerald-500 transition-colors py-1 px-2 sm:ml-8 rounded-md active:scale-95">
-                                <i className='bx bx-plus text-xl'></i> Agregar
+                            <button
+                                onClick={ onAddCollaboratorToProject }
+                                disabled={loadingAddCollaborator}
+                                className="flex-1 sm:flex-initial min-w-[16rem] sm:min-w-[6.2rem] sm:w-[6.2rem] h-[2.2rem] flex justify-center items-center gap-1 text-sm text-emerald-600 hover:text-white bg-emerald-100 hover:bg-emerald-500 disabled:bg-emerald-200 disabled:active:scale-100 transition-colors py-1 px-2 sm:ml-8 rounded-md active:scale-95"
+                            >{
+                                loadingAddCollaborator ?
+                                (
+                                    <div className="custom-loader-white"></div>
+                                ):(
+                                    <>
+                                        <i className='bx bx-plus text-xl'></i>
+                                        <span>Agregar</span>
+                                    </>
+                                )
+                            }
                             </button>
                         </div>
                     ):(

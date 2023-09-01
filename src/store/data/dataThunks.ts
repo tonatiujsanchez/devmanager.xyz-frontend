@@ -4,6 +4,7 @@ import { isAxiosError } from "axios"
 import { clientAxios } from "../../config"
 
 import { 
+    addCollaboratorToProject,
     addNewProject,
     addNewTask,
     addNewTaskOfProjectActive,
@@ -24,11 +25,13 @@ import { IProject, ITask } from "../../interfaces"
 
 
 
-interface StartRefreshNotesParams {
+// ===== ===== ===== ===== PROJECTS ===== ===== ===== =====
+
+interface StartRefreshProjectsParams {
     page  : number
     count?: number
 }
-export const startRefreshProjects = ({ page, count=6 }:StartRefreshNotesParams ) => {
+export const startRefreshProjects = ({ page, count=6 }:StartRefreshProjectsParams ) => {
     return async( dispatch:Dispatch ) => {
         try {
             const { data } = await clientAxios.get(`/projects?page=${page}&count=${count}`)
@@ -272,4 +275,33 @@ export const startDeleteTask = ({ _id }:StartDeleteTaskParams) => {
         }
     }
     
+}
+
+
+
+// ===== ===== ===== ===== COLLABORATORS ===== ===== ===== =====
+interface StartAddCollaboratorToProjectParams {
+    idCollaborator: string
+}
+export const startAddCollaboratorToProject = ({ idCollaborator }:StartAddCollaboratorToProjectParams) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState )=> {
+
+        const { projectActive } = getState().data
+
+        if(!projectActive){
+            return
+        }
+
+        try {
+            const { data } = await clientAxios.post(`/collaborators/${ projectActive._id }`, {
+                idCollaborator
+            })
+            dispatch( addCollaboratorToProject(data) )
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                console.log({msg});
+            }
+        }        
+    }
 }

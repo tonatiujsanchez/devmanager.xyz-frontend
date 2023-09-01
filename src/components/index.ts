@@ -18,3 +18,5 @@ export * from './tasks/TaskItem'
 
 export * from './collaborators/CollaboratorsSection'
 export * from './collaborators/CollaboratorAdd'
+export * from './collaborators/CollaboratorList'
+export * from './collaborators/CollaboratorItem'

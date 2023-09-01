@@ -10,7 +10,7 @@ export interface IProject {
     deliveryDate : Date
     client       : string
     creator      : IUser | string
-    collaborators: IUser[] | string[]
+    collaborators: IUser[] 
     
     tasks        : ITaskState
 

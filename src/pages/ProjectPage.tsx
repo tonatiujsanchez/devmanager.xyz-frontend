@@ -63,7 +63,9 @@ export const ProjectPage = () => {
             }
             {
                 selectedTab === tabOptions[1].value && (
-                    <CollaboratorsSection />
+                    <CollaboratorsSection
+                        collaborators={ project.collaborators }
+                    />
                 )   
             }
             

@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IProject, IProjectsState, ITask, ITaskState } from "../../interfaces";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { IProject, IProjectsState, ITask, ITaskState, IUser } from "../../interfaces"
 
 
 
@@ -126,7 +126,22 @@ export const dataSlice = createSlice({
         setTaskEdit: ( state, { payload }:PayloadAction<ITask | null> ) => {
             state.taskEdit = payload
         },
+        addCollaboratorToProject: ( state, { payload }:PayloadAction<IUser> ) => {
+            state.projectActive?.collaborators.push( payload )
+            
+            if( state.projects.projects.length > 0 ){
+                state.projects = {
+                    ...state.projects,
+                    projects: state.projects.projects.map( project => {
+                        if( state.projectActive?._id === project._id ){
+                            project.collaborators.push( payload )
+                        }
+                        return project
+                    })                    
+                }
+            }
 
+        },
         clearProjectsLogout: ( state ) => {
             state.projectActive = null
             state.taskEdit = null
@@ -157,6 +172,7 @@ export const {
     deleteTask,
 
     addNewTaskOfProjectActive,
+    addCollaboratorToProject,
     setTaskEdit,
 
     clearProjectsLogout
