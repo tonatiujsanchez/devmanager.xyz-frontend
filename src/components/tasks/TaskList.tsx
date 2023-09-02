@@ -8,18 +8,21 @@ interface Props {
 }
 
 export const TaskList:FC<Props> = ({ projectTasks }) => {
-  return (
-        projectTasks.tasks.length === 0
-        ?(
-            <p className="text-center">No hay tareas en este proyecto</p>
+
+
+    if(projectTasks.tasks.length === 0){
+        return (
+            <p className="text-center text-slate-400">No hay tareas en este proyecto</p>
         )
-        :(
-            projectTasks.tasks.map(task => (
-                <TaskItem
-                    key={task._id}
-                    task={ task }
-                />
-            ))
+    }
+
+    return (
+        projectTasks.tasks.map(task => (
+            <TaskItem
+                key={task._id}
+                task={ task }
+            />
         )
+    )
   )
 }

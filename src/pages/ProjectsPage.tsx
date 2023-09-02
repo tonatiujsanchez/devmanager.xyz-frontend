@@ -87,13 +87,17 @@ export const ProjectsPage = () => {
                 ):(
                     <section className="z-0">
                         <ProjectList projects={ projects.projects } />
-                        <div className="mb-5 sm:mb-10 mt-5 sm:px-5">
-                            <Pagination
-                                total={projects.totalPages}
-                                page={projects.page}
-                                onChange={onPageChange}
-                            />
-                        </div>
+                        {
+                            projects.totalPages > 1 && (
+                                <div className="mb-5 sm:mb-10 mt-5 sm:px-5">
+                                    <Pagination
+                                        total={projects.totalPages}
+                                        page={projects.page}
+                                        onChange={onPageChange}
+                                    />
+                                </div>
+                            )
+                        }
                     </section>
                 )
             }

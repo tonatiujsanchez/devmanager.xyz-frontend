@@ -7,6 +7,16 @@ interface Props {
 } 
 
 export const ProjectList:FC<Props> = ({ projects }) => {
+
+
+    if( projects.length === 0 ){
+        return (
+            <div className="bg-white rounded-md p-4">
+                <p className="text-slate-400 text-center">No hay proyectos agregados</p>
+            </div>
+        )
+    }
+
     return (
         <ul className="flex flex-col gap-1">
             {
