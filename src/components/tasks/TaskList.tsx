@@ -22,7 +22,6 @@ export const TaskList:FC<Props> = ({ projectTasks }) => {
                 key={task._id}
                 task={ task }
             />
-        )
+        ))
     )
-  )
 }
