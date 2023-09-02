@@ -15,6 +15,7 @@ import {
     editProject,
     editTask,
     refreshProjects,
+    removeCollaboratorToProject,
     setProjectActive,
     setTaskEdit 
 } from "./"
@@ -297,6 +298,34 @@ export const startAddCollaboratorToProject = ({ idCollaborator }:StartAddCollabo
                 idCollaborator
             })
             dispatch( addCollaboratorToProject(data) )
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                console.log({msg});
+            }
+        }        
+    }
+}
+
+interface StartRemoveCollaboratorToProjectParams {
+    idCollaborator: string
+}
+export const startRemoveCollaboratorToProject = ({ idCollaborator }:StartRemoveCollaboratorToProjectParams) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState )=> {
+
+        const { projectActive } = getState().data
+
+        if(!projectActive){
+            return
+        }
+
+        try {
+            const { data } = await clientAxios.delete(`/collaborators/${ projectActive._id }`, {
+                data: {
+                    idCollaborator
+                }
+            })
+            dispatch( removeCollaboratorToProject(data) )
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }

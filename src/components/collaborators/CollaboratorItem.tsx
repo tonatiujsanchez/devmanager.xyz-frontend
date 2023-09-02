@@ -1,6 +1,10 @@
 import { FC, Fragment, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { Popover, Transition } from '@headlessui/react'
+
+import { startRemoveCollaboratorToProject } from '../../store/data'
+import { IAppDispatch } from '../../store/store'
 
 import { Modal, ModalDelete } from '..'
 import { IUser } from "../../interfaces"
@@ -12,6 +16,8 @@ export const CollaboratorItem: FC<Props> = ({ collaborator }) => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [loadingDelete, setLoadingDelete] = useState(false)
+
+    const dispatch:IAppDispatch = useDispatch()
 
     const onCloseModal = () => {
         setOpenDeleteModal(false)
@@ -27,7 +33,7 @@ export const CollaboratorItem: FC<Props> = ({ collaborator }) => {
         }
 
         setLoadingDelete(true)
-        // TODO: hacer dispatch para eliminar colaborador
+        await dispatch( startRemoveCollaboratorToProject({ idCollaborator: collaborator._id! }) )        
         setLoadingDelete(false)
         onCloseModal()
     }

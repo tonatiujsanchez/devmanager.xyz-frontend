@@ -100,7 +100,7 @@ export const dataSlice = createSlice({
             }
         },
         deleteTask: ( state, { payload }:PayloadAction<ITask> ) => {   
-            state.projectActive!.tasks.tasks  = state.projectActive!.tasks.tasks.filter( task => task._id !== payload._id )
+            state.projectActive!.tasks.tasks = state.projectActive!.tasks.tasks.filter( task => task._id !== payload._id )
             state.projectActive!.tasks.count--
             state.projectActive!.tasks.total--
 
@@ -142,6 +142,22 @@ export const dataSlice = createSlice({
             }
 
         },
+        removeCollaboratorToProject: ( state, { payload }:PayloadAction<{ idCollaborator:string }> ) => {
+            state.projectActive!.collaborators = state.projectActive!.collaborators.filter( collaborator => collaborator._id !== payload.idCollaborator )
+            
+            if( state.projects.projects.length > 0 ){
+                state.projects = {
+                    ...state.projects,
+                    projects: state.projects.projects.map( project => {
+                        if( state.projectActive?._id === project._id ){
+                            return state.projectActive!
+                        }
+                        return project
+                    })                    
+                }
+            }
+
+        },
         clearProjectsLogout: ( state ) => {
             state.projectActive = null
             state.taskEdit = null
@@ -173,6 +189,7 @@ export const {
 
     addNewTaskOfProjectActive,
     addCollaboratorToProject,
+    removeCollaboratorToProject,
     setTaskEdit,
 
     clearProjectsLogout
