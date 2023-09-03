@@ -90,3 +90,15 @@ body {
 .ql-toolbar button.ql-clean svg {
     display: none;
 }
+
+
+/* ==== ==== ==== CODO - TOAST  ==== ==== ====*/
+
+.ct-toast .ct-text-group-heading {
+    margin-left: 1rem;
+}
+
+.ct-text-group-heading .ct-heading {
+    font-size: 1rem;
+    margin-bottom: 0;
+}

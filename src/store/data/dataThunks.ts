@@ -3,6 +3,8 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { isAxiosError } from "axios"
 import { clientAxios } from "../../config"
 
+import cogoToast from 'cogo-toast'
+
 import { 
     addCollaboratorToProject,
     addNewProject,
@@ -25,6 +27,19 @@ import { IRootState } from "../store"
 import { IProject, ITask } from "../../interfaces"
 
 
+
+type typeNotify = 'success' | 'error'
+const showNotify = ( msg:string, type:typeNotify )=> {
+    const { hide } = cogoToast[type](
+        '', 
+        {   
+            position: 'top-center',
+            heading: msg,
+            onClick: () => {
+                hide!()
+            }
+        },
+    )}
 
 // ===== ===== ===== ===== PROJECTS ===== ===== ===== =====
 
@@ -69,10 +84,12 @@ export const startAddNewProject = ({ name, description, deliveryDate, client }:S
                 dispatch( addNewProject(data) )
             }
 
+            showNotify('Proyecto agregado correctamente', 'success')
+
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
-                console.log({msg})
+                showNotify(msg, 'error')
             }   
         }
 
@@ -298,10 +315,11 @@ export const startAddCollaboratorToProject = ({ idCollaborator }:StartAddCollabo
                 idCollaborator
             })
             dispatch( addCollaboratorToProject(data) )
+            showNotify('Colaborador agregado al proyecto', 'success')
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
-                console.log({msg});
+                showNotify(msg, 'error')
             }
         }        
     }
@@ -326,10 +344,11 @@ export const startRemoveCollaboratorToProject = ({ idCollaborator }:StartRemoveC
                 }
             })
             dispatch( removeCollaboratorToProject(data) )
+            showNotify('Colaborador elimnado del proyecto', 'success')
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
-                console.log({msg});
+                showNotify(msg, 'error')
             }
         }        
     }

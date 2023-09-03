@@ -15,6 +15,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
+    "cogo-toast": "^4.2.3",
     "is-mobile": "^4.0.0",
     "postcss": "^8.4.27",
     "query-string": "^8.1.0",
