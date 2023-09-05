@@ -4,13 +4,8 @@ import { IProject, IProjectsState, ITask, ITaskState, IUser } from "../../interf
 
 
 export interface IDataState {
-    projects: {
-        page : number
-        count: number
-        total: number
-        totalPages: number
-        projects  : IProject[]
-    },
+    projects: IProjectsState,
+    projectsCollaborative: IProjectsState,
     projectActive: IProject | null
     taskEdit: ITask | null
 }
@@ -25,12 +20,22 @@ export const dataSlice = createSlice({
             totalPages: 0,
             projects: []
         },
+        projectsCollaborative: {
+            page: 0,
+            count: 0,
+            total: 0,
+            totalPages: 0,
+            projects: []
+        },
         projectActive: null,
         taskEdit: null
     } as IDataState,
     reducers: {
         refreshProjects: ( state, { payload }:PayloadAction<IProjectsState> ) => {
             state.projects = { ...payload }
+        },
+        refreshProjectsCollaborative: ( state, { payload }:PayloadAction<IProjectsState> ) => {
+            state.projectsCollaborative = { ...payload }
         },
         addNewProject: ( state, { payload }:PayloadAction<IProject> ) => {   
             state.projects.projects.unshift(payload)
@@ -175,6 +180,7 @@ export const dataSlice = createSlice({
 
 export const {
     refreshProjects,
+    refreshProjectsCollaborative,
     addNewProject,
     editProject,
     deleteProject,

@@ -17,6 +17,7 @@ import {
     editProject,
     editTask,
     refreshProjects,
+    refreshProjectsCollaborative,
     removeCollaboratorToProject,
     setProjectActive,
     setTaskEdit 
@@ -52,6 +53,26 @@ export const startRefreshProjects = ({ page, count=6 }:StartRefreshProjectsParam
         try {
             const { data } = await clientAxios.get(`/projects?page=${page}&count=${count}`)
             dispatch( refreshProjects( data ) )
+            
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                console.log({msg})
+            }   
+        }
+    }
+}
+
+
+interface StartRefreshProjectsCollaborativeParams {
+    page  : number
+    count?: number
+}
+export const startRefreshProjectsCollaborative = ({ page, count=6 }:StartRefreshProjectsCollaborativeParams ) => {
+    return async( dispatch:Dispatch ) => {
+        try {
+            const { data } = await clientAxios.get(`/projects/collaborative?page=${page}&count=${count}`)
+            dispatch( refreshProjectsCollaborative( data ) )
             
         } catch (error) {
             if(isAxiosError(error)){
