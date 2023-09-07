@@ -55,24 +55,6 @@ export const SideBar = () => {
                         <li>
                             <Link 
                                 to={"/proyectos"} 
-                                className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/colaboradores' ? 'bg-slate-700':'' }`}
-                            >
-                                <i className='bx bxs-user text-lg text-slate-400'></i>
-                                <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Colaboradores</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link 
-                                to={"/proyectos"} 
-                                className={`flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700 ${ pathname === '/proyectos/clientes' ? 'bg-slate-700':'' }`}
-                            >
-                                <i className='bx bxs-user-account text-lg text-slate-400'></i>
-                                <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Clientes</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link 
-                                to={"/proyectos"} 
                                 className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
                             >
                                 <i className='bx bxs-search text-lg text-slate-400'></i>
