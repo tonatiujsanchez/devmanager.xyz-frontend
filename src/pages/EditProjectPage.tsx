@@ -53,6 +53,10 @@ export const EditProjectPage = () => {
         return ( <Navigate to={'/proyectos'} /> )
     }
 
+    if(project.type !== 'admin') {
+        return ( <Navigate to={'/proyectos'} /> )
+    }
+
     return (
         <>
             <div className="flex justify-between items-center gap-2">

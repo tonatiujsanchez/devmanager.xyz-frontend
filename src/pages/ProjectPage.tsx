@@ -1,9 +1,9 @@
+import { useState } from "react"
 import { Link, Navigate, useParams } from "react-router-dom"
-import { useGetProject } from "../hooks"
+import { useAdmin, useGetProject } from "../hooks"
 
 import { CollaboratorsSection, LoadingMain, TasksSection } from "../components"
 import { tabOptions } from "../constants"
-import { useState } from "react"
 
 
 export const ProjectPage = () => {
@@ -12,7 +12,7 @@ export const ProjectPage = () => {
 
     const { id } = useParams() as { id: string }    
     const { project, loading, loadingTasks } = useGetProject(id)
-
+    const { isAdmin } = useAdmin()
     
     if(loading){
         return (
@@ -31,12 +31,16 @@ export const ProjectPage = () => {
             <div>
                 <div className="flex justify-between items-center gap-2">
                     <h1 className="font-bold text-slate-800 text-2xl sm:text-3xl">{ project.name }</h1>
-                    <Link 
-                        to={`/proyectos/editar/${id}`} 
-                        className="flex items-center gap-1 text-slate-400 hover:text-slate-800 font-medium"
-                    >
-                        <i className='bx bxs-edit' ></i> <span className="hidden sm:inline-flex">Editar</span>
-                    </Link>
+                    {
+                        isAdmin && (
+                            <Link 
+                                to={`/proyectos/editar/${id}`} 
+                                className="flex items-center gap-1 text-slate-400 hover:text-slate-800 font-medium"
+                            >
+                                <i className='bx bxs-edit' ></i> <span className="hidden sm:inline-flex">Editar</span>
+                            </Link>
+                        )
+                    }
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: project.description }}></div>
             </div>
