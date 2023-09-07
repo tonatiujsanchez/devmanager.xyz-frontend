@@ -169,9 +169,14 @@ export const startDeleteProject = ({ _id }:StartRemoveProjectParams) => {
 interface StartSetProjectActive {
     project: IProject
 }
-export const startSetProjectActive = ({ project }:StartSetProjectActive) => {   
-    return async( dispatch:Dispatch ) => {
-        dispatch( setProjectActive( project ) )
+export const startSetProjectActive = ({ project }:StartSetProjectActive) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+
+        const { _id } = getState().auth
+
+        const typeProject = _id === project.creator ? 'admin' : 'collaborative'
+
+        dispatch( setProjectActive( {...project, type: typeProject} ) )
     }
 }
 

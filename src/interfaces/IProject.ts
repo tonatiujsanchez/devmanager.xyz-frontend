@@ -20,6 +20,12 @@ export interface IProject {
     updatedAt?: string
 }
 
+export interface IProjectActive extends IProject {
+    type: ITypeProjectActive
+}
+
+type ITypeProjectActive = 'admin' | 'collaborative'
+
 
 export interface IProjectsState {
     page : number

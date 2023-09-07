@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { IProject, IProjectsState, ITask, ITaskState, IUser } from "../../interfaces"
+import { IProject, IProjectActive, IProjectsState, ITask, ITaskState, IUser } from "../../interfaces"
 
 
 
 export interface IDataState {
     projects: IProjectsState,
     projectsCollaborative: IProjectsState,
-    projectActive: IProject | null
+    projectActive: IProjectActive | null
     taskEdit: ITask | null
 }
 
@@ -55,15 +55,23 @@ export const dataSlice = createSlice({
             state.projects.count--
             state.projects.total--
         },
-        setProjectActive: ( state, { payload }:PayloadAction<IProject | null> ) => {
+        setProjectActive: ( state, { payload }:PayloadAction<IProjectActive | null> ) => {
             state.projectActive = payload
         },
         addTasksOfProject: ( state, { payload }:PayloadAction<{ id:string, tasks: ITaskState }> ) => {
-            state.projects.projects.forEach( project => {
-                if( project._id === payload.id ) {
-                    project.tasks = payload.tasks
-                }
-            })
+            if( state.projectActive?.type === 'admin' ){
+                state.projects.projects.forEach( project => {
+                    if( project._id === payload.id ) {
+                        project.tasks = payload.tasks
+                    }
+                })
+            }else {
+                state.projectsCollaborative.projects.forEach( project => {
+                    if( project._id === payload.id ) {
+                        project.tasks = payload.tasks
+                    }
+                })
+            }
         },
         addTasksOfProjectActive: ( state, { payload }:PayloadAction<{ tasks:ITaskState }> ) => {
             if(state.projectActive){
