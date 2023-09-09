@@ -11,7 +11,7 @@ export const ProjectPage = () => {
     const [selectedTab, setSelectedTab] = useState<string>(tabOptions[0].value)
 
     const { id } = useParams() as { id: string }    
-    const { project, loading, loadingTasks } = useGetProject(id)
+    const { project, loading, loadingTasks, refreshTasks } = useGetProject(id)
     const { isAdmin } = useAdmin()
     
     if(loading){
@@ -62,6 +62,7 @@ export const ProjectPage = () => {
                     <TasksSection
                         projectTasks={ project.tasks }
                         loadingTasks={ loadingTasks }
+                        refreshTasks={ refreshTasks }
                     />
                 )
             }

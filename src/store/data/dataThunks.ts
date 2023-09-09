@@ -195,7 +195,7 @@ interface StartGetTasksParams {
     page  : number
     count?: number
 }
-export const startGetTasks = ({ id, page, count=15 }:StartGetTasksParams) => {
+export const startGetTasks = ({ id, page, count=10 }:StartGetTasksParams) => {
     return async( dispatch:Dispatch, getState:()=> IRootState ) => {
         
         const { projectActive } = getState().data
@@ -318,7 +318,30 @@ export const startDeleteTask = ({ _id }:StartDeleteTaskParams) => {
             }
         }
     }
-    
+}
+
+
+interface StartToggleCompleteTaskParams {
+    taskId: string
+}
+export const startToggleCompleteTask = ({ taskId }:StartToggleCompleteTaskParams ) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+
+        const { projectActive } = getState().data
+
+        if(!projectActive?._id){ return }
+        
+        try {
+            const { data } = await clientAxios.post(`/tasks/to-complete/${taskId}`)
+            dispatch( editTask({ task:data, idProject:projectActive._id  }) )
+
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                console.log({msg});
+            }
+        }
+    }
 }
 
 

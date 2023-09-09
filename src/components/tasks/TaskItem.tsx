@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import { Popover, Transition } from '@headlessui/react'
 
 import { useAdmin } from "../../hooks"
-import { startDeleteTask, startSetTaskEdit } from "../../store/data"
+import { startDeleteTask, startSetTaskEdit, startToggleCompleteTask } from "../../store/data"
 import { IAppDispatch } from "../../store/store"
 
 import { Modal, ModalDelete } from ".."
@@ -26,6 +26,7 @@ export const TaskItem:FC<Props> = ({ task }) => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [loadingDelete, setLoadingDelete] = useState(false)
+    const [loadingToggleComplete, setLoadingToggleComplete] = useState(false)
 
     const dispatch:IAppDispatch = useDispatch()
     const { isAdmin } = useAdmin()
@@ -37,6 +38,13 @@ export const TaskItem:FC<Props> = ({ task }) => {
     const onEditTask = () => {
         dispatch( startSetTaskEdit({ task }) )
     }
+
+    const toggleCompleteTask = async() => {
+        setLoadingToggleComplete(true)
+        await dispatch( startToggleCompleteTask({ taskId: task._id! }) )
+        setLoadingToggleComplete(false)
+    }
+
 
     const onDeleteTask = async(result: () => Promise<{ confirm: boolean; }>) => {
         
@@ -78,10 +86,20 @@ export const TaskItem:FC<Props> = ({ task }) => {
                     </div>
                     <div className="flex-1 sm:flex-initial flex items-center justify-between gap-3">
                         <button
-                            className={`${ task.completed ? 'bg-green-200 text-green-700':'bg-gray-200 text-gray-800'} px-3 py-1 rounded-md active:scale-95 flex items-center justify-center gap-1 min-w-[9rem]`}
+                            onClick={ toggleCompleteTask }
+                            className={`${ task.completed ? 'bg-green-200 text-green-700':'bg-gray-200 text-gray-800'} px-3 py-1 rounded-md active:scale-95 flex items-center justify-center gap-1 min-w-[9rem] min-h-[2rem]`}
                         >
-                            <i className={`transition-all bx ${ task.completed ? 'bx-check-circle text-green-600' : 'bx-time-five' }`} ></i>
-                            { task.completed ? 'Completada' : 'Pendiente' }
+                            {
+                                loadingToggleComplete
+                                ? (
+                                    <div className="custom-loader-black w-5 h-5"></div>
+                                ):(
+                                    <>
+                                        <i className={`transition-all bx ${ task.completed ? 'bx-check-circle text-green-600' : 'bx-time-five' }`} ></i>
+                                        { task.completed ? 'Completada' : 'Pendiente' }
+                                    </>                                    
+                                )
+                            }
                         </button>
                         {
                             isAdmin && (

@@ -12,22 +12,25 @@ export const useGetProject = ( id:string ) => {
     const [loading, setLoading] = useState<boolean>(true)
     const [loadingTasks, setLoadingTasks] = useState<boolean>(true)
     
-    const { projects:{ projects }, projectsCollaborative, projectActive }:IDataState = useSelector((state:IRootState)=> state.data)
+    const { projectsCollaborative, projects:{ projects }, projectActive }:IDataState = useSelector((state:IRootState)=> state.data)
     const dispatch:IAppDispatch = useDispatch()
 
+    const refreshTasks = async({ page }:{ page:number }) => {       
+        setLoadingTasks(true)        
+        await dispatch( startGetTasks({ id, page }) )
+        setLoadingTasks(false)
+    }
     
     const getProject = async() => {
         
         const projectFind = projects.find( project => project._id === id ) ?? projectsCollaborative.projects.find( project => project._id === id )
         
-    
         if( projectFind && ( !projectFind.tasks || projectFind.tasks.tasks.length <= 0 ) ){
-            
+
             dispatch(startSetProjectActive({ project: projectFind}))
             setLoading(false)
 
-            await dispatch( startGetTasks({ id, page:1 }) )
-            return setLoadingTasks(false)
+            return await refreshTasks({ page: 1 })
         }
 
         if( projectFind ){
@@ -70,6 +73,7 @@ export const useGetProject = ( id:string ) => {
     return {
         project: projectActive,
         loading,
-        loadingTasks
+        loadingTasks,
+        refreshTasks
     }
 }

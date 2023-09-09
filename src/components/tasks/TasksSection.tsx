@@ -12,12 +12,13 @@ import { ITaskState } from "../../interfaces"
 interface Props {
     projectTasks: ITaskState
     loadingTasks: boolean
+    refreshTasks: ({ page }: { page: number }) => Promise<void>
 }
-export const TasksSection: FC<Props> = ({ projectTasks, loadingTasks }) => {
+export const TasksSection: FC<Props> = ({ projectTasks, loadingTasks, refreshTasks }) => {
 
     
     const [openFormTask, setOpenFormTask] = useState(false)
-    const { taskEdit }:IDataState = useSelector((state:IRootState)=> state.data)
+    const { taskEdit, projectActive }:IDataState = useSelector((state:IRootState)=> state.data)
     
     const { isAdmin } = useAdmin()
 
@@ -30,14 +31,21 @@ export const TasksSection: FC<Props> = ({ projectTasks, loadingTasks }) => {
             setOpenFormTask(true)
         }
     }, [taskEdit])
-    
 
     
     return (
         <>
             <section className="animate-fade">
                 <div className="flex justify-between items-center mb-3">
-                    <h2 className="font-semibold text-slate-800 text-lg">Tareas del Proyecto</h2>
+                    <div className="flex items-end">
+                        <h2 className="font-semibold text-slate-800 text-lg">Tareas del Proyecto</h2>
+                        <button
+                            className="text-sm text-slate-600 hover:bg-slate-200 hover:text-slate-900 py-1 px-2 rounded-full active:scale-95"
+                            onClick={ ()=> refreshTasks({ page: projectActive!.tasks.page }) }
+                        >
+                            <i className='bx bx-revision'></i>
+                        </button>
+                    </div>
                     {
                         isAdmin && (
                             <button
