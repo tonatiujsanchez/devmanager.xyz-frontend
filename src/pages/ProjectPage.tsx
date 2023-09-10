@@ -29,16 +29,20 @@ export const ProjectPage = () => {
     return (
         <div className="flex flex-col gap-5 pb-5">
             <div>
-                <div className="flex justify-between items-center gap-2">
-                    <h1 className="font-bold text-slate-800 text-2xl sm:text-3xl">{ project.name }</h1>
+                <div className={`flex ${ isAdmin ? 'justify-between':'' } items-center gap-2`}>
+                    <h1 className="flex items-center gap-1 font-bold text-slate-800">
+                        <span className="text-2xl sm:text-3xl">{ project.name }</span> 
+                    </h1>
                     {
-                        isAdmin && (
+                        isAdmin ?(
                             <Link 
                                 to={`/proyectos/editar/${id}`} 
                                 className="flex items-center gap-1 text-slate-400 hover:text-slate-800 font-medium"
                             >
                                 <i className='bx bxs-edit' ></i> <span className="hidden sm:inline-flex">Editar</span>
                             </Link>
+                        ):(
+                            <p className="font-medium text-[0.8rem] px-3 py-[0.1rem] rounded-xl bg-slate-700 text-slate-100">Colaborador</p> 
                         )
                     }
                 </div>

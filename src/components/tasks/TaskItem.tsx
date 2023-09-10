@@ -62,23 +62,37 @@ export const TaskItem:FC<Props> = ({ task }) => {
     return (
             <>
                 <div className="flex flex-col sm:flex-row justify-between gap-4 border-b last-of-type:border-b-0 -z-20 py-3">
-                    <div className="flex flex-col gap-1 animate-fade-down animate-duration-500">
-                        <p className="font-semibold text-slate-800">{ task.name }</p>
+                    <div className="flex flex-col items-start gap-1 animate-fade-down animate-duration-500">
+                        {
+                            task.completedBy?.name && (
+                                <div className="flex items-center justify-center gap-1 w-full sm:w-auto text-center text-[0.85rem] bg-green-200 text-green-700 px-2 rounded-md animate-flip-down" >
+                                    Completada por: <span className="font-medium">{ task.completedBy?.name  }</span>
+                                </div> 
+                            )
+                        }
+                        <div className="flex items-center gap-1">
+                            <p className={`font-semibold ${ task.completed ? 'line-through text-slate-600':'text-slate-800' }`}>{ task.name }</p>
+                            {
+                                task.completed && (
+                                    <i className="text-[1rem] transition-all bx bx-check-circle text-green-600 animate-jump-in animate-delay-200" ></i>
+                                )
+                            } 
+                        </div>
                         <div 
                             dangerouslySetInnerHTML={{ __html: task.description }}
-                            className="text-slate-600 text-[0.9rem]"
+                            className={`text-slate-600 text-[0.9rem] ${ task.completed ? 'line-through':'' }`}
                         >
                         </div>
-                        <p className="text-slate-600 text-[0.9rem] flex items-center gap-1">
-                            <span className="underline font-semibold text-slate-700">Entrega:</span> 
+                        <p className={`text-slate-600 text-[0.9rem] flex items-center gap-1 ${ task.completed ? 'line-through':'' }`}>
+                            <span className={`text-slate-700 font-semibold ${ task.completed ? '':'underline' }`}>Entrega:</span> 
                             { dateFormat(task.deliveryDate) }
                         </p>
                         <p className="flex items-center gap-2">
-                            <span className="text-slate-700 text-[0.9rem] font-semibold">
+                            <span className={`text-slate-700 text-[0.9rem] font-semibold ${task.completed ? 'line-through':''}`}>
                                 Prioridad:
                             </span>
                             <span 
-                                className={`${ classBgPriority[task.priority] } text-[0.8rem] font-medium text-white px-2 rounded-lg`}
+                                className={`${ task.completed ? 'bg-gray-200 text-gray-700 line-through': classBgPriority[task.priority] } text-[0.8rem] font-medium text-white px-2 rounded-lg`}
                             >
                                 { getSelectValueOption( tasksOptions, task.priority )  }
                             </span> 
@@ -87,7 +101,7 @@ export const TaskItem:FC<Props> = ({ task }) => {
                     <div className="flex-1 sm:flex-initial flex items-center justify-between gap-3">
                         <button
                             onClick={ toggleCompleteTask }
-                            className={`${ task.completed ? 'bg-green-200 text-green-700':'bg-gray-200 text-gray-800'} px-3 py-1 rounded-md active:scale-95 flex items-center justify-center gap-1 min-w-[9rem] min-h-[2rem]`}
+                            className={`${ task.completed ? 'bg-green-200 text-green-700 text-[0.9rem]':'bg-gray-200 text-gray-800 text-[0.96rem]'} px-3 py-1 rounded-md active:scale-95 flex items-center justify-center gap-1 min-w-[9rem] min-h-[2rem]`}
                         >
                             {
                                 loadingToggleComplete
