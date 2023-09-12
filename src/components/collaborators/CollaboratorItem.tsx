@@ -18,7 +18,7 @@ export const CollaboratorItem: FC<Props> = ({ collaborator }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [loadingDelete, setLoadingDelete] = useState(false)
 
-    const { isAdmin } = useAdmin()
+    const { isAdmin, user } = useAdmin()
     const dispatch:IAppDispatch = useDispatch()
 
     const onCloseModal = () => {
@@ -61,7 +61,10 @@ export const CollaboratorItem: FC<Props> = ({ collaborator }) => {
                     }
                 </div>
                 <div className="flex-1">
-                    <p className="font-bold -mb-1 text-slate-800">{collaborator.name}</p>
+                    <p className="font-bold -mb-1 text-slate-800">
+                        {collaborator.name}
+                        {user._id === collaborator._id && <span className="text-[0.9rem]"> (YO)</span>}
+                    </p>
                     <p className="text-slate-500 w-auto text-sm">{collaborator.email}</p>
                 </div>
                 {
