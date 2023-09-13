@@ -41,4 +41,5 @@ export interface ITaskState {
     total: 0
     totalPages: 0
     tasks: ITask[]
+    completedTasks: 0
 }

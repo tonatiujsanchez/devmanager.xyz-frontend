@@ -20,7 +20,8 @@ import {
     refreshProjectsCollaborative,
     removeCollaboratorToProject,
     setProjectActive,
-    setTaskEdit 
+    setTaskEdit, 
+    updateCompletedTasks
 } from "./"
 
 import { IRootState } from "../store"
@@ -334,6 +335,7 @@ export const startToggleCompleteTask = ({ taskId }:StartToggleCompleteTaskParams
         try {
             const { data } = await clientAxios.post(`/tasks/to-complete/${taskId}`)
             dispatch( editTask({ task:data, idProject:projectActive._id  }) )
+            dispatch( updateCompletedTasks( data ) )
 
         } catch (error) {
             if(isAxiosError(error)){

@@ -139,6 +139,35 @@ export const dataSlice = createSlice({
         setTaskEdit: ( state, { payload }:PayloadAction<ITask | null> ) => {
             state.taskEdit = payload
         },
+        updateCompletedTasks: ( state, { payload }:PayloadAction<ITask> ) => {
+            if( payload.completed ) {
+                state.projectActive!.tasks.completedTasks++
+            }else {
+                state.projectActive!.tasks.completedTasks--
+            }
+            if(state.projectActive?.type === 'admin' && state.projects.projects.length > 0 ){
+                state.projects = {
+                    ...state.projects,
+                    projects: state.projects.projects.map( project => {
+                        if( state.projectActive?._id === project._id ){
+                            return state.projectActive!
+                        }
+                        return project
+                    })                    
+                }
+            }
+            if(state.projectActive?.type === 'collaborative' && state.projectsCollaborative.projects.length > 0 ){
+                state.projectsCollaborative = {
+                    ...state.projectsCollaborative,
+                    projects: state.projectsCollaborative.projects.map( project => {
+                        if( state.projectActive?._id === project._id ){
+                            return state.projectActive!
+                        }
+                        return project
+                    })                    
+                }
+            }
+        },
         addCollaboratorToProject: ( state, { payload }:PayloadAction<IUser> ) => {
             state.projectActive?.collaborators.push( payload )
             
@@ -205,6 +234,7 @@ export const {
     addCollaboratorToProject,
     removeCollaboratorToProject,
     setTaskEdit,
+    updateCompletedTasks,
 
     clearProjectsLogout
 } = dataSlice.actions
