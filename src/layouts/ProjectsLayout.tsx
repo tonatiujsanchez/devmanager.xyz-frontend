@@ -7,7 +7,7 @@ import isMobile from 'is-mobile'
 import { IAppDispatch } from '../store/store'
 import { startToggleSideMenu } from '../store/ui'
 
-import { NavBar, SideBar } from '../components'
+import { NavBar, ProjectSearch, SideBar } from '../components'
 
 
 export const ProjectsLayout = () => {
@@ -30,6 +30,7 @@ export const ProjectsLayout = () => {
                 <main className="w-full h-full px-5 py-6" >
                     <Outlet />
                 </main>
+                <ProjectSearch />
             </div>
         </div>
     )

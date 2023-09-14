@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { startLogout } from "../../store/auth"
 import { IAppDispatch, IRootState } from "../../store/store"
-import { IUiState, startToggleSideMenu } from "../../store/ui"
+import { IUiState, startHideSideMenu, startShowSearcher, startToggleSideMenu } from "../../store/ui"
 
 export const SideBar = () => {
 
@@ -11,6 +11,11 @@ export const SideBar = () => {
     const { toggleSideMenu }: IUiState = useSelector(( state: IRootState ) => state.ui)
 
     const { pathname } = useLocation()
+
+    const onShowSearcher = () => {
+        dispatch( startShowSearcher() )
+        dispatch( startHideSideMenu() )
+    }
     
     return (
         <>
@@ -53,13 +58,13 @@ export const SideBar = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link 
-                                to={"/proyectos"} 
-                                className="flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
+                            <button 
+                                onClick={ onShowSearcher }
+                                className="w-full flex items-center gap-5 text-white px-4 py-2 rounded-md hover:bg-slate-700"
                             >
                                 <i className='bx bxs-search text-lg text-slate-400'></i>
                                 <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>Buscar proyecto</span>
-                            </Link>
+                            </button>
                         </li>
                     </ul>
                     <div className="border-t border-t-slate-700 py-2">

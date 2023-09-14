@@ -62,7 +62,7 @@ export const ProjectPage = () => {
                     <p className="font-semibold text-slate-800 mb-4">Progreso</p>
                     <div className="bg-emerald-100 rounded-lg h-2 shadow-inner">
                         <div 
-                            className={`relative bg-emerald-500 h-full rounded-lg transition-width duration-500`}
+                            className={`relative bg-emerald-500 h-full rounded-lg transition-width duration-700`}
                             style={{ width: progress + '%' }}
                         >
                             <span className={`absolute ${ progress > 0 ? 'right-0' : 'left-0' } -top-5 font-medium text-slate-800 text-[0.9rem]`}>{ Math.floor( progress ) }%</span>
@@ -70,7 +70,7 @@ export const ProjectPage = () => {
                     </div>
                 </div>
             </div>
-            <nav className={` sm:self-start flex gap-1 px-1 py-1 bg-slate-700/10 backdrop-blur-md rounded-lg`}>
+            <nav className={`sm:self-start flex gap-1 px-1 py-1 bg-slate-700/10 backdrop-blur-md rounded-lg`}>
                 {
                     tabOptions.map( task => (
                         <button

@@ -6,9 +6,10 @@ interface Props {
     children: JSX.Element
     isOpen: boolean
     closeModal: () => void
+    classPosition?: string
 }
 
-export const Modal:FC<Props> = ({ children, isOpen, closeModal }) => {
+export const Modal:FC<Props> = ({ children, isOpen, closeModal, classPosition='flex items-center justify-center' }) => {
 
     return (
         <Transition show={isOpen} as={Fragment}>
@@ -33,7 +34,7 @@ export const Modal:FC<Props> = ({ children, isOpen, closeModal }) => {
                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                    <div className="fixed inset-0 flex items-center justify-center p-4 z-40">
+                    <div className={`fixed inset-0 ${ classPosition } p-4 z-40`}>
                         <Dialog.Panel className="bg-white max-w-[500px] rounded-md">
                             { children }
                         </Dialog.Panel>
