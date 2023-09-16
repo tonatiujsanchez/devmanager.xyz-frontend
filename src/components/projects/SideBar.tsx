@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
+import isMobile from "is-mobile"
 
 import { startLogout } from "../../store/auth"
 import { IAppDispatch, IRootState } from "../../store/store"
@@ -11,10 +12,13 @@ export const SideBar = () => {
     const { toggleSideMenu }: IUiState = useSelector(( state: IRootState ) => state.ui)
 
     const { pathname } = useLocation()
+    const isOpenOnMobile = isMobile()
 
     const onShowSearcher = () => {
         dispatch( startShowSearcher() )
-        dispatch( startHideSideMenu() )
+        if( isOpenOnMobile ){
+            dispatch( startHideSideMenu() )
+        }
     }
     
     return (

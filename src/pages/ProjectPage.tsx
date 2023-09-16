@@ -20,6 +20,8 @@ export const ProjectPage = () => {
         if(project?.tasks && project?.tasks.total > 0){
             const current = (project.tasks.completedTasks / project.tasks.total) * 100            
             setprogress(current)
+        }else {
+            setprogress(0)
         }
         
     },[project])
@@ -42,7 +44,7 @@ export const ProjectPage = () => {
             <div>
                 <div className={`flex ${ isAdmin ? 'justify-between':'' } items-center gap-2`}>
                     <h1 className="flex items-center gap-1 font-bold text-slate-800">
-                        <span className="text-2xl sm:text-3xl">{ project.name }</span> 
+                        <span className="text-2xl sm:text-3xl animate-fade">{ project.name }</span> 
                     </h1>
                     {
                         isAdmin ?(
@@ -57,7 +59,7 @@ export const ProjectPage = () => {
                         )
                     }
                 </div>
-                <div dangerouslySetInnerHTML={{ __html: project.description }}></div>
+                <div className="animate-fade" dangerouslySetInnerHTML={{ __html: project.description }}></div>
                 <div className="mt-2 pt-2 pb-4 border px-3 rounded-lg">
                     <p className="font-semibold text-slate-800 mb-4">Progreso</p>
                     <div className="bg-emerald-100 rounded-lg h-2 shadow-inner">
