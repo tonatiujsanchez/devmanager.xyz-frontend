@@ -94,7 +94,7 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
             await dispatch( startAddNewTask(data) )
         }
         setLoading(false)
-
+        onCloseModal()
 
     }
 

@@ -242,10 +242,11 @@ export const startAddNewTask = ({ name, description, deliveryDate, priority }:St
             if( projects.projects.length > 0 ){
                 dispatch( addNewTask({ task:data, idProject:projectActive._id }) )
             }
+            showNotify('Tarea agregada correctamente', 'success')
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
-                console.log({msg})
+                showNotify(msg, 'error')
             }   
         }
 
@@ -291,11 +292,11 @@ export const startEditTask = ({ _id, name, description, deliveryDate, priority }
             })
             
             dispatch( editTask({ task:data, idProject:projectActive._id }) )
-        
+            showNotify('Tarea actualizada correctamente', 'success')
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
-                console.log({msg});
+                showNotify(msg, 'error')
             }
         }
     }
