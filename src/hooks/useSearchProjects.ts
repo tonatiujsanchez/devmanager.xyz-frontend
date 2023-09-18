@@ -6,23 +6,21 @@ import { useData } from '.'
 
 
 export const useSearchProjects = (searchTerm:string) => {
+
+    console.log({searchTerm})
     
-    const [milliseconds, setMilliseconds] = useState<number>(1000)
+    
+    const [milliseconds, setMilliseconds] = useState<number>(0)
     const [loading, setLoading] = useState(false)
     const [filteredProjects, setSetFilteredProjects] = useState<IProject[]>([])
 
-    const ref = useRef<NodeJS.Timer>()
+    const ref = useRef<number>()
 
     const { projects:{ projects }, projectsCollaborative } = useData()
 
 
     const onSearchProject = async() => {
 
-        if( searchTerm.trim() === '' ){
-            return setSetFilteredProjects([])
-        }
-
-        // TODO: Hacer la búsqueda a la DB
         setLoading(true)
         const results = projects.filter( project => {
             if( project.name.toLowerCase().includes( searchTerm.toLowerCase() ) ){
@@ -34,28 +32,42 @@ export const useSearchProjects = (searchTerm:string) => {
                return project 
             }
         })
-        setSetFilteredProjects([...results, ...resultsCollaborative])
-        setLoading(false)
+        
+        setTimeout(() => {
+            setSetFilteredProjects([...results, ...resultsCollaborative])
+            setLoading(false)
+        }, 1000);
+    }
+
+    const onStartInterval = () => {
+
+        ref.current && clearInterval( ref.current )
+        setMilliseconds(200)
+    
+        ref.current = setInterval(() => {
+            setMilliseconds( s => s - 1 )
+        }, 1)   
     }
     
     useEffect(() => {
-        
-        ref.current && clearInterval( ref.current )
-
-        // ref.current = setInterval(() => {
-        //     setMilliseconds( s => s - 1 )
-        // }, 1)
-            
+        onStartInterval()
         return ()=>{
             clearInterval( ref.current )
-        }      
+        } 
     }, [searchTerm])
     
 
     useEffect(() => {
-        if( milliseconds === 0 ){
+        console.log({milliseconds})
+        
+        if( milliseconds <= 0 ){
             clearInterval( ref.current )
-            onSearchProject()
+            
+            if( searchTerm.trim() === '' ){
+                return setSetFilteredProjects([])
+            }else {
+                onSearchProject()
+            }
         }
     
     }, [milliseconds])
@@ -63,6 +75,7 @@ export const useSearchProjects = (searchTerm:string) => {
     
     return {
         projects:filteredProjects,
-        loading
+        loading,
+        activeTimer: milliseconds > 0
     }
 }

@@ -12,6 +12,7 @@ export * from './projects/ProjectSection'
 export * from './projects/ProjectList'
 export * from './projects/ProjectItem'
 export * from './projects/ProjectSearch'
+export * from './projects/ProjectSearchContent'
 
 export * from './tasks/TaskForm'
 export * from './tasks/TasksSection'
