@@ -3,8 +3,6 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { isAxiosError } from "axios"
 import { clientAxios } from "../../config"
 
-import cogoToast from 'cogo-toast'
-
 import { 
     addCollaboratorToProject,
     addNewProject,
@@ -26,22 +24,11 @@ import {
 
 import { IRootState } from "../store"
 
+import { showNotify } from "../../helpers"
 import { IProject, ITask } from "../../interfaces"
 
 
 
-type typeNotify = 'success' | 'error'
-const showNotify = ( msg:string, type:typeNotify )=> {
-    const { hide } = cogoToast[type](
-        '', 
-        {   
-            position: 'top-center',
-            heading: msg,
-            onClick: () => {
-                hide!()
-            }
-        },
-    )}
 
 // ===== ===== ===== ===== PROJECTS ===== ===== ===== =====
 

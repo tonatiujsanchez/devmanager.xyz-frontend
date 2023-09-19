@@ -1,46 +1,38 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react'
 
+import { isAxiosError } from 'axios'
+import { clientAxios } from '../config'
+
+import { showNotify } from '../helpers'
 import { IProject } from '../interfaces'
-import { useData } from '.'
 
 
 
 export const useSearchProjects = (searchTerm:string) => {
 
-    console.log({searchTerm})
-    
-    
     const [milliseconds, setMilliseconds] = useState<number>(0)
     const [loading, setLoading] = useState(false)
     const [filteredProjects, setSetFilteredProjects] = useState<IProject[]>([])
 
     const ref = useRef<number>()
 
-    const { projects:{ projects }, projectsCollaborative } = useData()
-
 
     const onSearchProject = async() => {
-
         setLoading(true)
-        const results = projects.filter( project => {
-            if( project.name.toLowerCase().includes( searchTerm.toLowerCase() ) ){
-               return project 
-            }
-        })
-        const resultsCollaborative = projectsCollaborative.projects.filter( project => {
-            if( project.name.toLowerCase().includes( searchTerm.toLowerCase() ) ){
-               return project 
-            }
-        })
-        
-        setTimeout(() => {
-            setSetFilteredProjects([...results, ...resultsCollaborative])
+        try {
+            const { data } = await clientAxios.post('/projects/search', { searchTerm })
+            setSetFilteredProjects(data)
             setLoading(false)
-        }, 1000);
+        } catch (error) {
+            if(isAxiosError(error)){
+                const { msg } = error.response?.data as { msg: string }
+                showNotify(msg, 'error')
+            }
+            setLoading(false)
+        }
     }
 
     const onStartInterval = () => {
-
         ref.current && clearInterval( ref.current )
         setMilliseconds(200)
     
@@ -57,9 +49,7 @@ export const useSearchProjects = (searchTerm:string) => {
     }, [searchTerm])
     
 
-    useEffect(() => {
-        console.log({milliseconds})
-        
+    useEffect(() => {        
         if( milliseconds <= 0 ){
             clearInterval( ref.current )
             
@@ -69,7 +59,6 @@ export const useSearchProjects = (searchTerm:string) => {
                 onSearchProject()
             }
         }
-    
     }, [milliseconds])
     
     
