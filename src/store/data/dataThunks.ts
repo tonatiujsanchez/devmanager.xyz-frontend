@@ -15,6 +15,8 @@ import {
     addTasksOfProjectActive,
     deleteProject,
     deleteTask,
+    deleteTaskOfProjectActive,
+    deleteTaskToCollaborator,
     editProject,
     editTask,
     refreshProjects,
@@ -234,7 +236,7 @@ export const startAddNewTask = ({ name, description, deliveryDate, priority }:St
                 dispatch( addNewTask({ task:data, idProject:projectActive._id }) )
             }
             
-            showNotify('Tarea agregada correctamente', 'success')
+            showNotify('Tarea agregada', 'success')
 
             socket.emit('new-task', { task:data })
             
@@ -268,7 +270,7 @@ export const startAddNewTaskWithSocketIO = ({ task }:StartAddNewTaskWithSocketIO
             const newTask = projectActive.tasks.tasks.find( taskState => taskState._id === task._id )
                         
             if(!newTask && projectActive.type === 'collaborative'){
-                showNotify('Nueva tarea agregada', 'success')
+                showNotify('Se agregó una nueva tarea al proyecto', 'success')
             }  
         }
 
@@ -333,12 +335,20 @@ interface StartDeleteTaskParams {
     _id: string
 }
 export const startDeleteTask = ({ _id }:StartDeleteTaskParams) => {
-    return async( dispatch:Dispatch ) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+        const { projects } = getState().data
 
         try {
             const { data } = await clientAxios.delete(`/tasks/${_id}`)
 
-            dispatch( deleteTask(data) )
+            if( projects.projects.length > 0 ){
+                dispatch( deleteTask(data) )
+            }
+
+            showNotify('Tarea eliminada', 'success')
+
+            socket.emit('delete-task', { task:data })
+
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
@@ -347,6 +357,40 @@ export const startDeleteTask = ({ _id }:StartDeleteTaskParams) => {
         }
     }
 }
+
+
+// TODO:
+interface StartDeleteTaskWithSocketIOParams {
+    task : ITask
+}
+export const startDeleteTaskWithSocketIO = ({ task }:StartDeleteTaskWithSocketIOParams) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+
+        const { projectsCollaborative, projectActive } = getState().data
+
+        if(!projectActive?._id){ return }
+
+
+        if(projectActive._id === (task.project as IProject)._id){
+            
+            dispatch(deleteTaskOfProjectActive( task )) 
+
+            const newTask = projectActive.tasks.tasks.find( taskState => taskState._id === task._id )
+            
+            if(newTask && projectActive.type === 'collaborative'){
+                showNotify('Se eliminó una tarea del proyecto', 'success')
+            }  
+        }
+
+        // Dispatch al a los proyectos de colaborador
+        if( projectsCollaborative.projects.length > 0 ){
+            dispatch( deleteTaskToCollaborator( task ) )
+        }
+
+    }
+}
+
+
 
 
 interface StartToggleCompleteTaskParams {

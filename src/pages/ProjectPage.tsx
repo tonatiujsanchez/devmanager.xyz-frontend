@@ -6,7 +6,7 @@ import { io, Socket } from 'socket.io-client'
 import { useAdmin, useGetProject } from "../hooks"
 
 import { IAppDispatch } from '../store/store'
-import { startAddNewTaskWithSocketIO } from '../store/data'
+import { startAddNewTaskWithSocketIO, startDeleteTaskWithSocketIO } from '../store/data'
 import { CollaboratorsSection, LoadingMain, TasksSection } from "../components"
 import { tabOptions } from "../constants"
 
@@ -52,7 +52,16 @@ export const ProjectPage = () => {
         socket.on('new-task-response', (payload)=>{
             dispatch( startAddNewTaskWithSocketIO(payload) )            
         })
-    },)
+
+        socket.on('delete-task-response', (payload)=>{
+            dispatch( startDeleteTaskWithSocketIO(payload) )            
+        })
+        
+        return () => {
+            socket.off("new-task-response")
+            socket.off("delete-task-response")
+        }
+    })
     
     
     if(loading){

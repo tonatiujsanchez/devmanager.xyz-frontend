@@ -131,17 +131,37 @@ export const dataSlice = createSlice({
                 }
             }
         },
-        deleteTask: ( state, { payload }:PayloadAction<ITask> ) => {   
+        deleteTaskOfProjectActive: ( state, { payload }:PayloadAction<ITask> ) => {   
             state.projectActive!.tasks.tasks = state.projectActive!.tasks.tasks.filter( task => task._id !== payload._id )
             state.projectActive!.tasks.count--
             state.projectActive!.tasks.total--
+        },
+        deleteTask: ( state, { payload }:PayloadAction<ITask> ) => {   
 
             if( state.projects.projects.length > 0 ){
                 state.projects = {
                     ...state.projects,
                     projects: state.projects.projects.map( project => {
-                        if( state.projectActive?._id === project._id ){
-                            return state.projectActive!
+                         if( project._id === (payload.project as IProject)._id ){
+                            project.tasks.tasks = project.tasks.tasks.filter( task => task._id !== payload._id )
+                            project.tasks.count--
+                            project.tasks.total--
+                        }
+                        return project
+                    })                    
+                }
+            }
+        },
+        deleteTaskToCollaborator: ( state, { payload }:PayloadAction<ITask> ) => {
+
+            if( state.projectsCollaborative.projects.length > 0 ){
+                state.projectsCollaborative = {
+                    ...state.projectsCollaborative,
+                    projects: state.projectsCollaborative.projects.map( project => {
+                        if( project._id === (payload.project as IProject)._id ){
+                            project.tasks.tasks = project.tasks.tasks.filter( task => task._id !== payload._id )
+                            project.tasks.count--
+                            project.tasks.total--
                         }
                         return project
                     })                    
@@ -244,15 +264,17 @@ export const {
     addNewProject,
     editProject,
     deleteProject,
-
+    
     setProjectActive,
     addTasksOfProject,
-
+    
     addTasksOfProjectActive,
     addNewTask,
     addNewTaskToCollaborator,
     editTask,
+    deleteTaskOfProjectActive,
     deleteTask,
+    deleteTaskToCollaborator,
 
     addNewTaskOfProjectActive,
     addCollaboratorToProject,
