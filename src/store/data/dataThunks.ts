@@ -3,11 +3,14 @@ import { Dispatch } from "@reduxjs/toolkit"
 import { isAxiosError } from "axios"
 import { clientAxios } from "../../config"
 
+import { io, Socket } from "socket.io-client"
+
 import { 
     addCollaboratorToProject,
     addNewProject,
     addNewTask,
     addNewTaskOfProjectActive,
+    addNewTaskToCollaborator,
     addTasksOfProject,
     addTasksOfProjectActive,
     deleteProject,
@@ -28,6 +31,8 @@ import { showNotify } from "../../helpers"
 import { IProject, ITask } from "../../interfaces"
 
 
+// ===== ===== ===== SOCKET.IO - Config ===== ===== =====
+const socket:Socket = io(import.meta.env.VITE_API_URL)
 
 
 // ===== ===== ===== ===== PROJECTS ===== ===== ===== =====
@@ -224,12 +229,15 @@ export const startAddNewTask = ({ name, description, deliveryDate, priority }:St
                 name, description, deliveryDate, priority, project:projectActive._id
             })
             
-            dispatch(addNewTaskOfProjectActive({ task:data }))            
-
+            // Dispatch al a los proyectos de administrador
             if( projects.projects.length > 0 ){
                 dispatch( addNewTask({ task:data, idProject:projectActive._id }) )
             }
+            
             showNotify('Tarea agregada correctamente', 'success')
+
+            socket.emit('new-task', { task:data })
+            
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
@@ -237,6 +245,37 @@ export const startAddNewTask = ({ name, description, deliveryDate, priority }:St
             }   
         }
 
+    }
+}
+
+
+interface StartAddNewTaskWithSocketIOParams {
+    task : ITask
+}
+
+export const startAddNewTaskWithSocketIO = ({ task }:StartAddNewTaskWithSocketIOParams) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+        
+        const { projectsCollaborative, projectActive } = getState().data
+
+        if(!projectActive?._id){ return }
+        
+        // Dispatch al proyecto activo en caso de que la tarea pertenezca a ese proyecto
+        if(projectActive._id === task.project){
+
+            dispatch(addNewTaskOfProjectActive({ task })) 
+            
+            const newTask = projectActive.tasks.tasks.find( taskState => taskState._id === task._id )
+                        
+            if(!newTask && projectActive.type === 'collaborative'){
+                showNotify('Nueva tarea agregada', 'success')
+            }  
+        }
+
+        // Dispatch al a los proyectos de colaborador
+        if( projectsCollaborative.projects.length > 0 ){
+            dispatch( addNewTaskToCollaborator({ task, idProject:task.project.toString() }) )
+        }
     }
 }
 

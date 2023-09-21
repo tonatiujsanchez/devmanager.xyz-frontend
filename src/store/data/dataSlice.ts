@@ -80,10 +80,29 @@ export const dataSlice = createSlice({
         },
         addNewTask: ( state, { payload }:PayloadAction<{ idProject: string, task: ITask }> ) => {   
             state.projects.projects.forEach(project => {
+
                 if(project._id === payload.idProject){
-                    project.tasks.tasks.push(payload.task)
-                    project.tasks.count++
-                    project.tasks.total++
+
+                    const newTask = project.tasks.tasks.find( taskState => taskState._id === payload.task._id )
+                    if( !newTask ){
+                        project.tasks.tasks.push(payload.task)
+                        project.tasks.count++
+                        project.tasks.total++
+                    }
+
+                }
+            })
+        },
+        addNewTaskToCollaborator: ( state, { payload }:PayloadAction<{ idProject: string, task: ITask }> ) => {            
+            state.projectsCollaborative.projects.forEach(project => {
+                if(project._id === payload.idProject){
+
+                    const newTask = project.tasks.tasks.find( taskState => taskState._id === payload.task._id )
+                    if(!newTask){
+                        project.tasks.tasks.push(payload.task)
+                        project.tasks.count++
+                        project.tasks.total++
+                    }
                 }
             })
         },
@@ -130,11 +149,15 @@ export const dataSlice = createSlice({
             }
         },
         addNewTaskOfProjectActive: ( state, { payload }:PayloadAction<{ task: ITask }> ) => {
-            if(state.projectActive){
-                state.projectActive.tasks.tasks.push(payload.task)
-                state.projectActive.tasks.count++
-                state.projectActive.tasks.total++
-            }
+
+                const newTask = state.projectActive!.tasks.tasks.find( taskState => taskState._id === payload.task._id )
+
+                if(!newTask){
+                    state.projectActive!.tasks.tasks.push(payload.task)
+                    state.projectActive!.tasks.count++
+                    state.projectActive!.tasks.total++
+                }
+            
         },
         setTaskEdit: ( state, { payload }:PayloadAction<ITask | null> ) => {
             state.taskEdit = payload
@@ -227,6 +250,7 @@ export const {
 
     addTasksOfProjectActive,
     addNewTask,
+    addNewTaskToCollaborator,
     editTask,
     deleteTask,
 

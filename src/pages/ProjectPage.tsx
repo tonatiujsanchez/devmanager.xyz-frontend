@@ -1,15 +1,24 @@
 import { useState, useEffect } from 'react'
 import { Link, Navigate, useParams } from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import { io, Socket } from 'socket.io-client'
+
 import { useAdmin, useGetProject } from "../hooks"
 
+import { IAppDispatch } from '../store/store'
+import { startAddNewTaskWithSocketIO } from '../store/data'
 import { CollaboratorsSection, LoadingMain, TasksSection } from "../components"
 import { tabOptions } from "../constants"
 
+
+let socket: Socket
 
 export const ProjectPage = () => {
 
     const [selectedTab, setSelectedTab] = useState<string>(tabOptions[0].value)
     const [progress, setprogress] = useState(0)
+
+    const dispatch:IAppDispatch = useDispatch()
 
     const { id } = useParams() as { id: string }    
     const { project, loading, loadingTasks, refreshTasks } = useGetProject(id)
@@ -25,6 +34,26 @@ export const ProjectPage = () => {
         }
         
     },[project])
+
+
+    
+    useEffect(() => {
+        socket = io(import.meta.env.VITE_API_URL)
+        socket.emit('open-project', { idProject: id })
+    }, [])
+
+    // useEffect(() => {
+    //     socket.on('open-project-response', (payload)=>{
+    //         console.log(payload)            
+    //     })
+    // },)
+    
+    useEffect(() => {
+        socket.on('new-task-response', (payload)=>{
+            dispatch( startAddNewTaskWithSocketIO(payload) )            
+        })
+    },)
+    
     
     if(loading){
         return (
