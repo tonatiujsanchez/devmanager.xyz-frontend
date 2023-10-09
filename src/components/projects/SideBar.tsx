@@ -33,7 +33,7 @@ export const SideBar = () => {
                             to={"/proyectos"} 
                             className="flex gap-5 text-white text-lg p-2 rounded-md"
                         >
-                            ⚡ <span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>UpTask</span>
+                            🥑<span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>DevDo</span>
                         </Link>
                         <button
                             onClick={ ()=> dispatch( startToggleSideMenu() ) } 
