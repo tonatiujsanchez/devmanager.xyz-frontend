@@ -17,8 +17,10 @@ import {
     deleteTask,
     deleteTaskOfProjectActive,
     deleteTaskToCollaborator,
+    editOfProjectActive,
     editProject,
     editTask,
+    editTaskToCollaborator,
     refreshProjects,
     refreshProjectsCollaborative,
     removeCollaboratorToProject,
@@ -310,7 +312,7 @@ interface StartEditTaskParams {
 export const startEditTask = ({ _id, name, description, deliveryDate, priority }:StartEditTaskParams) => {
     return async( dispatch:Dispatch, getState:()=> IRootState ) => {
 
-        const { projectActive } = getState().data
+        const { projects, projectActive } = getState().data
 
         if(!projectActive?._id){ return }
 
@@ -319,8 +321,14 @@ export const startEditTask = ({ _id, name, description, deliveryDate, priority }
                 name, description, deliveryDate, priority
             })
             
-            dispatch( editTask({ task:data, idProject:projectActive._id }) )
-            showNotify('Tarea actualizada correctamente', 'success')
+            if( projects.projects.length > 0 ){
+                dispatch( editTask({ task:data, idProject:projectActive._id }) )
+            }
+
+            showNotify('Tarea actualizada', 'success')
+
+            socket.emit('edit-task', { task:data })
+
         } catch (error) {
             if(isAxiosError(error)){
                 const { msg } = error.response?.data as { msg: string }
@@ -329,6 +337,35 @@ export const startEditTask = ({ _id, name, description, deliveryDate, priority }
         }
     }
 }
+
+
+interface StartEditTaskWithSocketIOParams {
+    task : ITask
+}
+export const startEditTaskWithSocketIO = ({ task }:StartEditTaskWithSocketIOParams) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+        
+        const { projectsCollaborative, projectActive } = getState().data
+
+        if(!projectActive?._id){ return }
+        
+        // Dispatch al proyecto activo en caso de que la tarea pertenezca a ese proyecto
+        if(projectActive._id === (task.project as IProject)._id){
+
+            dispatch(editOfProjectActive({ task })) 
+            
+            if(projectActive.type === 'collaborative'){
+                showNotify('Se editó una tarea del proyecto', 'success')
+            }  
+        }
+
+        // Dispatch al a los proyectos de colaborador
+        if( projectsCollaborative.projects.length > 0 ){
+            dispatch( editTaskToCollaborator({ task, idProject:(task.project as IProject)._id!.toString() }) )
+        }
+    }
+}
+
 
 
 interface StartDeleteTaskParams {

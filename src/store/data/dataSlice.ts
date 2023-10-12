@@ -107,6 +107,32 @@ export const dataSlice = createSlice({
             })
         },
         editTask: ( state, { payload }:PayloadAction<{ idProject: string, task: ITask }> ) => {   
+            if( state.projects.projects.length > 0 ){
+                state.projects = {
+                    ...state.projects,
+                    projects: state.projects.projects.map( project => {
+                        if( project._id === payload.idProject ){
+                            project.tasks.tasks = project.tasks.tasks.map( taskState => taskState._id === payload.task._id ? payload.task : taskState )
+                        }
+                        return project
+                    })                    
+                }
+            }
+        },
+        editTaskToCollaborator: ( state, { payload }:PayloadAction<{ idProject: string, task: ITask }> ) => {   
+            if( state.projectsCollaborative.projects.length > 0 ){
+                state.projectsCollaborative = {
+                    ...state.projectsCollaborative,
+                    projects: state.projectsCollaborative.projects.map( project => {
+                        if( project._id === payload.idProject ){
+                            project.tasks.tasks = project.tasks.tasks.map( taskState => taskState._id === payload.task._id ? payload.task : taskState )
+                        }
+                        return project
+                    })                    
+                }
+            }
+        },
+        editOfProjectActive: ( state, { payload }:PayloadAction<{ task: ITask }> ) => {   
             if( state.projectActive ){
                 state.projectActive.tasks = {
                     ...state.projectActive.tasks,
@@ -117,18 +143,6 @@ export const dataSlice = createSlice({
                         return task
                     })
                 }               
-            }
-
-            if( state.projects.projects.length > 0 ){
-                state.projects = {
-                    ...state.projects,
-                    projects: state.projects.projects.map( project => {
-                        if( state.projectActive?._id === project._id ){
-                            return state.projectActive!
-                        }
-                        return project
-                    })                    
-                }
             }
         },
         deleteTaskOfProjectActive: ( state, { payload }:PayloadAction<ITask> ) => {   
@@ -272,6 +286,8 @@ export const {
     addNewTask,
     addNewTaskToCollaborator,
     editTask,
+    editOfProjectActive,
+    editTaskToCollaborator,
     deleteTaskOfProjectActive,
     deleteTask,
     deleteTaskToCollaborator,
