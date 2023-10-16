@@ -443,7 +443,6 @@ export const startToggleCompleteTask = ({ taskId }:StartToggleCompleteTaskParams
         
         try {
             const { data } = await clientAxios.post(`/tasks/to-complete/${taskId}`)
-            dispatch( updateCompletedTasks( data ) )
             
             socket.emit('complete-task', { task:data })
 
@@ -463,12 +462,16 @@ interface StartToggleCompleteTaskWithSocketIOParams {
 export const startToggleCompleteTaskWithSocketIO = ({ task }:StartToggleCompleteTaskWithSocketIOParams) => {
     return async( dispatch:Dispatch, getState:()=> IRootState ) => {
     
-        const { projectsCollaborative, projectActive } = getState().data
+        const { projects, projectsCollaborative, projectActive } = getState().data
 
         if(!projectActive?._id){ return }
 
         if(projectActive._id === task.project ){
             dispatch( updateCompletedTasksOfProjectActive( task ) ) //TODO: Cambiar por active
+        }
+
+        if( projects.projects.length > 0 ){
+            dispatch( updateCompletedTasks( task ) )
         }
 
         if( projectsCollaborative.projects.length > 0 ){

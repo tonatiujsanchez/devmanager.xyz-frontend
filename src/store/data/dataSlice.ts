@@ -198,31 +198,53 @@ export const dataSlice = createSlice({
         },
         updateCompletedTasks: ( state, { payload }:PayloadAction<ITask> ) => {
             // TODO:
-            if(state.projectActive?.type === 'admin' && state.projects.projects.length > 0 ){
-                state.projects = {
-                    ...state.projects,
-                    projects: state.projects.projects.map( project => {
-                        if( state.projectActive?._id === project._id ){
-                            return state.projectActive!
+
+            state.projects = {
+                ...state.projects,
+                projects: state.projects.projects.map( project => {
+                    if( project._id === payload.project ){
+
+                        project.tasks.tasks = project.tasks.tasks.map( task => {
+                            if( task._id === payload._id ){
+                                return payload
+                            }
+                            return task
+                        })
+                        if( payload.completed ) {
+                            project.tasks.completedTasks++
+                        }else {
+                            project.tasks.completedTasks--
                         }
-                        return project
-                    })                    
-                }
+                    
+                    }
+                    return project
+                })                    
             }
 
         },
         updateCompletedTasksToCollaborator: ( state, { payload }:PayloadAction<ITask> ) => {
 
-            if(state.projectActive?.type === 'collaborative' && state.projectsCollaborative.projects.length > 0 ){
-                state.projectsCollaborative = {
-                    ...state.projectsCollaborative,
-                    projects: state.projectsCollaborative.projects.map( project => {
-                        if( state.projectActive?._id === project._id ){
-                            return state.projectActive!
+            state.projectsCollaborative = {
+                ...state.projectsCollaborative,
+                projects: state.projectsCollaborative.projects.map( project => {
+                    if( project._id === payload.project ){
+                        project.tasks.tasks = project.tasks.tasks.map( task => {
+
+                            if( task._id === payload._id ){
+                                return payload
+                            }
+                            return task
+                        })
+                        if( payload.completed ) {
+                            project.tasks.completedTasks++
+                        }else {
+                            project.tasks.completedTasks--
                         }
-                        return project
-                    })                    
-                }
+
+                    }
+
+                    return project
+                })
             }        
         },
         updateCompletedTasksOfProjectActive: ( state, { payload }:PayloadAction<ITask> ) => {
@@ -234,7 +256,6 @@ export const dataSlice = createSlice({
             }else {
                 state.projectActive.tasks.completedTasks--
             }
-            // TODO:
             state.projectActive.tasks = {
                 ...state.projectActive.tasks,
                 tasks: state.projectActive.tasks.tasks.map( task => {
