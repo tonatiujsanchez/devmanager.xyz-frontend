@@ -1,4 +1,4 @@
-## UpTask - Frontend
+## DevDo - Frontend
 
 
 ## Redux Toolkit :: React + Typescript

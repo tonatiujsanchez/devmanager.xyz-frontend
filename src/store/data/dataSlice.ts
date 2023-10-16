@@ -197,11 +197,7 @@ export const dataSlice = createSlice({
             state.taskEdit = payload
         },
         updateCompletedTasks: ( state, { payload }:PayloadAction<ITask> ) => {
-            if( payload.completed ) {
-                state.projectActive!.tasks.completedTasks++
-            }else {
-                state.projectActive!.tasks.completedTasks--
-            }
+            // TODO:
             if(state.projectActive?.type === 'admin' && state.projects.projects.length > 0 ){
                 state.projects = {
                     ...state.projects,
@@ -213,6 +209,10 @@ export const dataSlice = createSlice({
                     })                    
                 }
             }
+
+        },
+        updateCompletedTasksToCollaborator: ( state, { payload }:PayloadAction<ITask> ) => {
+
             if(state.projectActive?.type === 'collaborative' && state.projectsCollaborative.projects.length > 0 ){
                 state.projectsCollaborative = {
                     ...state.projectsCollaborative,
@@ -223,7 +223,28 @@ export const dataSlice = createSlice({
                         return project
                     })                    
                 }
+            }        
+        },
+        updateCompletedTasksOfProjectActive: ( state, { payload }:PayloadAction<ITask> ) => {
+            
+            if( !state.projectActive ){ return }
+            
+            if( payload.completed ) {
+                state.projectActive.tasks.completedTasks++
+            }else {
+                state.projectActive.tasks.completedTasks--
             }
+            // TODO:
+            state.projectActive.tasks = {
+                ...state.projectActive.tasks,
+                tasks: state.projectActive.tasks.tasks.map( task => {
+                    if( task._id === payload._id ) {
+                        return payload
+                    }
+                    return task
+                })
+            }
+                   
         },
         addCollaboratorToProject: ( state, { payload }:PayloadAction<IUser> ) => {
             state.projectActive?.collaborators.push( payload )
@@ -296,7 +317,9 @@ export const {
     addCollaboratorToProject,
     removeCollaboratorToProject,
     setTaskEdit,
+    updateCompletedTasksOfProjectActive,
     updateCompletedTasks,
+    updateCompletedTasksToCollaborator,
 
     clearProjectsLogout
 } = dataSlice.actions

@@ -6,7 +6,7 @@ import { io, Socket } from 'socket.io-client'
 import { useAdmin, useGetProject } from "../hooks"
 
 import { IAppDispatch } from '../store/store'
-import { startAddNewTaskWithSocketIO, startDeleteTaskWithSocketIO, startEditTaskWithSocketIO } from '../store/data'
+import { startAddNewTaskWithSocketIO, startDeleteTaskWithSocketIO, startEditTaskWithSocketIO, startToggleCompleteTaskWithSocketIO } from '../store/data'
 import { CollaboratorsSection, LoadingMain, TasksSection } from "../components"
 import { tabOptions } from "../constants"
 
@@ -60,11 +60,16 @@ export const ProjectPage = () => {
         socket.on('delete-task-response', (payload)=>{
             dispatch( startDeleteTaskWithSocketIO(payload) )            
         })
+
+        socket.on('complete-task-response', (payload)=>{            
+            dispatch( startToggleCompleteTaskWithSocketIO(payload) )            
+        })
         
         return () => {
             socket.off("new-task-response")
             socket.off("edit-task-response")
             socket.off("delete-task-response")
+            socket.off("complete-task-response")
         }
     })
     

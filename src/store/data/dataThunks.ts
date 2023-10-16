@@ -26,7 +26,9 @@ import {
     removeCollaboratorToProject,
     setProjectActive,
     setTaskEdit, 
-    updateCompletedTasks
+    updateCompletedTasks,
+    updateCompletedTasksOfProjectActive,
+    updateCompletedTasksToCollaborator
 } from "./"
 
 import { IRootState } from "../store"
@@ -396,7 +398,6 @@ export const startDeleteTask = ({ _id }:StartDeleteTaskParams) => {
 }
 
 
-// TODO:
 interface StartDeleteTaskWithSocketIOParams {
     task : ITask
 }
@@ -442,8 +443,9 @@ export const startToggleCompleteTask = ({ taskId }:StartToggleCompleteTaskParams
         
         try {
             const { data } = await clientAxios.post(`/tasks/to-complete/${taskId}`)
-            dispatch( editTask({ task:data, idProject:projectActive._id  }) )
             dispatch( updateCompletedTasks( data ) )
+            
+            socket.emit('complete-task', { task:data })
 
         } catch (error) {
             if(isAxiosError(error)){
@@ -454,6 +456,26 @@ export const startToggleCompleteTask = ({ taskId }:StartToggleCompleteTaskParams
     }
 }
 
+interface StartToggleCompleteTaskWithSocketIOParams {
+    task: ITask
+}
+
+export const startToggleCompleteTaskWithSocketIO = ({ task }:StartToggleCompleteTaskWithSocketIOParams) => {
+    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+    
+        const { projectsCollaborative, projectActive } = getState().data
+
+        if(!projectActive?._id){ return }
+
+        if(projectActive._id === task.project ){
+            dispatch( updateCompletedTasksOfProjectActive( task ) ) //TODO: Cambiar por active
+        }
+
+        if( projectsCollaborative.projects.length > 0 ){
+            dispatch( updateCompletedTasksToCollaborator( task ) )
+        }
+    }
+}
 
 
 // ===== ===== ===== ===== COLLABORATORS ===== ===== ===== =====
