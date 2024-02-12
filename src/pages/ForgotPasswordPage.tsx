@@ -66,7 +66,7 @@ export const ForgotPasswordPage = () => {
                     <h1 className="text-3xl font-extrabold text-center uppercase mb-5">Revisa tu correo</h1>
                     <p className="max-w-[500px] mb-7 text-center">{ msg }</p>
                     <div className="flex justify-center gap-1 mt-10">
-                        <Link to="/" className="font-medium text-slate-700 hover:text-slate-950">Iniciar Sesion</Link>
+                        <Link to="/auth/login" className="font-medium text-slate-700 hover:text-slate-950">Iniciar Sesion</Link>
                     </div>
                 </div>
             </section>
@@ -136,13 +136,13 @@ export const ForgotPasswordPage = () => {
                 
                 <div className="flex justify-between items-center gap-1 mt-10">
                     <Link 
-                        to="/" 
+                        to="/auth/login" 
                         className="font-medium text-slate-700 hover:text-slate-950"
                     >
                         Iniciar Sesión
                     </Link>
                     <Link 
-                        to="/registrar" 
+                        to="/auth/registrar" 
                         className="font-medium text-slate-700 hover:text-slate-950"
                     >
                         Registrate

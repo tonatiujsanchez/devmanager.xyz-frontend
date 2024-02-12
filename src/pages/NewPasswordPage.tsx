@@ -102,7 +102,7 @@ export const NewPasswordPage = () => {
                     <h1 className="text-3xl font-extrabold text-center uppercase mb-5">Contraseña Actualizada</h1>
                     <p className="max-w-[500px] mb-7 text-center">{ msg }</p>
                     <div className="flex justify-center gap-1 mt-10">
-                        <Link to="/" className="font-medium text-slate-700 hover:text-slate-950">Iniciar Sesion</Link>
+                        <Link to="/auth/login" className="font-medium text-slate-700 hover:text-slate-950">Iniciar Sesion</Link>
                     </div>
                 </div>
             </section>

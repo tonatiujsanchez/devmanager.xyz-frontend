@@ -80,7 +80,7 @@ export const RegisterPage = () => {
                     <h1 className="text-3xl font-extrabold text-center uppercase mb-5">Cuenta Creada</h1>
                     <p className="max-w-[500px] mb-7 text-center">Revisa tu correo para confirmar tu cuenta y comienza a administrar tus proyectos</p>
                     <div className="flex justify-center gap-1 mt-10">
-                        <Link to="/" className="font-medium text-slate-700 hover:text-slate-950">Iniciar Sesion</Link>
+                        <Link to="/auth/login" className="font-medium text-slate-700 hover:text-slate-950">Iniciar Sesion</Link>
                     </div>
                 </div>
             </section>
@@ -216,7 +216,7 @@ export const RegisterPage = () => {
                         }
                     </div>
                     <div className="flex justify-end gap-5 mt-2 mb-3">
-                        <Link to="/olvide-password" className="text-gray-800 hover:text-gray-950 font-medium leading-5">Olvide mi contraseña</Link>
+                        <Link to="/auth/olvide-password" className="text-gray-800 hover:text-gray-950 font-medium leading-5">Olvide mi contraseña</Link>
                     </div>
                     <button
                         type="submit"
@@ -257,7 +257,7 @@ export const RegisterPage = () => {
                 </div>
                 <div className="flex justify-center items-center gap-1 mt-7">
                     <span className="inline-block leading-5 text-slate-700">¿Ya tienes una cuenta?</span>
-                    <Link to="/" className="font-semibold text-slate-700 hover:text-slate-950">Inicia Sesión</Link>
+                    <Link to="/auth/login" className="font-semibold text-slate-700 hover:text-slate-950">Inicia Sesión</Link>
                 </div>
             </div>
         </section>

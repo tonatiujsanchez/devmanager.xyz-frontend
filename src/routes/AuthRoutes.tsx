@@ -13,13 +13,13 @@ import {
 export const AuthRoutes = () => {
     return (
         <Routes>
-            <Route path="*" element={<AuthLayout />} >
-                <Route index element={<LoginPage />} />
+            <Route path="/*" element={<AuthLayout />} >
+                <Route path="login" element={<LoginPage />} />
                 <Route path="registrar" element={<RegisterPage />} />
                 <Route path="olvide-password" element={<ForgotPasswordPage />} />
                 <Route path="olvide-password/:token" element={<NewPasswordPage />} />
                 <Route path="confirmar-cuenta/:token" element={<ConfirmAccountPage />} />
-                <Route path="/*" element={<Navigate to="/" />} />
+                <Route path="/*" element={<Navigate to="/auth/login" />} />
             </Route>
         </Routes>
     )

@@ -25,9 +25,9 @@ export const AppRouter = () => {
             {
                 status === AuthStatus.Authenticated
                 ?<Route path="/proyectos/*" element={<ProjectsRoutes />} />
-                :<Route path="/*" element={<AuthRoutes />} />
+                :<Route path="/auth/*" element={<AuthRoutes />} />
             }
-            <Route path="/*" element={ <Navigate to="/proyectos/*"/> } />           
+            <Route path="/*" element={ <Navigate to="/auth/login"/> } />           
         </Routes>
     )
 }

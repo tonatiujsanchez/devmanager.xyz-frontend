@@ -141,7 +141,7 @@ export const LoginPage = () => {
                                 <span className="text-gray-800 hover:text-gray-950 font-medium leading-5">Recordarme</span>
                             </label>
                         </div>
-                        <Link to="/olvide-password" className="text-gray-800 hover:text-gray-950 font-medium leading-5">Olvide mi contraseña</Link>
+                        <Link to="/auth/olvide-password" className="text-gray-800 hover:text-gray-950 font-medium leading-5">Olvide mi contraseña</Link>
                     </div>
                     <button
                         type="submit"
@@ -182,7 +182,7 @@ export const LoginPage = () => {
                 </div>
                 <div className="flex justify-center items-center gap-1 mt-7">
                     <span className="inline-block leading-5 text-slate-700">¿Aun no tienes una cuenta?</span>
-                    <Link to="/registrar" className="font-semibold text-slate-700 hover:text-slate-950">Registrate</Link>
+                    <Link to="/auth/registrar" className="font-semibold text-slate-700 hover:text-slate-950">Registrate</Link>
                 </div>
             </div>
         </section>
