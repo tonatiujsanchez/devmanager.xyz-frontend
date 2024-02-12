@@ -11,7 +11,7 @@ export const store = configureStore({
         ui  : uiSlice.reducer,
         data: dataSlice.reducer
     },
-    devTools: false
+    // devTools: false
 })
 
 export type IRootState = ReturnType<typeof store.getState>
