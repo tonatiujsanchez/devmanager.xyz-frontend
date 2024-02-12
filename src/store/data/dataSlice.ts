@@ -197,7 +197,6 @@ export const dataSlice = createSlice({
             state.taskEdit = payload
         },
         updateCompletedTasks: ( state, { payload }:PayloadAction<ITask> ) => {
-            // TODO:
 
             state.projects = {
                 ...state.projects,
@@ -303,6 +302,13 @@ export const dataSlice = createSlice({
             state.projectActive = null
             state.taskEdit = null
             state.projects = {
+                page: 0,
+                count: 0,
+                total: 0,
+                totalPages: 0,
+                projects: []
+            }
+            state.projectsCollaborative = {
                 page: 0,
                 count: 0,
                 total: 0,

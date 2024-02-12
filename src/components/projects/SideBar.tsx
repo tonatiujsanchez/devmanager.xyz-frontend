@@ -31,9 +31,14 @@ export const SideBar = () => {
                     <div className="flex items-center gap-2">
                         <Link 
                             to={"/proyectos"} 
-                            className="flex gap-5 text-white text-lg p-2 rounded-md"
+                            className="flex gap-2 text-white text-lg p-2 rounded-md"
                         >
-                            🥑<span className={`min-w-[150px] transition-all duration-500 ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}>DevDo</span>
+                            <img 
+                                src="/devmanager-logo.svg" 
+                                alt="Logo de DevManager"
+                                className="w-5"
+                            />
+                            <span className={`min-w-[150px] transition-all duration-500 text-[1.1rem] font-light ${ toggleSideMenu ? 'opacity-100':'sm:opacity-0 group-hover:opacity-100'}`}><strong className="font-semibold">Dev</strong>Manager</span>
                         </Link>
                         <button
                             onClick={ ()=> dispatch( startToggleSideMenu() ) } 

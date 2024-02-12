@@ -398,6 +398,7 @@ export const startDeleteTask = ({ _id }:StartDeleteTaskParams) => {
 }
 
 
+
 interface StartDeleteTaskWithSocketIOParams {
     task : ITask
 }
@@ -467,7 +468,7 @@ export const startToggleCompleteTaskWithSocketIO = ({ task }:StartToggleComplete
         if(!projectActive?._id){ return }
 
         if(projectActive._id === task.project ){
-            dispatch( updateCompletedTasksOfProjectActive( task ) ) //TODO: Cambiar por active
+            dispatch( updateCompletedTasksOfProjectActive( task ) )
         }
 
         if( projects.projects.length > 0 ){

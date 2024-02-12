@@ -20,8 +20,9 @@ export const NavBar = () => {
             >
                 <i className='bx bx-menu text-2xl'></i>
             </button>
-            <p className="text-slate-700 font-semibold">
+            <p className="text-slate-700 font-semibold flex items-center gap-2">
                 { name }
+                <span className="bg-slate-700 text-slate-100 w-9 h-9 flex justify-center items-center rounded-full">{ name?.slice(0, 1) }</span>
             </p>
         </header>
     )
