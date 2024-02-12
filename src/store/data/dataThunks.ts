@@ -436,7 +436,7 @@ interface StartToggleCompleteTaskParams {
     taskId: string
 }
 export const startToggleCompleteTask = ({ taskId }:StartToggleCompleteTaskParams ) => {
-    return async( dispatch:Dispatch, getState:()=> IRootState ) => {
+    return async( _dispatch:Dispatch, getState:()=> IRootState ) => {
 
         const { projectActive } = getState().data
 

@@ -1,4 +1,4 @@
-## DevDo - Frontend
+## DevManager - Frontend
 
 
 ## Redux Toolkit :: React + Typescript
