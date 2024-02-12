@@ -1,20 +1,28 @@
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 
+import { useCheckAuth } from "../hooks"
+import { AuthStatus } from "../store/auth"
 import { ProjectsLayout } from "../layouts"
-import { EditProjectPage, NewProjectPage, ProjectPage, ProjectsPage } from "../pages"
+import { LoadingMain } from "../components"
 
 
 export const ProjectsRoutes = () => {
 
+    const { status } = useCheckAuth()
+    
+    if(status === AuthStatus.Checking){
+        return (
+            <div className="h-screen flex justify-center items-center">
+                <LoadingMain />
+            </div>
+        )
+    }
+
     return (
-        <Routes>
-            <Route path="/" element={<ProjectsLayout />}>
-                <Route index element={<ProjectsPage />} />
-                <Route path="nuevo-proyecto" element={<NewProjectPage />} />
-                <Route path="editar/:id" element={<EditProjectPage />} />
-                <Route path="detalles/:id" element={<ProjectPage />} />
-                <Route path="/*" element={<Navigate to="/proyectos" />} />
-            </Route>
-        </Routes>
+        status === AuthStatus.Authenticated
+        ? <ProjectsLayout>
+            <Outlet />
+        </ProjectsLayout>
+        : <Navigate to="/auth/login" />
     )
 }

@@ -1,24 +1,28 @@
-import { Navigate, Route } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 
+import { useCheckAuth } from "../hooks"
+import { AuthStatus } from "../store/auth"
 import { AuthLayout } from "../layouts"
-import { 
-    ConfirmAccountPage, 
-    ForgotPasswordPage, 
-    LoginPage, 
-    NewPasswordPage, 
-    RegisterPage 
-} from "../pages"
+import { LoadingMain } from "../components"
 
 
 export const AuthRoutes = () => {
+
+    const { status } = useCheckAuth()
+    
+    if(status === AuthStatus.Checking){
+        return (
+            <div className="h-screen flex justify-center items-center">
+                <LoadingMain />
+            </div>
+        )
+    }
+
     return (
-            <Route path="/" element={<AuthLayout />} >
-                <Route index element={<LoginPage />} />
-                <Route path="registrar" element={<RegisterPage />} />
-                <Route path="olvide-password" element={<ForgotPasswordPage />} />
-                <Route path="olvide-password/:token" element={<NewPasswordPage />} />
-                <Route path="confirmar-cuenta/:token" element={<ConfirmAccountPage />} />
-                <Route path="*" element={<Navigate to="/auth/login" />} />
-            </Route>
+        status === AuthStatus.Authenticated
+        ? <Navigate to="/proyectos" />
+        : <AuthLayout>
+            <Outlet />
+         </AuthLayout>
     )
 }

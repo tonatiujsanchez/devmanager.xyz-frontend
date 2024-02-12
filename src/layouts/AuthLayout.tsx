@@ -1,11 +1,13 @@
-import { Outlet } from 'react-router-dom'
+import { FC, ReactNode } from 'react'
 
-
-export const AuthLayout = () => {
+interface Props {
+    children: ReactNode
+}
+export const AuthLayout:FC<Props> = ({ children }) => {
     return (
         <>
             <main className="h-screen flex justify-center items-center" >
-                <Outlet />
+                { children }
             </main>
         </>
     )
