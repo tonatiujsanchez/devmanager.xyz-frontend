@@ -105,8 +105,8 @@ export const ProjectForm:FC<Props> = ({ project }) => {
                     Descripción
                 </label>
                 <Controller
-                    name="description"
                     control={ control }
+                    name="description"
                     render={ ({ field })=> (
                         <CKEditorClassic
                             value={ field.value }

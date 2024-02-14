@@ -19,7 +19,7 @@ export const CKEditorClassic: FC<Props> = ({ value, onChanche, placeholder='Cont
 
     return (
         <div 
-            className={ `editor-container rounded-lg ${ height ? height :'h-52' } ${ classesEditorContainer }` }
+            className={ `editor-container rounded-lg overflow-hidden ${ height ? height :'h-52' } ${ classesEditorContainer }` }
         >
             <CKEditor
                 editor={ ClassicEditor }

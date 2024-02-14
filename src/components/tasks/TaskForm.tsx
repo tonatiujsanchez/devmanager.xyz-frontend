@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 import { IAppDispatch } from '../../store/store'
 import { tasksOptions } from '../../constants'
-import { Select, TextEditor } from ".."
+import { CKEditorClassic, Select } from ".."
 
 import { ITask } from "../../interfaces"
 import { startAddNewTask, startCleanTaskEdit, startEditTask } from '../../store/data';
@@ -25,12 +25,11 @@ interface Props {
 export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
 
     const [loading, setLoading] = useState(false)
-    const [description, setDescription] = useState('')
 
     const dispatch:IAppDispatch = useDispatch()
 
 
-    const { register, handleSubmit, formState:{ errors, isSubmitted }, reset, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
+    const { register, control, handleSubmit, formState:{ errors }, reset, getValues, setValue } = useForm<IFormData>({
         defaultValues: {
             name: '',
             description: '',
@@ -44,9 +43,9 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
             reset({
                 name        : task.name,
                 deliveryDate: String(task.deliveryDate).split('T')[0],
-                priority    : task.priority
+                priority    : task.priority,
+                description : task.description
             })
-            setDescription(task.description)            
         }
     
         return () => {
@@ -57,32 +56,12 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
     }, [task])
     
 
-    useEffect(() => {
-        if(isSubmitted) {
-            if( description.trim() === '' ){
-                setError("description", {
-                    message: "Ingrese la descripción del proyecto",
-                })
-            }else {
-                clearErrors('description')
-            }
-        }
-    }, [setError, description, isSubmitted])
-
-    useEffect(() => {
-        setValue('description', description, { shouldValidate: true })
-    }, [description])
-    
-    const onDescriptionChange = ( content:string ) => {
-        setDescription(content)
-    }
 
     const onChangePriority = ( value:string ) => {
         setValue('priority', value, { shouldValidate: true })
     }
 
     const onSubmitProject = async ( data:IFormData ) => {
-        if( description.trim() === '' ){ return }
 
         setLoading(true)
         if(task?._id){
@@ -147,11 +126,19 @@ export const TaskForm: FC<Props> = ({ task, onCloseModal }) => {
                     >
                         Descripción
                     </label>
-                    <TextEditor
-                        placeholder="Hacer el diseño del proyecto en Figma"
-                        content={ getValues('description') }
-                        onChangeContent={ onDescriptionChange }
-                        height="h-40"
+                    <Controller
+                        control={ control }
+                        name="description"
+                        render={({ field })=>(
+                            <CKEditorClassic
+                                value={ field.value }
+                                onChanche={ field.onChange }
+                                placeholder="Hacer el diseño del proyecto en Figma"
+                            />
+                        )}
+                        rules={{
+                            validate: ( value )=> value.length === 0 ? 'Ingrese la descripción de la tarea' : undefined
+                        }}
                     />
                     {
                         !!errors.description &&
