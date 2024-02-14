@@ -2,8 +2,8 @@ import { Link } from "react-router-dom"
 
 export const Hero = () => {
     return (
-        <div>
-            <div className="container grid md:grid-cols-2 items-center gap-10 py-8 sm:py-12 md:py-20 lg:py-28">
+        <section>
+            <div className="container grid md:grid-cols-2 items-center gap-10 py-8 sm:py-12 md:py-20 lg:pt-32 lg:pb-40">
                 <div className="flex flex-col items-start gap-5 px-5">
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold lg:leading-[3.5rem] text-slate-800">¡Gestiona Proyectos con Colaboradores en Tiempo Real!</h1>
                     <p className="lg:text-lg">Una herramienta ágil y colaborativa para gestionar proyectos en equipo. Simplifica la coordinación, comunicación y seguimiento de tareas en tiempo real.</p>
@@ -15,14 +15,14 @@ export const Hero = () => {
                     </Link>
                 </div>
                 <div>
-                <img 
-                    src="/hero.webp" 
-                    alt="DevManager Hero"
-                    title="DevManager Hero"
-                    className="px-2 float-animation"
-                />
+                    <img 
+                        src="/hero.webp" 
+                        alt="DevManager Hero"
+                        title="DevManager Hero"
+                        className="px-2 float-animation pb-4"
+                    />
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
