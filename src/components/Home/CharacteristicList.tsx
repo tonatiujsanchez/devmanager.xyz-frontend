@@ -2,13 +2,13 @@
 
 export const CharacteristicList = () => {
     return (
-        <section className="bg-slate-800 py-8 sm:py-12 md:py-20 lg:py-28">
+        <section className="bg-slate-800 py-10 sm:py-12 md:py-20 lg:py-28 px-5">
             <div className="text-slate-50">
                 <div className="text-center mb-20 sm:mb-28 max-w-[60rem] mx-auto">
-                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 max-w-[45rem] mx-auto">Mantén el rumbo y logra tus metas de manera más eficiente.</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-5 max-w-[45rem] mx-auto">Mantén el rumbo y logra tus metas de manera más eficiente.</h2>
                     <p className="max-w-[58rem] mx-auto">Consigue tus metas de forma más eficiente con nuestra aplicación de gestión de proyectos. Con características avanzadas y colaboración en tiempo real, estarás en el camino correcto hacia el éxito en poco tiempo.</p>
                 </div>
-                <div className=" container flex justify-between items-center gap-10 mb-10">
+                <div className=" container flex flex-col md:flex-row justify-between items-center gap-10 mb-10">
                     <div className="md:min-w-[37rem]">
                         <img
                             src="/listado_de_proyectos.webp"
@@ -23,7 +23,7 @@ export const CharacteristicList = () => {
                     </div>
                 </div>
 
-                <div className=" container flex justify-between items-center gap-10 mb-10">
+                <div className=" container flex flex-col md:flex-row justify-between items-center gap-10 mb-10">
                     <div className="md:min-w-[37rem]">
                         <img
                             src="/agregar_colaborador.webp"
@@ -38,7 +38,7 @@ export const CharacteristicList = () => {
                     </div>
                 </div>
 
-                <div className=" container flex justify-between items-center gap-10 mb-10">
+                <div className=" container flex flex-col md:flex-row justify-between items-center gap-10 mb-10">
                     <div className="md:min-w-[37rem]">
                         <img
                             src="/buscar_proyecto.webp"
@@ -53,7 +53,7 @@ export const CharacteristicList = () => {
                     </div>
                 </div>
 
-                <div className=" container flex justify-between items-center gap-10">
+                <div className=" container flex flex-col md:flex-row justify-between items-center gap-10">
                     <div className="md:min-w-[37rem]">
                         <img
                             src="/listado_de_tareas.webp"
