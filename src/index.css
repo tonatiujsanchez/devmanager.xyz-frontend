@@ -96,7 +96,47 @@ body {
 .custom-scroll::-webkit-scrollbar-track {
     border-radius: 8px;  
 }
+
   
+/* ==== ==== ==== CKEditor ==== ==== ====*/
+
+/* Editor toolbar */
+.ck.ck-sticky-panel__content {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: none;
+}
+
+.ck.ck-toolbar.ck-toolbar_grouping {
+    border: none;
+}
+
+/* Editor content */
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred {    
+    height: 10.5rem;
+    border: none;
+    border-block-start: var(--border-light) 1px solid;
+    @apply custom-scroll;
+}
+
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused {
+    height: 10rem;
+    border: none;
+    border-block-start: var(--border-light) 1px solid;
+    box-shadow: none;
+    @apply custom-scroll;
+}
+
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline li{
+    margin-inline-start: 1.2rem;
+}
+
+.ck.ck-reset.ck-editor.ck-rounded-corners {
+    height: 100%;
+}
+.ck.ck-powered-by{
+    display: none;
+}
 
 /* ==== ==== ==== Quill Editor ==== ==== ==== */
 .editor-container {

@@ -1,12 +1,12 @@
 import { useState, useEffect, FC } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 import { IAppDispatch } from "../../store/store"
 import { startAddNewProject, startEditProject } from "../../store/data"
 
-import { TextEditor } from "../"
+import { CKEditorClassic } from "../"
 
 import { IProject } from "../../interfaces"
 
@@ -26,12 +26,11 @@ interface Props {
 export const ProjectForm:FC<Props> = ({ project }) => {
 
     const [loading, setLoading] = useState(false)
-    const [description, setDescription] = useState('')
 
     const dispatch:IAppDispatch = useDispatch()
     const navigate = useNavigate()
 
-    const { register, handleSubmit, reset, formState:{ errors, isSubmitted }, getValues, setValue, setError, clearErrors } = useForm<IFormData>({
+    const { register, control,  handleSubmit, reset, formState:{ errors }} = useForm<IFormData>({
         defaultValues: {
             name: '',
             description: '',
@@ -46,33 +45,12 @@ export const ProjectForm:FC<Props> = ({ project }) => {
                 name        : project.name,
                 deliveryDate: String(project.deliveryDate).split('T')[0],
                 client      : project.client,
+                description : project.description
             })
-            setDescription(project.description)
         }
     },[project])
 
-    useEffect(() => {
-        setValue('description', description, { shouldValidate: true })
-    }, [description])
-    
-    useEffect(() => {
-        if(isSubmitted) {
-            if( description.trim() === '' ){
-                setError("description", {
-                    message: "Ingrese la descripción del proyecto",
-                })
-            }else {
-                clearErrors('description')
-            }
-        }
-    }, [setError, description, isSubmitted])
-
-    const onDescriptionChange = ( content:string ) => {
-        setDescription(content)
-    } 
-
-    const onProjectSubmit = async( data:IFormData ) => {       
-        if( description.trim() === '' ){ return }
+    const onProjectSubmit = async( data:IFormData ) => {    
 
         setLoading(true)
         if (project?._id) {
@@ -126,10 +104,19 @@ export const ProjectForm:FC<Props> = ({ project }) => {
                 >
                     Descripción
                 </label>
-                <TextEditor
-                    placeholder="Tienda virtual para una tienda de ropa"
-                    content={ getValues('description') }
-                    onChangeContent={ onDescriptionChange }
+                <Controller
+                    name="description"
+                    control={ control }
+                    render={ ({ field })=> (
+                        <CKEditorClassic
+                            value={ field.value }
+                            onChanche={ field.onChange }
+                            placeholder="Tienda virtual con Next.js, Node.js y PostgreSQL"
+                        />
+                    )}
+                    rules={{
+                        validate: ( value )=> value.length === 0 ? 'Ingrese la descripción del proyecto' : undefined
+                    }}
                 />
                 {
                     !!errors.description &&
