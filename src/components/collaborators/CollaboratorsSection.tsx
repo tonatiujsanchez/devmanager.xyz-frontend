@@ -8,9 +8,10 @@ import { IUser } from "../../interfaces"
 
 interface Props {
     collaborators: IUser[]
+    creator      : IUser
 }
 
-export const CollaboratorsSection:FC<Props> = ({ collaborators }) => {
+export const CollaboratorsSection:FC<Props> = ({ collaborators, creator }) => {
 
     const [openAddCollaborator, setOpenAddCollaborator] = useState(false)
     const { isAdmin } = useAdmin()
@@ -38,7 +39,10 @@ export const CollaboratorsSection:FC<Props> = ({ collaborators }) => {
                     }
                 </div>
                 <div className="bg-white rounded-md p-4">
-                    <CollaboratorList collaborators={ collaborators} />
+                    <CollaboratorList 
+                        collaborators={ collaborators } 
+                        creator={ !isAdmin ? creator : undefined }
+                    />
                 </div>
             </section>
             <Modal

@@ -5,6 +5,7 @@ import {
     ConfirmAccountPage,
     EditProjectPage,
     ForgotPasswordPage,
+    HomePage,
     LoginPage,
     NewPasswordPage,
     NewProjectPage,
@@ -19,13 +20,14 @@ export const AppRouter = () => {
 
     return (
         <Routes>
-            <Route path="/" element={ <Navigate to="/auth/login"/> } />        
+            <Route path="/" element={ <HomePage /> } />        
             <Route path="/auth" element={<AuthRoutes />} >
                 <Route path="login" element={<LoginPage />} />
                 <Route path="registrar" element={<RegisterPage />} />
                 <Route path="olvide-password" element={<ForgotPasswordPage />} />
                 <Route path="olvide-password/:token" element={<NewPasswordPage />} />
                 <Route path="confirmar-cuenta/:token" element={<ConfirmAccountPage />} />
+                <Route path="/auth" element={<Navigate to="/auth/login" />} />
                 <Route path="*" element={<Navigate to="/auth/login" />} />
             </Route>
             <Route path="/proyectos" element={<ProjectsRoutes />} >

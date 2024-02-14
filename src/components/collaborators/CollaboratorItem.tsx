@@ -12,8 +12,9 @@ import { IUser } from "../../interfaces"
 
 interface Props {
     collaborator: IUser
+    isCreator?  : boolean
 }
-export const CollaboratorItem: FC<Props> = ({ collaborator }) => {
+export const CollaboratorItem: FC<Props> = ({ collaborator, isCreator }) => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [loadingDelete, setLoadingDelete] = useState(false)
@@ -63,7 +64,8 @@ export const CollaboratorItem: FC<Props> = ({ collaborator }) => {
                 <div className="flex-1">
                     <p className="font-bold -mb-1 text-slate-800">
                         {collaborator.name}
-                        {user._id === collaborator._id && <span className="text-[0.9rem]"> (YO)</span>}
+                        {user._id === collaborator._id && <span className="text-[0.8rem] text-slate-400 font-normal"> (YO)</span>}
+                        {isCreator && <span className="text-[0.8rem] text-slate-400 font-normal"> (Admin)</span>}
                     </p>
                     <p className="text-slate-500 w-auto text-sm">{collaborator.email}</p>
                 </div>

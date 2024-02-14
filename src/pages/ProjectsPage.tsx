@@ -50,7 +50,7 @@ export const ProjectsPage = () => {
             <div className="mb-5">
                 <h1 className="font-bold text-slate-800 text-2xl sm:text-3xl">Proyectos</h1>
             </div>
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col">
                 <ProjectSection
                     title="Mis proyectos"
                     showBtnAdd

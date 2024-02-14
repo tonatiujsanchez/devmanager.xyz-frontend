@@ -9,6 +9,7 @@ import { IAppDispatch } from '../store/store'
 import { startAddNewTaskWithSocketIO, startDeleteTaskWithSocketIO, startEditTaskWithSocketIO, startToggleCompleteTaskWithSocketIO } from '../store/data'
 import { CollaboratorsSection, LoadingMain, TasksSection } from "../components"
 import { tabOptions } from "../constants"
+import { IUser } from '../interfaces'
 
 
 let socket: Socket
@@ -36,17 +37,11 @@ export const ProjectPage = () => {
     },[project])
 
 
-    
     useEffect(() => {
         socket = io(import.meta.env.VITE_API_URL)
         socket.emit('open-project', { idProject: id })
     }, [])
 
-    // useEffect(() => {
-    //     socket.on('open-project-response', (payload)=>{
-    //         console.log(payload)            
-    //     })
-    // },)
     
     useEffect(() => {
         socket.on('new-task-response', (payload)=>{
@@ -146,6 +141,7 @@ export const ProjectPage = () => {
                 selectedTab === tabOptions[1].value && (
                     <CollaboratorsSection
                         collaborators={ project.collaborators }
+                        creator={ project.creator as IUser }
                     />
                 )   
             }

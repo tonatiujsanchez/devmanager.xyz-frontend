@@ -13,6 +13,10 @@ body {
     scrollbar-gutter: stable;
 }
 
+.container {
+    max-width: 73.125rem;
+    margin-inline: auto;
+}
 
 /* ==== ==== ==== Loading Main ==== ==== ==== */
 .custom-loader {

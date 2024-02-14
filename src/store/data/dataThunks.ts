@@ -34,7 +34,7 @@ import {
 import { IRootState } from "../store"
 
 import { showNotify } from "../../helpers"
-import { IProject, ITask } from "../../interfaces"
+import { IProject, ITask, IUser } from "../../interfaces"
 
 
 // ===== ===== ===== SOCKET.IO - Config ===== ===== =====
@@ -99,7 +99,7 @@ export const startAddNewProject = ({ name, description, deliveryDate, client }:S
             const { data } = await clientAxios.post(`/projects`,{
                 name, description, deliveryDate, client
             })
-            
+            console.log(data)
             if( projects.page >= 1 ){
                 dispatch( addNewProject(data) )
             }
@@ -173,7 +173,8 @@ export const startSetProjectActive = ({ project }:StartSetProjectActive) => {
 
         const { _id } = getState().auth
 
-        const typeProject = _id === project.creator ? 'admin' : 'collaborative'
+        const creator = project.creator as IUser
+        const typeProject = _id === creator._id ? 'admin' : 'collaborative'
 
         dispatch( setProjectActive( {...project, type: typeProject} ) )
     }

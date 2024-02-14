@@ -7,8 +7,9 @@ import { CollaboratorItem } from '..'
 
 interface Props {
     collaborators: IUser[]
+    creator?: IUser
 }
-export const CollaboratorList:FC<Props> = ({ collaborators }) => {
+export const CollaboratorList:FC<Props> = ({ collaborators, creator }) => {
     
 
     if(collaborators.length === 0){
@@ -19,6 +20,14 @@ export const CollaboratorList:FC<Props> = ({ collaborators }) => {
 
     return (
         <div className="flex flex-col sm:flex-row gap-4 content-start flex-wrap min-h-[16rem]">
+            {
+                creator && (
+                    <CollaboratorItem 
+                        collaborator={ creator }
+                        isCreator
+                    />
+                )
+            }
             {
                 collaborators.map( collaborator => (
                     <CollaboratorItem 
