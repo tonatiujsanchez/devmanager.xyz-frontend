@@ -12,12 +12,12 @@ export const Header = () => {
                     alt="Logo de DevManager"
                     className="w-5 md:w-8"
                 />
-                <span className={`min-w-[150px] transition-all duration-500 md:text-[1.5rem] font-light`}>
+                <span className={`min-w-[150px] transition-all duration-500 md:text-[1.5rem] font-light text-slate-800`}>
                     <strong className="font-semibold">Dev</strong>Manager
                 </span>
             </Link>
             <Link 
-                to={'/auth/iniciar-sesion'}
+                to={'/auth/login'}
                 className="bg-amber-300 hover:bg-amber-400 text-slate-800 inline-flex items-center gap-2 font-medium px-4 py-2 rounded-md"
             > 
                 Iniciar Sesión 

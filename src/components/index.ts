@@ -26,3 +26,4 @@ export * from './collaborators/CollaboratorList'
 export * from './collaborators/CollaboratorItem'
 
 export * from './Home/Header'
+export * from './Home/Hero'
