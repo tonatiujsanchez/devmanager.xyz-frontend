@@ -17,7 +17,7 @@ export const ProjectItem: FC<Props> = ({ project }) => {
                     { project.name }
                 </Link>
                 <div 
-                    className="text-slate-600 text-[0.9rem]" 
+                    className="text-slate-600 text-[0.9rem] line-clamp-1" 
                     dangerouslySetInnerHTML={{ __html: project.description }}>
                 </div>
             </div>

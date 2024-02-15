@@ -18,6 +18,17 @@ body {
     margin-inline: auto;
 }
 
+.description-project ol{
+    @apply list-decimal;
+    margin-inline-start: 1.2rem;
+}
+
+.description-project ul{
+    @apply list-disc;
+    margin-inline-start: 1.2rem;
+}
+
+
 /* ==== ==== ==== Loading Main ==== ==== ==== */
 .custom-loader {
     width:50px;
