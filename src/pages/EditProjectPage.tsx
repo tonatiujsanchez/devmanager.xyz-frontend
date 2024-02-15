@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { useDispatch } from "react-redux"
+import { Helmet } from 'react-helmet'
 
 import { useGetProject } from "../hooks"
 import { IAppDispatch } from "../store/store"
@@ -59,6 +60,9 @@ export const EditProjectPage = () => {
 
     return (
         <>
+            <Helmet>
+                <title>DevManager | Editar { project.name }</title>
+            </Helmet> 
             <div className="flex justify-between items-center gap-2">
                 <h1 className="font-bold text-slate-800 text-2xl sm:text-3xl">Editar: { project.name }</h1>
                 <button

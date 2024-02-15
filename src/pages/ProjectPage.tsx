@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, Navigate, useParams } from "react-router-dom"
 import { useDispatch } from 'react-redux'
 import { io, Socket } from 'socket.io-client'
+import { Helmet } from 'react-helmet'
 
 import { useAdmin, useGetProject } from "../hooks"
 
@@ -85,6 +86,9 @@ export const ProjectPage = () => {
 
     return (
         <>
+            <Helmet>
+                <title>DevManager | { project.name }</title>
+            </Helmet> 
             <div className="flex flex-col gap-5 pb-5">
                 <div>
                     <div className={`flex ${ isAdmin ? 'justify-between':'' } items-center gap-2`}>
