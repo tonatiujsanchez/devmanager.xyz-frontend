@@ -1,4 +1,4 @@
-import { CharacteristicList, Header, Hero, Support } from '../components'
+import { CharacteristicList, Footer, Header, Hero, Support } from '../components'
 
 
 export const HomePage = () => {
@@ -8,6 +8,7 @@ export const HomePage = () => {
             <Hero />
             <CharacteristicList />
             <Support />
+            <Footer />
         </>
     )
 }

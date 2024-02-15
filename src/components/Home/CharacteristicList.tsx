@@ -2,7 +2,7 @@
 
 export const CharacteristicList = () => {
     return (
-        <section className="bg-slate-800 py-10 sm:py-12 md:py-20 lg:py-28 px-5">
+        <section id="producto" className="bg-slate-900 py-10 sm:py-12 md:py-20 lg:py-28 px-5">
             <div className="text-slate-50">
                 <div className="text-center mb-20 sm:mb-28 max-w-[60rem] mx-auto">
                     <h2 className="text-3xl md:text-4xl font-bold mb-5 max-w-[45rem] mx-auto">Mantén el rumbo y logra tus metas de manera más eficiente.</h2>
