@@ -1,17 +1,23 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCheckAuth } from '../../hooks'
 import { AuthStatus } from '../../store/auth'
 
 export const Header = () => {
 
     const { status, name } = useCheckAuth()
+    const navigate = useNavigate()
+
+    const navigateToHome = () => {
+        navigate('/')
+        window.scrollTo(0, 0)
+    }
     
 
     return (
         <header className="bg-slate-100 sticky top-0 z-10">
             <nav className="container flex justify-between items-center px-3 md:px-5 py-2 md:py-4">
-                <Link 
-                    to={"/"} 
+                <button 
+                    onClick={ navigateToHome } 
                     className="flex gap-2 text-lg"
                 >
                     <img 
@@ -22,7 +28,7 @@ export const Header = () => {
                     <span className={`min-w-[150px] transition-all duration-500 md:text-[1.5rem] font-light text-slate-800`}>
                         <strong className="font-semibold">Dev</strong>Manager
                     </span>
-                </Link>
+                </button>
                 {
                     status === AuthStatus.Checking
                     ?(

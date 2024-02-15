@@ -1,19 +1,41 @@
-import { Link } from "react-router-dom"
-import { useCheckAuth } from "../../hooks"
-import { XSocialIcon } from "../icons"
-import { AuthStatus } from "../../store/auth"
+import { useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useCheckAuth } from '../../hooks'
+import { XSocialIcon } from '../icons'
+import { AuthStatus } from '../../store/auth'
 
 export const Footer = () => {
 
     const { status } = useCheckAuth()
+    const { hash } = useLocation()
+    const navigate = useNavigate()
 
+    useEffect(() => {
+      if (hash) {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+  
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      } else {
+        window.scrollTo(0, 0)
+      }
+    }, [hash])
+
+    
+    const navigateToHome = () => {
+        navigate('/')
+        window.scrollTo(0, 0)
+    }
+  
 
     return (
         <footer className="bg-slate-900 px-5">
             <div className="container text-white grid sm:grid-cols-2 lg:grid-cols-4 py-10 md:py-16 gap-y-12 gap-x-12">
                 <div className="flex flex-col justify-start">
-                    <Link 
-                        to={"/"} 
+                    <button 
+                        onClick={ navigateToHome }  
                         className="flex gap-2 mb-4"
                     >
                         <img 
@@ -24,30 +46,30 @@ export const Footer = () => {
                         <span className={`transition-all duration-500 text-[1.2rem] font-light text-white`} >
                             <strong className="font-semibold">Dev</strong>Manager
                         </span>
-                    </Link>
+                    </button>
                     <p className="font-light max-w-[16rem]">¡Gestiona Proyectos con Colaboradores en Tiempo Real!</p>
                 </div>
                 <div className="flex flex-col">
                     <p className="mb-4 font-semibold">Contenido</p>
                     <div className="flex flex-col gap-3 font-normal">
-                        <a 
-                            href="#" 
-                            className="font-light hover:underline"
+                        <button 
+                            onClick={ navigateToHome } 
+                            className="font-light hover:underline text-left"
                         >
                             Inicio
-                        </a>
-                        <a
-                            href="#producto" 
+                        </button>
+                        <Link
+                            to={'/#producto'} 
                             className="font-light hover:underline"
                         >
-                            Producto
-                        </a>
-                        <a
-                            href="#soporte" 
+                                Producto
+                        </Link>
+                        <Link
+                            to="/#soporte" 
                             className="font-light hover:underline"
                         >
                             Soporte
-                        </a>
+                        </Link>
                         {
                             status === AuthStatus.NotAuthenticated
                             && (
