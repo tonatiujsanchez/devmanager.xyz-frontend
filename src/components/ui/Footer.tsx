@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom"
+import { useCheckAuth } from "../../hooks"
 import { XSocialIcon } from "../icons"
+import { AuthStatus } from "../../store/auth"
 
 export const Footer = () => {
+
+    const { status } = useCheckAuth()
+
+
     return (
         <footer className="bg-slate-900 px-5">
             <div className="container text-white grid sm:grid-cols-2 lg:grid-cols-4 py-10 md:py-16 gap-y-12 gap-x-12">
@@ -42,18 +48,25 @@ export const Footer = () => {
                         >
                             Soporte
                         </a>
-                        <Link
-                            to={'/auth/login'} 
-                            className="font-light hover:underline"
-                        >
-                            Iniciar Sesión
-                        </Link>
-                        <Link
-                            to={'/auth/registrar'} 
-                            className="font-light hover:underline"
-                        >
-                            Registrarme
-                        </Link>
+                        {
+                            status === AuthStatus.NotAuthenticated
+                            && (
+                                <>
+                                    <Link
+                                        to={'/auth/login'} 
+                                        className="font-light hover:underline"
+                                    >
+                                        Iniciar Sesión
+                                    </Link>
+                                    <Link
+                                        to={'/auth/registrar'} 
+                                        className="font-light hover:underline"
+                                    >
+                                        Registrarme
+                                    </Link>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
                 <div>

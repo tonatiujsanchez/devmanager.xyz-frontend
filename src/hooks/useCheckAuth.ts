@@ -14,7 +14,7 @@ import { getSessionToken, setSessionToken } from "../helpers"
 export const useCheckAuth = () => {
 
     const dispatch:IAppDispatch = useDispatch()
-    const { status }: IAuthState = useSelector(( state: IRootState ) => state.auth)
+    const { status, name }: IAuthState = useSelector(( state: IRootState ) => state.auth)
 
 
     const onCheckAuth = async() => {
@@ -42,5 +42,5 @@ export const useCheckAuth = () => {
     },[])
 
 
-    return { status }
+    return { status, name }
 }
