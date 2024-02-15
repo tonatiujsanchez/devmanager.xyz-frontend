@@ -1,14 +1,12 @@
-import { CharacteristicList, Footer, Header, Hero, Support } from '../components'
+import { CharacteristicList, Hero, SiteLayout, Support } from '../components'
 
 
 export const HomePage = () => {
     return (
-        <>
-            <Header />
+        <SiteLayout>
             <Hero />
             <CharacteristicList />
             <Support />
-            <Footer />
-        </>
+        </SiteLayout>
     )
 }

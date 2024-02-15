@@ -30,3 +30,5 @@ export * from './collaborators/CollaboratorItem'
 export * from './Home/Hero'
 export * from './Home/CharacteristicList'
 export * from './Home/Support'
+
+export * from './layouts/SiteLayout'
