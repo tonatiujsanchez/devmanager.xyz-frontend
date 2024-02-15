@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react'
+import { SiteLayout } from '../components'
 
 interface Props {
     children: ReactNode
@@ -6,9 +7,11 @@ interface Props {
 export const AuthLayout:FC<Props> = ({ children }) => {
     return (
         <>
-            <main className="h-screen flex justify-center items-center" >
+        <SiteLayout>
+            <main className="flex justify-center pt-20 pb-32" >
                 { children }
             </main>
+        </SiteLayout>
         </>
     )
 }
