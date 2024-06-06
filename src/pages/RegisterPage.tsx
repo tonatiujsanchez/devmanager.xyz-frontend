@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { isAxiosError } from 'axios';
 
 import { clientAxios } from '../config'
-import { validators } from '../helpers'
+import { showNotify, validators } from '../helpers'
 
 
 interface IUser {
@@ -251,16 +251,19 @@ export const RegisterPage = () => {
                     <div className="flex justify-center gap-3">
                         <button
                             className="border rounded-md px-2 py-1 hover:bg-slate-800 hover:text-white transition-all duration-300"
+                            onClick={()=> showNotify('Funcionalidad en construcción', 'error')}
                         >
                             <i className='bx bxl-facebook text-2xl'></i>
                         </button>
                         <button
                             className="border rounded-md px-2 py-1 hover:bg-slate-800 hover:text-white transition-all duration-300"
+                            onClick={()=> showNotify('Funcionalidad en construcción', 'error')}
                         >
                             <i className='bx bxl-google text-2xl'></i>
                         </button>
                         <button
                             className="border rounded-md px-2 py-1 hover:bg-slate-800 hover:text-white transition-all duration-300"
+                            onClick={()=> showNotify('Funcionalidad en construcción', 'error')}
                         >
                             <i className='bx bxl-github text-2xl'></i>
                         </button>
