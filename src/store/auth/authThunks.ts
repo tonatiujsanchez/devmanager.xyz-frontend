@@ -26,7 +26,6 @@ export const startUserWithEmailAndPassword = ({ email, password, remindMe }:Star
             await setSessionToken( data.token, remindMe )
 
             dispatch( login( data.user ) )
-            console.log(data)
 
         } catch (error) {
             if(isAxiosError(error)){
