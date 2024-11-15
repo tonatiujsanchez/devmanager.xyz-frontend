@@ -13,6 +13,7 @@ export interface IAuthState {
     _id   : string | null;
     email : string | null;
     name  : string | null;
+    photo?: string
     errorMsg  : string | null;
 }
 
@@ -27,11 +28,12 @@ export const authSlice = createSlice({
         successMsg: null,
     }as IAuthState,
     reducers: {
-        login : ( state, { payload }:PayloadAction<{ _id: string; email: string; name: string }> ) => {
+        login : ( state, { payload }:PayloadAction<{ _id: string; email: string; name: string, photo?:string }> ) => {
             state.status = AuthStatus.Authenticated,
             state._id    = payload._id,
             state.email  = payload.email,
-            state.name   = payload.name
+            state.name   = payload.name,
+            state.photo   = payload.photo,
             state.errorMsg   = null
         },
         logout: ( state, { payload }:PayloadAction<{ msg?:string }> ) => {

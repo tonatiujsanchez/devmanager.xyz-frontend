@@ -32,4 +32,6 @@ export * from './Home/Hero'
 export * from './Home/CharacteristicList'
 export * from './Home/Support'
 
+export * from './auth/GoogleLoginButton'
+
 export * from './layouts/SiteLayout'

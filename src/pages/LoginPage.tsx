@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { Helmet } from 'react-helmet'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
@@ -8,7 +9,7 @@ import { IRootState, IAppDispatch  } from '../store/store'
 import { IAuthState, startUserWithEmailAndPassword } from '../store/auth'
 
 import { showNotify, validators } from '../helpers'
-import { Helmet } from 'react-helmet'
+import { GoogleLoginButton } from '../components'
 
 
 interface FormData {
@@ -175,12 +176,17 @@ export const LoginPage = () => {
                         >
                             <i className='bx bxl-facebook text-2xl'></i>
                         </button>
-                        <button 
+                        {/* <button 
                             className="border rounded-md px-2 py-1 hover:bg-slate-800 hover:text-white transition-all duration-300"
                             onClick={()=> showNotify('Funcionalidad en construcción', 'error')}
                         >
                             <i className='bx bxl-google text-2xl'></i>
-                        </button>
+                        </button> */}
+                        <GoogleLoginButton 
+                            loading={ loading }
+                            setLoading={ setLoading }
+                            remindMe={ remindMe }
+                        />
                         <button 
                             className="border rounded-md px-2 py-1 hover:bg-slate-800 hover:text-white transition-all duration-300"
                             onClick={()=> showNotify('Funcionalidad en construcción', 'error')}
